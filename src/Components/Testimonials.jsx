@@ -1,6 +1,10 @@
 import React from 'react';
 import '../styles/colors.css';
 import { FaQuoteLeft, FaStar } from 'react-icons/fa';
+import Rahima from '../assets/rahima.jpg';
+import Kamal from '../assets/kamal.jpg';
+import Nusrat from '../assets/nusrat.jpg';
+
 
 const Testimonials = () => {
     const testimonials = [
@@ -8,7 +12,7 @@ const Testimonials = () => {
             id: 1,
             name: "Rahima Khan",
             role: "Marathon Runner",
-            image: "https://randomuser.me/api/portraits/women/32.jpg",
+            image: Rahima,
             quote: "The organization was flawless! From registration to finish line, everything was perfectly managed. Will definitely participate again next year.",
             rating: 5
         },
@@ -16,7 +20,7 @@ const Testimonials = () => {
             id: 2,
             name: "Kamal Ahmed",
             role: "First-time Runner",
-            image: "https://randomuser.me/api/portraits/men/54.jpg",
+            image: Kamal,
             quote: "As a first-timer, I was nervous, but the supportive atmosphere and clear guidance made it an unforgettable experience.",
             rating: 5
         },
@@ -24,7 +28,7 @@ const Testimonials = () => {
             id: 3,
             name: "Nusrat Jahan",
             role: "Professional Athlete",
-            image: "https://randomuser.me/api/portraits/women/68.jpg",
+            image: Nusrat,
             quote: "The route was challenging yet beautiful. The water stations were well-placed and the crowd's energy kept me going.",
             rating: 4
         }
