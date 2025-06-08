@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import '../styles/colors.css';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
 
 const Login = () => {
     return (
@@ -87,6 +87,29 @@ const Login = () => {
                                 style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}
                             >
                                 Log In
+                            </button>
+
+                            {/* Divider */}
+                            <div className="relative my-6">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t" style={{ borderColor: 'var(--neutral-medium)' }}></div>
+                                </div>
+                                <div className="relative flex justify-center text-sm">
+                                    <span className="px-2 bg-white" style={{ color: 'var(--neutral-dark)' }}>Or</span>
+                                </div>
+                            </div>
+
+                            {/* Google Login Button */}
+                            <button
+                                type="button"
+                                className="w-full py-3 rounded-lg font-medium border transition-colors duration-300 flex items-center justify-center"
+                                style={{
+                                    borderColor: 'var(--neutral-medium)',
+                                    color: 'var(--neutral-dark)'
+                                }}
+                            >
+                                <FaGoogle className="mr-2" style={{ color: '#DB4437' }} />
+                                Login with Google
                             </button>
                         </div>
                     </form>
