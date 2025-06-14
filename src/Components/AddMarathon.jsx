@@ -1,39 +1,34 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const AddMarathon = () => {
-    const [marathonData, setMarathonData] = useState({
-        title: '',
-        startRegistrationDate: null,
-        endRegistrationDate: null,
-        marathonStartDate: null,
-        location: '',
-        runningDistance: '10k',
-        description: '',
-        image: '',
-        totalRegistrationCount: 0,
-        createdAt: new Date()
-    });
-
-    // Handle input 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setMarathonData({
-            ...marathonData,
-            [name]: value
-        });
-    };
-
-    const handleDateChange = (date, name) => {
-        setMarathonData({
-            ...marathonData,
-            [name]: date
-        });
-    };
+    const startRegistrationDateRef = useRef(null);
+    const endRegistrationDateRef = useRef(null);
+    const marathonStartDateRef = useRef(null);
 
     const handleAddMarathon = (e) => {
         e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+        const newMarathon = Object.fromEntries(formData.entries());
+
+        // TODO: Send data to API
+        fetch('http://localhost:3000/marathons',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newMarathon),
+            }
+
+        )
+            .then(res => res.json())
+            .then(data => {
+                // console.log(data);
+            });
 
     };
 
@@ -49,8 +44,6 @@ const AddMarathon = () => {
                         <input
                             type="text"
                             name="title"
-                            value={marathonData.title}
-                            onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
@@ -60,8 +53,7 @@ const AddMarathon = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Start Registration Date</label>
                         <DatePicker
-                            selected={marathonData.startRegistrationDate}
-                            onChange={(date) => handleDateChange(date, 'startRegistrationDate')}
+                            ref={startRegistrationDateRef}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             dateFormat="MMMM d, yyyy"
                             required
@@ -72,11 +64,9 @@ const AddMarathon = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">End Registration Date</label>
                         <DatePicker
-                            selected={marathonData.endRegistrationDate}
-                            onChange={(date) => handleDateChange(date, 'endRegistrationDate')}
+                            ref={endRegistrationDateRef}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             dateFormat="MMMM d, yyyy"
-                            minDate={marathonData.startRegistrationDate}
                             required
                         />
                     </div>
@@ -85,11 +75,9 @@ const AddMarathon = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Marathon Start Date</label>
                         <DatePicker
-                            selected={marathonData.marathonStartDate}
-                            onChange={(date) => handleDateChange(date, 'marathonStartDate')}
+                            ref={marathonStartDateRef}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             dateFormat="MMMM d, yyyy"
-                            minDate={marathonData.endRegistrationDate}
                             required
                         />
                     </div>
@@ -100,8 +88,6 @@ const AddMarathon = () => {
                         <input
                             type="text"
                             name="location"
-                            value={marathonData.location}
-                            onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
@@ -112,8 +98,7 @@ const AddMarathon = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">Running Distance</label>
                         <select
                             name="runningDistance"
-                            value={marathonData.runningDistance}
-                            onChange={handleChange}
+                            defaultValue="10k"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         >
@@ -128,20 +113,19 @@ const AddMarathon = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                         <textarea
                             name="description"
-                            value={marathonData.description}
-                            onChange={handleChange}
                             rows="4"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         ></textarea>
                     </div>
 
-                    {/* Image */}
+                    {/* Image URL */}
                     <div className="col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Marathon Image</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Marathon Image URL</label>
                         <input
-                            type="file"
-                            accept="image/*"
+                            type="url"
+                            name="imageUrl"
+                            placeholder="https://example.com/image.jpg"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
