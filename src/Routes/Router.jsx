@@ -12,6 +12,7 @@ import Dashboard from "../Layouts/Dashboard";
 import MyMarathons from "../Components/MyMarathons";
 import MyApplications from "../Components/MyApplications";
 import AddMarathonPage from "../Pages/AddMarathonPage";
+import DashboardLayout from "../Dashboard/DashboardLayout";
 
 
 const router = createBrowserRouter([
@@ -52,7 +53,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: <DashboardLayout />,
         children: [
             {
                 path: "my-marathons",
