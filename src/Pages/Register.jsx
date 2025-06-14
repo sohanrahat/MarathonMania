@@ -1,42 +1,78 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router';
 import '../styles/colors.css';
 import { FaUser, FaEnvelope, FaLock, FaImage } from 'react-icons/fa';
+import { AuthContext } from '../Context/AuthProvider';
 
 const Register = () => {
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        photoURL: '',
+    });
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
     const validatePassword = (value) => {
         setPassword(value);
-        
+
         if (value.length < 6) {
             setPasswordError('Password must be at least 6 characters long');
             return false;
         }
-        
+
         if (!/[A-Z]/.test(value)) {
             setPasswordError('Password must contain at least one uppercase letter');
             return false;
         }
-        
+
         if (!/[a-z]/.test(value)) {
             setPasswordError('Password must contain at least one lowercase letter');
             return false;
         }
-        
+
         setPasswordError('');
         return true;
     };
-    
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!validatePassword(password)) {
             return;
         }
-        // Continue with form submission
+
+        setLoading(true);
+        setError('');
+
+        // Create user
+        createUser(formData.email, password)
+            .then(result => {
+                return updateUserProfile(formData.name, formData.photoURL);
+            })
+            .then(() => {
+                setLoading(false);
+                navigate('/');
+            })
+            .catch(err => {
+                setLoading(false);
+                setError(err.message);
+                console.error(err);
+            });
     };
-    
+
     return (
         <div className="min-h-screen flex flex-col md:flex-row">
             {/* Left Side */}
@@ -74,6 +110,8 @@ const Register = () => {
                                     <input
                                         type="text"
                                         name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
                                             borderColor: 'var(--neutral-medium)',
@@ -96,6 +134,8 @@ const Register = () => {
                                     <input
                                         type="url"
                                         name="photoURL"
+                                        value={formData.photoURL}
+                                        onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
                                             borderColor: 'var(--neutral-medium)',
@@ -117,6 +157,8 @@ const Register = () => {
                                     <input
                                         type="email"
                                         name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
                                             borderColor: 'var(--neutral-medium)',
@@ -161,13 +203,20 @@ const Register = () => {
                             </div>
 
                             {/* Submit Button */}
+                            {error && (
+                                <p className="text-red-500 text-sm mt-2">{error}</p>
+                            )}
+
                             <button
                                 type="submit"
-                                onClick={handleSubmit}
+                                disabled={loading}
                                 className="w-full py-3 rounded-lg font-medium transition-colors duration-300 mt-6"
-                                style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}
+                                style={{
+                                    backgroundColor: loading ? 'var(--neutral-medium)' : 'var(--primary)',
+                                    color: 'var(--neutral-light)'
+                                }}
                             >
-                                Create Account
+                                {loading ? 'Creating Account...' : 'Create Account'}
                             </button>
                         </div>
                     </form>
