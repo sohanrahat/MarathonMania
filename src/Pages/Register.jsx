@@ -60,7 +60,7 @@ const Register = () => {
                         <div className="h-1 w-16 mx-auto my-3" style={{ backgroundColor: 'var(--primary)' }}></div>
                     </div>
 
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="space-y-4">
                             {/* Name Field */}
                             <div>
@@ -163,6 +163,7 @@ const Register = () => {
                             {/* Submit Button */}
                             <button
                                 type="submit"
+                                onClick={handleSubmit}
                                 className="w-full py-3 rounded-lg font-medium transition-colors duration-300 mt-6"
                                 style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}
                             >
