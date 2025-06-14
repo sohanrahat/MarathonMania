@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const AddMarathon = () => {
-    const startRegistrationDateRef = useRef(null);
-    const endRegistrationDateRef = useRef(null);
-    const marathonStartDateRef = useRef(null);
+    const [startRegistrationDate, setStartRegistrationDate] = useState(null);
+    const [endRegistrationDate, setEndRegistrationDate] = useState(null);
+    const [marathonStartDate, setMarathonStartDate] = useState(null);
 
     const handleAddMarathon = (e) => {
         e.preventDefault();
@@ -13,6 +13,11 @@ const AddMarathon = () => {
         const form = e.target;
         const formData = new FormData(form);
         const newMarathon = Object.fromEntries(formData.entries());
+        
+        // Add date values that aren't captured by FormData
+        newMarathon.startRegistrationDate = startRegistrationDate;
+        newMarathon.endRegistrationDate = endRegistrationDate;
+        newMarathon.marathonStartDate = marathonStartDate;
 
         // TODO: Send data to API
         fetch('http://localhost:3000/marathons',
@@ -23,13 +28,11 @@ const AddMarathon = () => {
                 },
                 body: JSON.stringify(newMarathon),
             }
-
         )
             .then(res => res.json())
             .then(data => {
                 // console.log(data);
             });
-
     };
 
     return (
@@ -53,7 +56,8 @@ const AddMarathon = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Start Registration Date</label>
                         <DatePicker
-                            ref={startRegistrationDateRef}
+                            selected={startRegistrationDate}
+                            onChange={date => setStartRegistrationDate(date)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             dateFormat="MMMM d, yyyy"
                             required
@@ -64,9 +68,11 @@ const AddMarathon = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">End Registration Date</label>
                         <DatePicker
-                            ref={endRegistrationDateRef}
+                            selected={endRegistrationDate}
+                            onChange={date => setEndRegistrationDate(date)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             dateFormat="MMMM d, yyyy"
+                            minDate={startRegistrationDate}
                             required
                         />
                     </div>
@@ -75,9 +81,11 @@ const AddMarathon = () => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Marathon Start Date</label>
                         <DatePicker
-                            ref={marathonStartDateRef}
+                            selected={marathonStartDate}
+                            onChange={date => setMarathonStartDate(date)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             dateFormat="MMMM d, yyyy"
+                            minDate={endRegistrationDate}
                             required
                         />
                     </div>
