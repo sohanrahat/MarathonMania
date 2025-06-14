@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router';
 import '../styles/colors.css';
 import { FaUser, FaEnvelope, FaLock, FaImage } from 'react-icons/fa';
 
 const Register = () => {
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    
+    const validatePassword = (value) => {
+        setPassword(value);
+        
+        if (value.length < 6) {
+            setPasswordError('Password must be at least 6 characters long');
+            return false;
+        }
+        
+        if (!/[A-Z]/.test(value)) {
+            setPasswordError('Password must contain at least one uppercase letter');
+            return false;
+        }
+        
+        if (!/[a-z]/.test(value)) {
+            setPasswordError('Password must contain at least one lowercase letter');
+            return false;
+        }
+        
+        setPasswordError('');
+        return true;
+    };
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!validatePassword(password)) {
+            return;
+        }
+        // Continue with form submission
+    };
+    
     return (
         <div className="min-h-screen flex flex-col md:flex-row">
             {/* Left Side */}
@@ -106,17 +139,25 @@ const Register = () => {
                                     <input
                                         type="password"
                                         name="password"
-                                        className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
+                                        value={password}
+                                        onChange={(e) => validatePassword(e.target.value)}
+                                        className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${passwordError ? 'border-red-500' : ''}`}
                                         style={{
-                                            borderColor: 'var(--neutral-medium)',
+                                            borderColor: passwordError ? 'red' : 'var(--neutral-medium)',
                                             focusRing: 'var(--primary-light)'
                                         }}
                                         required
                                     />
                                 </div>
-                                <p className="mt-1 text-xs text-gray-500">
-                                    Password must be at least 6 characters with uppercase and lowercase letters.
-                                </p>
+                                {passwordError ? (
+                                    <p className="mt-1 text-xs text-red-500">
+                                        {passwordError}
+                                    </p>
+                                ) : (
+                                    <p className="mt-1 text-xs text-gray-500">
+                                        Password must be at least 6 characters with uppercase and lowercase letters.
+                                    </p>
+                                )}
                             </div>
 
                             {/* Submit Button */}
