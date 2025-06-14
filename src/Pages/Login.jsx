@@ -1,12 +1,59 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router';
 import '../styles/colors.css';
 import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
+import { AuthContext } from '../Context/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Login = () => {
+    const { signIn } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+
+        signIn(formData.email, formData.password)
+            .then(result => {
+                setLoading(false);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    text: 'Welcome back to MarathonMania!',
+                    confirmButtonColor: 'var(--primary)'
+                }).then(() => {
+                    navigate(from, { replace: true });
+                });
+            })
+            .catch(err => {
+                setLoading(false);
+                setError(err.message);
+                console.error(err);
+            });
+    };
+
     return (
         <div className="min-h-screen flex flex-col md:flex-row">
-            {/* Left Side - Solid color with text */}
+            {/* Left Side */}
             <div className="w-full md:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: 'var(--primary)' }}>
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4" style={{ color: 'var(--neutral-light)' }}>
@@ -19,7 +66,7 @@ const Login = () => {
                 </div>
             </div>
 
-            {/* Right Side - Login Form */}
+            {/* Right Side */}
             <div className="w-full md:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: 'var(--neutral-light)' }}>
                 <div className="w-full max-w-md">
                     <div className="text-center mb-8">
@@ -27,9 +74,9 @@ const Login = () => {
                         <div className="h-1 w-16 mx-auto my-3" style={{ backgroundColor: 'var(--primary)' }}></div>
                     </div>
 
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="space-y-4">
-                            {/* Email Field */}
+                            {/* Email */}
                             <div>
                                 <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
                                     Email Address
@@ -41,6 +88,8 @@ const Login = () => {
                                     <input
                                         type="email"
                                         name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
                                             borderColor: 'var(--neutral-medium)',
@@ -51,7 +100,7 @@ const Login = () => {
                                 </div>
                             </div>
 
-                            {/* Password Field */}
+                            {/* Password */}
                             <div>
                                 <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
                                     Password
@@ -63,6 +112,8 @@ const Login = () => {
                                     <input
                                         type="password"
                                         name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
                                             borderColor: 'var(--neutral-medium)',
@@ -73,56 +124,35 @@ const Login = () => {
                                 </div>
                             </div>
 
-                            {/* Forgot Password Link */}
-                            <div className="flex justify-end">
-                                <a href="#" className="text-sm hover:underline" style={{ color: 'var(--primary)' }}>
-                                    Forgot password?
-                                </a>
-                            </div>
+
+                            {error && (
+                                <p className="text-red-500 text-sm mt-2">{error}</p>
+                            )}
 
                             {/* Submit Button */}
                             <button
                                 type="submit"
+                                disabled={loading}
                                 className="w-full py-3 rounded-lg font-medium transition-colors duration-300 mt-6"
-                                style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}
-                            >
-                                Log In
-                            </button>
-
-                            {/* Divider */}
-                            <div className="relative my-6">
-                                <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t" style={{ borderColor: 'var(--neutral-medium)' }}></div>
-                                </div>
-                                <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-white" style={{ color: 'var(--neutral-dark)' }}>Or</span>
-                                </div>
-                            </div>
-
-                            {/* Google Login Button */}
-                            <button
-                                type="button"
-                                className="w-full py-3 rounded-lg font-medium border transition-colors duration-300 flex items-center justify-center"
                                 style={{
-                                    borderColor: 'var(--neutral-medium)',
-                                    color: 'var(--neutral-dark)'
+                                    backgroundColor: loading ? 'var(--neutral-medium)' : 'var(--primary)',
+                                    color: 'var(--neutral-light)'
                                 }}
                             >
-                                <FaGoogle className="mr-2" style={{ color: '#DB4437' }} />
-                                Login with Google
+                                {loading ? 'Logging in...' : 'Log In'}
                             </button>
+
+                            {/* Register Link */}
+                            <div className="text-center mt-6">
+                                <p style={{ color: 'var(--neutral-dark)' }}>
+                                    Don't have an account?{' '}
+                                    <Link to="/register" className="font-medium hover:underline" style={{ color: 'var(--primary)' }}>
+                                        Create Account
+                                    </Link>
+                                </p>
+                            </div>
                         </div>
                     </form>
-
-                    {/* Register Link */}
-                    <div className="text-center mt-6">
-                        <p style={{ color: 'var(--neutral-dark)' }}>
-                            Don't have an account?{' '}
-                            <Link to="/register" className="font-medium hover:underline" style={{ color: 'var(--primary)' }}>
-                                Create Account
-                            </Link>
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>
