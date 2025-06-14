@@ -6,7 +6,7 @@ import { AuthContext } from '../Context/AuthProvider';
 import Swal from 'sweetalert2';
 
 const Login = () => {
-    const { signIn } = useContext(AuthContext);
+    const { signIn, signInWithGoogle } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -47,7 +47,30 @@ const Login = () => {
             .catch(err => {
                 setLoading(false);
                 setError(err.message);
-                console.error(err);
+                // console.error(err);
+            });
+    };
+
+    const handleGoogleSignIn = () => {
+        setLoading(true);
+        setError('');
+
+        signInWithGoogle()
+            .then(result => {
+                setLoading(false);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful!',
+                    text: 'Welcome to MarathonMania!',
+                    confirmButtonColor: 'var(--primary)'
+                }).then(() => {
+                    navigate(from, { replace: true });
+                });
+            })
+            .catch(err => {
+                setLoading(false);
+                setError(err.message);
+                // console.error(err);
             });
     };
 
@@ -133,13 +156,37 @@ const Login = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-3 rounded-lg font-medium transition-colors duration-300 mt-6"
+                                className="w-full py-3 rounded-lg font-medium transition-colors duration-300 mt-6 cursor-pointer"
                                 style={{
                                     backgroundColor: loading ? 'var(--neutral-medium)' : 'var(--primary)',
                                     color: 'var(--neutral-light)'
                                 }}
                             >
                                 {loading ? 'Logging in...' : 'Log In'}
+                            </button>
+
+                            {/* Or divider */}
+                            <div className="relative my-6">
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="w-full border-t" style={{ borderColor: 'var(--neutral-medium)' }}></div>
+                                </div>
+                                <div className="relative flex justify-center text-sm">
+                                    <span className="px-2 bg-white" style={{ color: 'var(--neutral-dark)' }}>Or</span>
+                                </div>
+                            </div>
+
+                            {/* Google Login */}
+                            <button
+                                type="button"
+                                onClick={handleGoogleSignIn}
+                                className="w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 border transition-colors duration-300 cursor-pointer"
+                                style={{
+                                    borderColor: 'var(--neutral-medium)',
+                                    color: 'var(--neutral-dark)'
+                                }}
+                            >
+                                <FaGoogle style={{ color: '#DB4437' }} />
+                                Continue with Google
                             </button>
 
                             {/* Register Link */}
