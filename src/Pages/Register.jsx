@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import '../styles/colors.css';
 import { FaUser, FaEnvelope, FaLock, FaImage } from 'react-icons/fa';
 import { AuthContext } from '../Context/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Register = () => {
     const { createUser, updateUserProfile } = useContext(AuthContext);
@@ -64,7 +65,14 @@ const Register = () => {
             })
             .then(() => {
                 setLoading(false);
-                navigate('/');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registration Successful!',
+                    text: 'Welcome to MarathonMania!',
+                    confirmButtonColor: 'var(--primary)'
+                }).then(() => {
+                    navigate('/');
+                });
             })
             .catch(err => {
                 setLoading(false);
@@ -98,7 +106,7 @@ const Register = () => {
 
                     <form onSubmit={handleSubmit}>
                         <div className="space-y-4">
-                            {/* Name Field */}
+                            {/* Name */}
                             <div>
                                 <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
                                     Full Name
@@ -122,7 +130,7 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            {/* Photo URL Field */}
+                            {/* Photo  */}
                             <div>
                                 <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
                                     Photo URL
@@ -145,7 +153,7 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            {/* Email Field */}
+                            {/* Email */}
                             <div>
                                 <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
                                     Email Address
@@ -169,7 +177,7 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            {/* Password Field */}
+                            {/* Password */}
                             <div>
                                 <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
                                     Password
@@ -202,7 +210,7 @@ const Register = () => {
                                 )}
                             </div>
 
-                            {/* Submit Button */}
+                            {/* Submit  */}
                             {error && (
                                 <p className="text-red-500 text-sm mt-2">{error}</p>
                             )}
