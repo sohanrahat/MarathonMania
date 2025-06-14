@@ -8,6 +8,10 @@ import Register from "../Pages/Register";
 import AboutUs from "../Pages/AboutUs";
 import Contact from "../Pages/Contact";
 import Faq from "../Pages/Faq";
+import Dashboard from "../Layouts/Dashboard";
+import MyMarathons from "../Components/MyMarathons";
+import MyApplications from "../Components/MyApplications";
+import AddMarathonPage from "../Pages/AddMarathonPage";
 
 
 const router = createBrowserRouter([
@@ -44,7 +48,24 @@ const router = createBrowserRouter([
                 path: "/register",
                 element: <Register />
             }
-
+        ]
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard />,
+        children: [
+            {
+                path: "my-marathons",
+                element: <MyMarathons />
+            },
+            {
+                path: "my-applications",
+                element: <MyApplications />
+            },
+            {
+                path: "add-marathon",
+                element: <AddMarathonPage />
+            }
         ]
     }
 ]);
