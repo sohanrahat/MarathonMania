@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router';
 import '../styles/colors.css';
+import { AuthContext } from '../Context/AuthProvider';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 const Navbar = () => {
+    const { user, auth } = useContext(AuthContext);
+    
+    const handleLogout = () => {
+        auth.signOut()
+            .then(() => {
+                // Successfully logged out
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+            });
+    };
     return (
         <div>
             <div className="navbar shadow-sm" style={{ backgroundColor: 'var(--neutral-light)' }}>
@@ -17,19 +30,36 @@ const Navbar = () => {
                             style={{ backgroundColor: 'var(--neutral-light)' }}>
                             <li><NavLink to="/" style={{ color: 'var(--secondary)' }}>Home</NavLink></li>
                             <li><NavLink to="/marathons" style={{ color: 'var(--secondary)' }}>Marathons</NavLink></li>
+                            {user && <li><NavLink to="/dashboard" style={{ color: 'var(--secondary)' }}>Dashboard</NavLink></li>}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl" style={{ color: 'var(--primary)' }}>MM</a>
+                    <NavLink to="/" className="btn btn-ghost text-xl" style={{ color: 'var(--primary)' }}>MarathonMania</NavLink>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 gap-3">
                         <li><NavLink to="/" style={{ color: 'var(--secondary)' }}>Home</NavLink></li>
                         <li><NavLink to="/marathons" style={{ color: 'var(--secondary)' }}>Marathons</NavLink></li>
+                        {user && <li><NavLink to="/dashboard" style={{ color: 'var(--secondary)' }}>Dashboard</NavLink></li>}
                     </ul>
                 </div>
                 <div className="navbar-end gap-3">
-                    <NavLink to="/login" className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)', border: 'none' }}>Login</NavLink>
-                    <NavLink to="/register" className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', border: 'none' }}>Register</NavLink>
+                    {user ? (
+                        <>
+                            <div className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img alt="User Avatar" src={user.photoURL || 'https://i.ibb.co/MBtjqXQ/no-avatar.gif'} />
+                                </div>
+                            </div>
+                            <button onClick={handleLogout} className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', border: 'none' }}>
+                                <FaSignOutAlt /> Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <NavLink to="/login" className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)', border: 'none' }}>Login</NavLink>
+                            <NavLink to="/register" className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', border: 'none' }}>Register</NavLink>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
