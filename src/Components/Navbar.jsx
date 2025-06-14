@@ -5,15 +5,14 @@ import { AuthContext } from '../Context/AuthProvider';
 import { FaSignOutAlt } from 'react-icons/fa';
 
 const Navbar = () => {
-    const { user, auth } = useContext(AuthContext);
-    
+    const { user, loading, auth } = useContext(AuthContext);
+
     const handleLogout = () => {
         auth.signOut()
             .then(() => {
-                // Successfully logged out
             })
             .catch(error => {
-                console.error('Logout error:', error);
+                // console.error('Logout error:', error);
             });
     };
     return (
@@ -26,11 +25,11 @@ const Navbar = () => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow" 
+                            className="menu menu-sm dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
                             style={{ backgroundColor: 'var(--neutral-light)' }}>
                             <li><NavLink to="/" style={{ color: 'var(--secondary)' }}>Home</NavLink></li>
                             <li><NavLink to="/marathons" style={{ color: 'var(--secondary)' }}>Marathons</NavLink></li>
-                            {user && <li><NavLink to="/dashboard" style={{ color: 'var(--secondary)' }}>Dashboard</NavLink></li>}
+                            {!loading && user && <li><NavLink to="/dashboard" style={{ color: 'var(--secondary)' }}>Dashboard</NavLink></li>}
                         </ul>
                     </div>
                     <NavLink to="/" className="btn btn-ghost text-xl" style={{ color: 'var(--primary)' }}>MarathonMania</NavLink>
@@ -39,25 +38,29 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1 gap-3">
                         <li><NavLink to="/" style={{ color: 'var(--secondary)' }}>Home</NavLink></li>
                         <li><NavLink to="/marathons" style={{ color: 'var(--secondary)' }}>Marathons</NavLink></li>
-                        {user && <li><NavLink to="/dashboard" style={{ color: 'var(--secondary)' }}>Dashboard</NavLink></li>}
+                        {!loading && user && <li><NavLink to="/dashboard" style={{ color: 'var(--secondary)' }}>Dashboard</NavLink></li>}
                     </ul>
                 </div>
                 <div className="navbar-end gap-3">
-                    {user ? (
-                        <>
-                            <div className="btn btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full">
-                                    <img alt="User Avatar" src={user.photoURL || 'https://i.ibb.co/MBtjqXQ/no-avatar.gif'} />
-                                </div>
-                            </div>
-                            <button onClick={handleLogout} className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', border: 'none' }}>
-                                <FaSignOutAlt /> Logout
-                            </button>
-                        </>
-                    ) : (
+                    {!loading && !user ? (
                         <>
                             <NavLink to="/login" className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)', border: 'none' }}>Login</NavLink>
                             <NavLink to="/register" className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', border: 'none' }}>Register</NavLink>
+                        </>
+                    ) : (
+                        <>
+                            {loading ? (
+                                <div className="btn btn-ghost btn-circle loading" style={{ color: 'var(--primary)' }}></div>
+                            ) : (
+                                <div className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img alt="User Avatar" src={user.photoURL || 'https://i.ibb.co/MBtjqXQ/no-avatar.gif'} />
+                                    </div>
+                                </div>
+                            )}
+                            <button onClick={handleLogout} className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', border: 'none' }}>
+                                <FaSignOutAlt /> Logout
+                            </button>
                         </>
                     )}
                 </div>
