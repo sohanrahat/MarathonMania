@@ -10,8 +10,8 @@ import Contact from "../Pages/Contact";
 import Faq from "../Pages/Faq";
 import MyMarathons from "../Components/MyMarathons";
 import MyApplications from "../Components/MyApplications";
-import AddMarathonPage from "../Pages/AddMarathonPage";
 import DashboardLayout from "../Dashboard/DashboardLayout";
+import AddMarathon from "../Components/AddMarathon";
 
 
 const router = createBrowserRouter([
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "add-marathon",
-                        element: <AddMarathonPage />
+                        element: <AddMarathon />
                     }
                 ]
             }
