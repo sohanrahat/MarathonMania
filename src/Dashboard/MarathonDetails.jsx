@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import { FaSpinner, FaMapMarkerAlt, FaRunning, FaCalendarAlt, FaUsers } from 'react-icons/fa';
 import '../styles/colors.css';
 
 const MarathonDetails = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [marathon, setMarathon] = useState(null);
     const [registrationCount, setRegistrationCount] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -154,6 +155,7 @@ const MarathonDetails = () => {
                         <button
                             className="px-6 py-3 rounded-md hover:opacity-90 transition-colors text-white font-medium"
                             style={{ backgroundColor: 'var(--primary)' }}
+                            onClick={() => navigate(`/dashboard/marathon-registration/${id}`)}
                         >
                             Register Now
                         </button>
