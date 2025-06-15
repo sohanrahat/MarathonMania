@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Swal from 'sweetalert2';
 
 const AddMarathon = () => {
     const [startRegistrationDate, setStartRegistrationDate] = useState(null);
@@ -13,13 +14,13 @@ const AddMarathon = () => {
         const form = e.target;
         const formData = new FormData(form);
         const newMarathon = Object.fromEntries(formData.entries());
-        
+
         // Add date values that aren't captured by FormData
         newMarathon.startRegistrationDate = startRegistrationDate;
         newMarathon.endRegistrationDate = endRegistrationDate;
         newMarathon.marathonStartDate = marathonStartDate;
 
-        // TODO: Send data to API
+        // Send data to API
         fetch('http://localhost:3000/marathons',
             {
                 method: 'POST',
@@ -31,7 +32,26 @@ const AddMarathon = () => {
         )
             .then(res => res.json())
             .then(data => {
-                // console.log(data);
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Marathon added successfully',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+
+                // Reset form
+                form.reset();
+                setStartRegistrationDate(null);
+                setEndRegistrationDate(null);
+                setMarathonStartDate(null);
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to add marathon',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             });
     };
 
