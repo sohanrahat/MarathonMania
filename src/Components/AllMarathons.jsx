@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router';
+import { FaSpinner } from 'react-icons/fa';
 
 const AllMarathons = () => {
     const [marathons, setMarathons] = useState([]);
@@ -34,7 +35,11 @@ const AllMarathons = () => {
         });
     };
 
-    if (loading) return <div className="p-4">Loading marathons...</div>;
+    if (loading) return (
+        <div className="flex justify-center items-center py-16">
+            <FaSpinner className="animate-spin text-4xl" style={{ color: 'var(--primary)' }} />
+        </div>
+    );
     if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
 
     return (

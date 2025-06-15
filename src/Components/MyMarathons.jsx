@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import '../styles/colors.css';
 import { AuthContext } from '../Context/AuthProvider';
+import { FaSpinner } from 'react-icons/fa';
 
 const MyMarathons = () => {
     const [marathons, setMarathons] = useState([]);
@@ -40,7 +41,9 @@ const MyMarathons = () => {
             <h2 className="text-2xl font-semibold mb-4">My Marathons</h2>
 
             {loading ? (
-                <p className="text-center py-8">Loading marathons...</p>
+                <div className="flex justify-center items-center py-16">
+                    <FaSpinner className="animate-spin text-4xl" style={{ color: 'var(--primary)' }} />
+                </div>
             ) : marathons.length === 0 ? (
                 <p className="text-center py-8">No marathons found. Create your first marathon!</p>
             ) : (
@@ -123,12 +126,6 @@ const MyMarathons = () => {
                                     </div>
 
                                     <div className="flex flex-col sm:flex-row gap-2">
-                                        <button
-                                            className="py-2 text-white text-xs rounded hover:opacity-90"
-                                            style={{ backgroundColor: 'var(--accent)' }}
-                                        >
-                                            Details
-                                        </button>
                                         <button
                                             className="py-2 text-white text-xs rounded hover:opacity-90"
                                             style={{ backgroundColor: 'var(--secondary)' }}
