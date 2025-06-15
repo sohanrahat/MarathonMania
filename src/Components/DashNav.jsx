@@ -8,6 +8,22 @@ const DashNav = () => {
             <ul className="flex flex-col gap-4">
                 <li>
                     <NavLink
+                        to="all-marathons"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "px-4 py-2 rounded-md font-medium"
+                                : "px-4 py-2 rounded-md font-medium hover:bg-gray-100"
+                        }
+                        style={({ isActive }) => ({
+                            backgroundColor: isActive ? 'var(--primary)' : 'transparent',
+                            color: isActive ? 'var(--neutral-light)' : 'var(--secondary)'
+                        })}
+                    >
+                        All Marathons
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
                         to="marathons"
                         className={({ isActive }) =>
                             isActive

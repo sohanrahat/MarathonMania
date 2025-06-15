@@ -1,0 +1,78 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router';
+
+const AllMarathons = () => {
+    const [marathons, setMarathons] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchMarathons = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/marathons');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch marathons');
+                }
+                const data = await response.json();
+                setMarathons(data);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+        };
+
+        fetchMarathons();
+    }, []);
+
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    };
+
+    if (loading) return <div className="p-4">Loading marathons...</div>;
+    if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
+
+    return (
+        <div className="p-4">
+            <h2 className="text-2xl font-bold mb-4">All Marathons</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {marathons.length > 0 ? (
+                    marathons.map(marathon => (
+                        <div key={marathon._id?.$oid || marathon._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                            <img 
+                                src={marathon.imageUrl || "https://placehold.co/600x400?text=Marathon"} 
+                                alt={marathon.title} 
+                                className="w-full h-48 object-cover"
+                                onError={(e) => {
+                                    e.target.src = "https://placehold.co/600x400?text=Marathon";
+                                }}
+                            />
+                            <div className="p-4">
+                                <h3 className="text-xl font-semibold mb-2">{marathon.title}</h3>
+                                <p className="text-gray-600 mb-2">{marathon.location}</p>
+                                <p className="mb-2"><span className="font-medium">Distance:</span> {marathon.runningDistance}</p>
+                                <p className="mb-2"><span className="font-medium">Date:</span> {formatDate(marathon.marathonStartDate)}</p>
+                                <p className="mb-2 text-sm text-gray-500">Registration: {formatDate(marathon.startRegistrationDate)} - {formatDate(marathon.endRegistrationDate)}</p>
+                                <Link 
+                                    to={`/marathon/${marathon._id?.$oid || marathon._id}`} 
+                                    className="mt-3 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                                >
+                                    See Details
+                                </Link>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>No marathons available.</p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default AllMarathons;

@@ -12,6 +12,7 @@ import MyMarathons from "../Components/MyMarathons";
 import MyApplications from "../Components/MyApplications";
 import DashboardLayout from "../Dashboard/DashboardLayout";
 import AddMarathon from "../Components/AddMarathon";
+import AllMarathons from "../Components/AllMarathons";
 
 
 const router = createBrowserRouter([
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
                 path: "dashboard",
                 element: <DashboardLayout />,
                 children: [
+                    {
+                        path: "all-marathons",
+                        element: <AllMarathons />
+                    },
                     {
                         path: "marathons",
                         element: <MyMarathons />
