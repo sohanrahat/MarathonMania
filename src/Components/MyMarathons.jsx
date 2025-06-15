@@ -74,12 +74,6 @@ const MyMarathons = () => {
                                             <td className="px-6 py-4 flex flex-wrap gap-1">
                                                 <button
                                                     className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
-                                                    style={{ backgroundColor: 'var(--accent)' }}
-                                                >
-                                                    Details
-                                                </button>
-                                                <button
-                                                    className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
                                                     style={{ backgroundColor: 'var(--secondary)' }}
                                                 >
                                                     Update
