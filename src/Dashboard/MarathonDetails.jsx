@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { FaSpinner, FaMapMarkerAlt, FaRunning, FaCalendarAlt, FaUsers, FaClock } from 'react-icons/fa';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import '../styles/colors.css';
 
 import { AuthContext } from '../Context/AuthProvider';
@@ -71,23 +72,22 @@ const MarathonDetails = () => {
 
                 if (response.ok) {
                     const allRegistrations = await response.json();
-                    
-                    // Count registrations for this marathon by marathonId or marathonTitle
-                    const marathonRegistrations = allRegistrations.filter(reg => 
-                        reg.marathonId === id || 
+
+
+                    const marathonRegistrations = allRegistrations.filter(reg =>
+                        reg.marathonId === id ||
                         reg.marathonId?.$oid === id ||
                         reg.marathonTitle === marathon.title
                     );
-                    
+
                     setRegistrationCount(marathonRegistrations.length);
-                    
-                    // Check if current user is registered for this marathon using AuthContext
+
                     if (user && user.email) {
-                        const userRegistered = allRegistrations.some(reg => 
-                            reg.email === user.email && 
-                            (reg.marathonId === id || 
-                             reg.marathonId?.$oid === id || 
-                             reg.marathonTitle === marathon.title)
+                        const userRegistered = allRegistrations.some(reg =>
+                            reg.email === user.email &&
+                            (reg.marathonId === id ||
+                                reg.marathonId?.$oid === id ||
+                                reg.marathonTitle === marathon.title)
                         );
                         setAlreadyRegistered(userRegistered);
                     }
@@ -242,23 +242,42 @@ const MarathonDetails = () => {
                             {timeLeft.isExpired ? (
                                 <div className="text-red-500 font-bold mb-4">Registration period has ended</div>
                             ) : (
-                                <div className="grid grid-cols-4 gap-2 mb-4">
-                                    <div className="text-center p-2 bg-gray-100 rounded">
-                                        <div className="text-2xl font-bold" style={{ color: 'var(--secondary)' }}>{timeLeft.days}</div>
-                                        <div className="text-xs text-gray-500">Days</div>
-                                    </div>
-                                    <div className="text-center p-2 bg-gray-100 rounded">
-                                        <div className="text-2xl font-bold" style={{ color: 'var(--secondary)' }}>{timeLeft.hours}</div>
-                                        <div className="text-xs text-gray-500">Hours</div>
-                                    </div>
-                                    <div className="text-center p-2 bg-gray-100 rounded">
-                                        <div className="text-2xl font-bold" style={{ color: 'var(--secondary)' }}>{timeLeft.minutes}</div>
-                                        <div className="text-xs text-gray-500">Minutes</div>
-                                    </div>
-                                    <div className="text-center p-2 bg-gray-100 rounded">
-                                        <div className="text-2xl font-bold" style={{ color: 'var(--secondary)' }}>{timeLeft.seconds}</div>
-                                        <div className="text-xs text-gray-500">Seconds</div>
-                                    </div>
+                                <div className="flex justify-center mb-4">
+                                    <CountdownCircleTimer
+                                        isPlaying
+                                        duration={
+                                            timeLeft.days * 24 * 60 * 60 +
+                                            timeLeft.hours * 60 * 60 +
+                                            timeLeft.minutes * 60 +
+                                            timeLeft.seconds
+                                        }
+                                        colors={[
+                                            ['var(--secondary)', 0.33],
+                                            ['var(--accent)', 0.33],
+                                            ['var(--primary)', 0.33],
+                                        ]}
+                                        size={200}
+                                        strokeWidth={12}
+                                    >
+                                        {({ remainingTime }) => {
+                                            const days = Math.floor(remainingTime / (60 * 60 * 24));
+                                            const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60));
+                                            const minutes = Math.floor((remainingTime % (60 * 60)) / 60);
+                                            const seconds = remainingTime % 60;
+
+                                            return (
+                                                <div className="text-center">
+                                                    <div className="text-3xl font-bold" style={{ color: 'var(--secondary)' }}>
+                                                        {days}d {hours}h
+                                                    </div>
+                                                    <div className="text-xl font-medium" style={{ color: 'var(--primary)' }}>
+                                                        {minutes}m {seconds}s
+                                                    </div>
+                                                    <div className="text-sm text-gray-500 mt-1">Remaining</div>
+                                                </div>
+                                            );
+                                        }}
+                                    </CountdownCircleTimer>
                                 </div>
                             )}
 
@@ -269,8 +288,8 @@ const MarathonDetails = () => {
                                     onClick={() => navigate(`/dashboard/marathon-registration/${id}`)}
                                     disabled={timeLeft.isExpired || alreadyRegistered}
                                 >
-                                    {timeLeft.isExpired ? 'Registration Closed' : 
-                                     alreadyRegistered ? 'Already Registered' : 'Register Now'}
+                                    {timeLeft.isExpired ? 'Registration Closed' :
+                                        alreadyRegistered ? 'Already Registered' : 'Register Now'}
                                 </button>
                             </div>
                         </div>
