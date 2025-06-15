@@ -26,14 +26,7 @@ const AllMarathons = () => {
         fetchMarathons();
     }, []);
 
-    const formatDate = (dateString) => {
-        if (!dateString) return '';
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
-    };
+    // No longer needed as we're not displaying dates
 
     if (loading) return (
         <div className="flex justify-center items-center py-16">
@@ -49,23 +42,21 @@ const AllMarathons = () => {
                 {marathons.length > 0 ? (
                     marathons.map(marathon => (
                         <div key={marathon._id?.$oid || marathon._id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img 
-                                src={marathon.imageUrl || "https://placehold.co/600x400?text=Marathon"} 
-                                alt={marathon.title} 
+                            <img
+                                src={marathon.imageUrl || "https://placehold.co/600x400?text=Marathon"}
+                                alt={marathon.title}
                                 className="w-full h-48 object-cover"
                                 onError={(e) => {
                                     e.target.src = "https://placehold.co/600x400?text=Marathon";
                                 }}
                             />
                             <div className="p-4">
-                                <h3 className="text-xl font-semibold mb-2">{marathon.title}</h3>
-                                <p className="text-gray-600 mb-2">{marathon.location}</p>
-                                <p className="mb-2"><span className="font-medium">Distance:</span> {marathon.runningDistance}</p>
-                                <p className="mb-2"><span className="font-medium">Date:</span> {formatDate(marathon.marathonStartDate)}</p>
-                                <p className="mb-2 text-sm text-gray-500">Registration: {formatDate(marathon.startRegistrationDate)} - {formatDate(marathon.endRegistrationDate)}</p>
-                                <Link 
-                                    to={`/marathon/${marathon._id?.$oid || marathon._id}`} 
-                                    className="mt-3 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                                <h3 className="text-xl font-semibold mb-2 h-14 overflow-hidden">{marathon.title}</h3>
+                                <p className="text-gray-600 mb-4 h-6 overflow-hidden text-ellipsis whitespace-nowrap">{marathon.location}</p>
+                                <Link
+                                    to={`/marathon/${marathon._id?.$oid || marathon._id}`}
+                                    className="w-full inline-block px-4 py-2 text-center text-white rounded-md hover:opacity-90 transition-colors"
+                                    style={{ backgroundColor: 'var(--secondary)' }}
                                 >
                                     See Details
                                 </Link>

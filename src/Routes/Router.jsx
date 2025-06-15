@@ -12,7 +12,7 @@ import MyMarathons from "../Components/MyMarathons";
 import MyApplications from "../Components/MyApplications";
 import DashboardLayout from "../Dashboard/DashboardLayout";
 import AddMarathon from "../Components/AddMarathon";
-import AllMarathons from "../Components/AllMarathons";
+import AllMarathons from "../Dashboard/AllMarathons";
 
 
 const router = createBrowserRouter([
