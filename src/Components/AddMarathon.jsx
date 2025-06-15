@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../Context/AuthProvider';
 
 const AddMarathon = () => {
     const [startRegistrationDate, setStartRegistrationDate] = useState(null);
     const [endRegistrationDate, setEndRegistrationDate] = useState(null);
     const [marathonStartDate, setMarathonStartDate] = useState(null);
+    const { user } = useContext(AuthContext);
 
     const handleAddMarathon = (e) => {
         e.preventDefault();
@@ -19,6 +21,7 @@ const AddMarathon = () => {
         newMarathon.startRegistrationDate = startRegistrationDate;
         newMarathon.endRegistrationDate = endRegistrationDate;
         newMarathon.marathonStartDate = marathonStartDate;
+        newMarathon.creatorEmail = user.email;
 
         // Send data to API
         fetch('http://localhost:3000/marathons',
@@ -69,6 +72,18 @@ const AddMarathon = () => {
                             name="title"
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
+                        />
+                    </div>
+
+                    {/* Creator Email */}
+                    <div className="col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Creator Email</label>
+                        <input
+                            type="email"
+                            name="creatorEmail"
+                            value={user?.email || ''}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
+                            readOnly
                         />
                     </div>
 

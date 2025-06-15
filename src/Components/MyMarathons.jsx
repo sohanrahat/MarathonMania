@@ -1,42 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/colors.css';
-import { AuthContext } from '../Context/AuthProvider';
 
 const MyMarathons = () => {
     const [marathons, setMarathons] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        if (user) {
-            fetch('http://localhost:3000/marathons')
-                .then(res => res.json())
-                .then(data => {
-                    // console.log('Marathon data structure:', data[0]);
-
-
-                    const userMarathons = data.filter(marathon => {
-
-                        return (
-                            (marathon.userEmail && marathon.userEmail === user.email) ||
-                            (marathon.email && marathon.email === user.email) ||
-                            (marathon.creatorEmail && marathon.creatorEmail === user.email) ||
-                            (marathon.createdBy && marathon.createdBy === user.email) ||
-                            (marathon.userId && marathon.userId === user.uid) ||
-                            (marathon.creatorId && marathon.creatorId === user.uid) ||
-                            (marathon.uid && marathon.uid === user.uid)
-                        );
-                    });
-
-                    setMarathons(userMarathons);
-                    setLoading(false);
-                })
-                .catch(error => {
-                    // console.error('Error fetching marathons:', error);
-                    setLoading(false);
-                });
-        }
-    }, [user]);
+        fetch('http://localhost:3000/marathons')
+            .then(res => res.json())
+            .then(data => {
+                console.log('All marathons:', data);
+                setMarathons(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching marathons:', error);
+                setLoading(false);
+            });
+    }, []);
 
     const formatDate = (date, isShort = false) => {
         if (!date) return '';
@@ -48,12 +29,12 @@ const MyMarathons = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-2xl font-semibold mb-4">My Marathons</h2>
+            <h2 className="text-2xl font-semibold mb-4">All Marathons</h2>
 
             {loading ? (
                 <p className="text-center py-8">Loading marathons...</p>
             ) : marathons.length === 0 ? (
-                <p className="text-center py-8">No marathons found. Create your first marathon!</p>
+                <p className="text-center py-8">No marathons found.</p>
             ) : (
                 <>
                     {/* large screens only */}
@@ -72,7 +53,7 @@ const MyMarathons = () => {
                                 </thead>
                                 <tbody>
                                     {marathons.map((marathon, index) => (
-                                        <tr key={marathon.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                                        <tr key={marathon.id || index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate">
                                                 {marathon.title}
                                             </th>
@@ -112,8 +93,8 @@ const MyMarathons = () => {
                     {/* Cards for small and medium screens */}
                     <div className="lg:hidden">
                         <div className="grid grid-cols-1 gap-4">
-                            {marathons.map(marathon => (
-                                <div key={marathon.id} className="bg-white p-4 rounded-lg shadow">
+                            {marathons.map((marathon, index) => (
+                                <div key={marathon.id || index} className="bg-white p-4 rounded-lg shadow">
                                     <h3 className="text-lg font-semibold text-gray-900 mb-2">{marathon.title}</h3>
 
                                     <div className="grid grid-cols-2 gap-2 mb-3">
