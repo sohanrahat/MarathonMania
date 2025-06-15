@@ -1,23 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../styles/colors.css';
+import { AuthContext } from '../Context/AuthProvider';
 
 const MyMarathons = () => {
     const [marathons, setMarathons] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        fetch('http://localhost:3000/marathons')
-            .then(res => res.json())
-            .then(data => {
-                console.log('All marathons:', data);
-                setMarathons(data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching marathons:', error);
-                setLoading(false);
-            });
-    }, []);
+        if (user) {
+            fetch('http://localhost:3000/marathons')
+                .then(res => res.json())
+                .then(data => {
+                    console.log('All marathons:', data);
+                    const userMarathons = data.filter(marathon => 
+                        marathon.creatorEmail === user.email
+                    );
+                    console.log('User marathons:', userMarathons);
+                    setMarathons(userMarathons);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error fetching marathons:', error);
+                    setLoading(false);
+                });
+        }
+    }, [user]);
 
     const formatDate = (date, isShort = false) => {
         if (!date) return '';
@@ -29,12 +37,12 @@ const MyMarathons = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-2xl font-semibold mb-4">All Marathons</h2>
+            <h2 className="text-2xl font-semibold mb-4">My Marathons</h2>
 
             {loading ? (
                 <p className="text-center py-8">Loading marathons...</p>
             ) : marathons.length === 0 ? (
-                <p className="text-center py-8">No marathons found.</p>
+                <p className="text-center py-8">No marathons found. Create your first marathon!</p>
             ) : (
                 <>
                     {/* large screens only */}
