@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { FaSpinner, FaMapMarkerAlt, FaRunning, FaCalendarAlt, FaUsers, FaClock } from 'react-icons/fa';
 import '../styles/colors.css';
 
+import { AuthContext } from '../Context/AuthProvider';
+
 const MarathonDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
     const [marathon, setMarathon] = useState(null);
     const [registrationCount, setRegistrationCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [alreadyRegistered, setAlreadyRegistered] = useState(false);
     const [timeLeft, setTimeLeft] = useState({
         days: 0,
         hours: 0,
@@ -57,7 +61,7 @@ const MarathonDetails = () => {
     }, [id]);
 
     useEffect(() => {
-        if (!id) return;
+        if (!id || !marathon || !user) return;
 
         const fetchRegistrations = async () => {
             try {
@@ -67,22 +71,36 @@ const MarathonDetails = () => {
 
                 if (response.ok) {
                     const allRegistrations = await response.json();
-                    // Count registrations for this marathon
-                    const count = allRegistrations.filter(reg =>
-                        reg.marathonId === id ||
-                        reg.marathonId?.$oid === id
-                    ).length;
-
-                    setRegistrationCount(count);
+                    
+                    // Count registrations for this marathon by marathonId or marathonTitle
+                    const marathonRegistrations = allRegistrations.filter(reg => 
+                        reg.marathonId === id || 
+                        reg.marathonId?.$oid === id ||
+                        reg.marathonTitle === marathon.title
+                    );
+                    
+                    setRegistrationCount(marathonRegistrations.length);
+                    
+                    // Check if current user is registered for this marathon using AuthContext
+                    if (user && user.email) {
+                        const userRegistered = allRegistrations.some(reg => 
+                            reg.email === user.email && 
+                            (reg.marathonId === id || 
+                             reg.marathonId?.$oid === id || 
+                             reg.marathonTitle === marathon.title)
+                        );
+                        setAlreadyRegistered(userRegistered);
+                    }
                 }
             } catch (err) {
+                // console.error('Error fetching registrations:', err);
             }
         };
 
         fetchRegistrations();
         const intervalId = setInterval(fetchRegistrations, 2000);
         return () => clearInterval(intervalId);
-    }, [id]);
+    }, [id, marathon, user]);
 
     // Countdown timer 
     useEffect(() => {
@@ -247,11 +265,12 @@ const MarathonDetails = () => {
                             <div className="flex justify-center">
                                 <button
                                     className="px-6 py-3 rounded-md hover:opacity-90 transition-colors text-white font-medium w-full sm:w- cursor-pointer"
-                                    style={{ backgroundColor: timeLeft.isExpired ? 'var(--neutral-dark)' : 'var(--primary)' }}
+                                    style={{ backgroundColor: timeLeft.isExpired || alreadyRegistered ? 'var(--neutral-dark)' : 'var(--primary)' }}
                                     onClick={() => navigate(`/dashboard/marathon-registration/${id}`)}
-                                    disabled={timeLeft.isExpired}
+                                    disabled={timeLeft.isExpired || alreadyRegistered}
                                 >
-                                    {timeLeft.isExpired ? 'Registration Closed' : 'Register Now'}
+                                    {timeLeft.isExpired ? 'Registration Closed' : 
+                                     alreadyRegistered ? 'Already Registered' : 'Register Now'}
                                 </button>
                             </div>
                         </div>
