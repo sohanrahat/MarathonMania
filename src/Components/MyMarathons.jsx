@@ -12,24 +12,36 @@ const MyMarathons = () => {
             fetch('http://localhost:3000/marathons')
                 .then(res => res.json())
                 .then(data => {
-                    console.log('Marathon data structure:', data[0]);
-                    // For now, show all marathons until we identify the correct field
-                    const userMarathons = data;
+                    // console.log('Marathon data structure:', data[0]);
+
+
+                    const userMarathons = data.filter(marathon => {
+
+                        return (
+                            (marathon.userEmail && marathon.userEmail === user.email) ||
+                            (marathon.email && marathon.email === user.email) ||
+                            (marathon.creatorEmail && marathon.creatorEmail === user.email) ||
+                            (marathon.createdBy && marathon.createdBy === user.email) ||
+                            (marathon.userId && marathon.userId === user.uid) ||
+                            (marathon.creatorId && marathon.creatorId === user.uid) ||
+                            (marathon.uid && marathon.uid === user.uid)
+                        );
+                    });
+
                     setMarathons(userMarathons);
                     setLoading(false);
                 })
                 .catch(error => {
-                    console.error('Error fetching marathons:', error);
+                    // console.error('Error fetching marathons:', error);
                     setLoading(false);
                 });
         }
     }, [user]);
 
-    // Format date in a responsive way
     const formatDate = (date, isShort = false) => {
         if (!date) return '';
-        const options = isShort 
-            ? { month: 'short', day: 'numeric' } 
+        const options = isShort
+            ? { month: 'short', day: 'numeric' }
             : { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(date).toLocaleDateString('en-US', options);
     };
@@ -44,7 +56,7 @@ const MyMarathons = () => {
                 <p className="text-center py-8">No marathons found. Create your first marathon!</p>
             ) : (
                 <>
-                    {/* Table for large screens only */}
+                    {/* large screens only */}
                     <div className="hidden lg:block">
                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -103,7 +115,7 @@ const MyMarathons = () => {
                             {marathons.map(marathon => (
                                 <div key={marathon.id} className="bg-white p-4 rounded-lg shadow">
                                     <h3 className="text-lg font-semibold text-gray-900 mb-2">{marathon.title}</h3>
-                                    
+
                                     <div className="grid grid-cols-2 gap-2 mb-3">
                                         <div>
                                             <p className="text-xs text-gray-500">Location</p>
@@ -114,19 +126,19 @@ const MyMarathons = () => {
                                             <p className="text-sm">{marathon.runningDistance}</p>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="mb-3">
                                         <p className="text-xs text-gray-500">Registration Period</p>
                                         <p className="text-sm">
                                             {formatDate(marathon.startRegistrationDate, true)} - {formatDate(marathon.endRegistrationDate, true)}
                                         </p>
                                     </div>
-                                    
+
                                     <div className="mb-4">
                                         <p className="text-xs text-gray-500">Marathon Date</p>
                                         <p className="text-sm">{formatDate(marathon.marathonStartDate)}</p>
                                     </div>
-                                    
+
                                     <div className="flex flex-col sm:flex-row gap-2">
                                         <button
                                             className="py-2 text-white text-xs rounded hover:opacity-90"
