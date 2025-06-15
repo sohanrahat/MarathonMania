@@ -13,6 +13,7 @@ import MyApplications from "../Components/MyApplications";
 import DashboardLayout from "../Dashboard/DashboardLayout";
 import AddMarathon from "../Components/AddMarathon";
 import AllMarathons from "../Dashboard/AllMarathons";
+import MarathonDetails from "../Dashboard/MarathonDetails";
 
 
 const router = createBrowserRouter([
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
                     {
                         path: "add-marathon",
                         element: <AddMarathon />
+                    },
+                    {
+                        path: "marathon-details/:id",
+                        element: <MarathonDetails />
                     }
                 ]
             }

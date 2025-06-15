@@ -54,7 +54,7 @@ const AllMarathons = () => {
                                 <h3 className="text-xl font-semibold mb-2 h-14 overflow-hidden">{marathon.title}</h3>
                                 <p className="text-gray-600 mb-4 h-6 overflow-hidden text-ellipsis whitespace-nowrap">{marathon.location}</p>
                                 <Link
-                                    to={`/marathon/${marathon._id?.$oid || marathon._id}`}
+                                    to={`/dashboard/marathon-details/${marathon._id?.$oid || marathon._id}`}
                                     className="w-full inline-block px-4 py-2 text-center text-white rounded-md hover:opacity-90 transition-colors"
                                     style={{ backgroundColor: 'var(--secondary)' }}
                                 >
