@@ -217,7 +217,7 @@ const MarathonRegistration = () => {
                     <div className="flex justify-center">
                         <button
                             type="submit"
-                            className="px-6 py-3 rounded-md text-white font-medium flex items-center justify-center min-w-[150px]"
+                            className="px-6 py-3 rounded-md text-white font-medium flex items-center justify-center min-w-[150px] cursor-pointer"
                             style={{ backgroundColor: 'var(--secondary)' }}
                             disabled={submitting}
                         >

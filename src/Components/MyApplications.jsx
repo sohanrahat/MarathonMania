@@ -37,7 +37,7 @@ const MyApplications = () => {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4" style={{ overflowX: 'hidden' }}>
             <h2 className="text-2xl font-semibold mb-4">My Applications</h2>
 
             {loading ? (
@@ -50,17 +50,17 @@ const MyApplications = () => {
                 <>
                     {/* large screens only */}
                     <div className="hidden lg:block">
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full" style={{ minWidth: '100%', maxWidth: '1400px' }}>
+                            <table className="w-full text-sm text-left rtl:text-right text-gray-500" style={{ tableLayout: 'fixed' }}>
                                 <thead className="text-xs text-white uppercase" style={{ backgroundColor: 'var(--secondary)' }}>
                                     <tr>
-                                        <th scope="col" className="px-6 py-3">Marathon Title</th>
-                                        <th scope="col" className="px-6 py-3">Name</th>
-                                        <th scope="col" className="px-6 py-3">Contact</th>
-                                        <th scope="col" className="px-6 py-3">Registration Date</th>
-                                        <th scope="col" className="px-6 py-3">Marathon Date</th>
-                                        <th scope="col" className="px-6 py-3">Status</th>
-                                        <th scope="col" className="px-6 py-3">Actions</th>
+                                        <th scope="col" className="px-6 py-3" style={{ width: '18%' }}>Marathon Title</th>
+                                        <th scope="col" className="px-6 py-3" style={{ width: '15%' }}>Name</th>
+                                        <th scope="col" className="px-6 py-3" style={{ width: '12%' }}>Contact</th>
+                                        <th scope="col" className="px-6 py-3" style={{ width: '15%' }}>Registration Date</th>
+                                        <th scope="col" className="px-6 py-3" style={{ width: '15%' }}>Marathon Date</th>
+                                        <th scope="col" className="px-6 py-3" style={{ width: '10%' }}>Status</th>
+                                        <th scope="col" className="px-6 py-3" style={{ width: '15%' }}>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,12 +69,12 @@ const MyApplications = () => {
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate">
                                                 {application.marathonTitle}
                                             </th>
-                                            <td className="px-6 py-4">{`${application.firstName} ${application.lastName}`}</td>
-                                            <td className="px-6 py-4">{application.contactNumber}</td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-6 py-4 truncate">{`${application.firstName} ${application.lastName}`}</td>
+                                            <td className="px-6 py-4 truncate">{application.contactNumber}</td>
+                                            <td className="px-6 py-4 truncate">
                                                 {formatDate(application.registrationDate)}
                                             </td>
-                                            <td className="px-6 py-4">{formatDate(application.marathonDate)}</td>
+                                            <td className="px-6 py-4 truncate">{formatDate(application.marathonDate)}</td>
                                             <td className="px-6 py-4">
                                                 <span
                                                     className="px-2 py-1 rounded text-xs text-white"
@@ -83,19 +83,21 @@ const MyApplications = () => {
                                                     Confirmed
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 flex flex-wrap gap-1">
-                                                <button
-                                                    className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
-                                                    style={{ backgroundColor: 'var(--secondary)' }}
-                                                >
-                                                    Update
-                                                </button>
-                                                <button
-                                                    className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
-                                                    style={{ backgroundColor: 'var(--primary)' }}
-                                                >
-                                                    Delete
-                                                </button>
+                                            <td className="px-6 py-4">
+                                                <div className="flex flex-wrap gap-1">
+                                                    <button
+                                                        className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
+                                                        style={{ backgroundColor: 'var(--secondary)' }}
+                                                    >
+                                                        Update
+                                                    </button>
+                                                    <button
+                                                        className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
+                                                        style={{ backgroundColor: 'var(--primary)' }}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}

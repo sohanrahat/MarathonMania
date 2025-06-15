@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { FaSpinner, FaMapMarkerAlt, FaRunning, FaCalendarAlt, FaUsers } from 'react-icons/fa';
+import { FaSpinner, FaMapMarkerAlt, FaRunning, FaCalendarAlt, FaUsers, FaClock } from 'react-icons/fa';
 import '../styles/colors.css';
 
 const MarathonDetails = () => {
@@ -10,6 +10,13 @@ const MarathonDetails = () => {
     const [registrationCount, setRegistrationCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [timeLeft, setTimeLeft] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        isExpired: false
+    });
 
     useEffect(() => {
         const fetchMarathonDetails = async () => {
@@ -59,6 +66,43 @@ const MarathonDetails = () => {
 
         fetchMarathonDetails();
     }, [id]);
+
+    // Countdown timer 
+    useEffect(() => {
+        if (!marathon) return;
+
+        const calculateTimeLeft = () => {
+            const endDate = new Date(marathon.endRegistrationDate).getTime();
+            const now = new Date().getTime();
+            const difference = endDate - now;
+
+            if (difference <= 0) {
+                return {
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0,
+                    isExpired: true
+                };
+            }
+
+            return {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((difference % (1000 * 60)) / 1000),
+                isExpired: false
+            };
+        };
+
+        setTimeLeft(calculateTimeLeft());
+
+        const timer = setInterval(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [marathon]);
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
@@ -151,14 +195,49 @@ const MarathonDetails = () => {
                         </p>
                     </div>
 
-                    <div className="flex justify-center sm:justify-start">
-                        <button
-                            className="px-6 py-3 rounded-md hover:opacity-90 transition-colors text-white font-medium"
-                            style={{ backgroundColor: 'var(--primary)' }}
-                            onClick={() => navigate(`/dashboard/marathon-registration/${id}`)}
-                        >
-                            Register Now
-                        </button>
+                    <div className="mb-6">
+                        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                            <div className="flex items-center mb-2">
+                                <FaClock className="mr-2" style={{ color: 'var(--primary)' }} />
+                                <h3 className="text-lg font-semibold" style={{ color: 'var(--primary)' }}>
+                                    Registration Closes In:
+                                </h3>
+                            </div>
+
+                            {timeLeft.isExpired ? (
+                                <div className="text-red-500 font-bold mb-4">Registration period has ended</div>
+                            ) : (
+                                <div className="grid grid-cols-4 gap-2 mb-4">
+                                    <div className="text-center p-2 bg-gray-100 rounded">
+                                        <div className="text-2xl font-bold" style={{ color: 'var(--secondary)' }}>{timeLeft.days}</div>
+                                        <div className="text-xs text-gray-500">Days</div>
+                                    </div>
+                                    <div className="text-center p-2 bg-gray-100 rounded">
+                                        <div className="text-2xl font-bold" style={{ color: 'var(--secondary)' }}>{timeLeft.hours}</div>
+                                        <div className="text-xs text-gray-500">Hours</div>
+                                    </div>
+                                    <div className="text-center p-2 bg-gray-100 rounded">
+                                        <div className="text-2xl font-bold" style={{ color: 'var(--secondary)' }}>{timeLeft.minutes}</div>
+                                        <div className="text-xs text-gray-500">Minutes</div>
+                                    </div>
+                                    <div className="text-center p-2 bg-gray-100 rounded">
+                                        <div className="text-2xl font-bold" style={{ color: 'var(--secondary)' }}>{timeLeft.seconds}</div>
+                                        <div className="text-xs text-gray-500">Seconds</div>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex justify-center">
+                                <button
+                                    className="px-6 py-3 rounded-md hover:opacity-90 transition-colors text-white font-medium w-full sm:w- cursor-pointer"
+                                    style={{ backgroundColor: timeLeft.isExpired ? 'var(--neutral-dark)' : 'var(--primary)' }}
+                                    onClick={() => navigate(`/dashboard/marathon-registration/${id}`)}
+                                    disabled={timeLeft.isExpired}
+                                >
+                                    {timeLeft.isExpired ? 'Registration Closed' : 'Register Now'}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
