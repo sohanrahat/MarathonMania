@@ -42,17 +42,6 @@ const MarathonDetails = () => {
 
                 if (foundMarathon) {
                     setMarathon(foundMarathon);
-
-                    // registration count
-                    try {
-                        const registrationsResponse = await fetch(`http://localhost:3000/registrations/count/${id}`);
-                        if (registrationsResponse.ok) {
-                            const countData = await registrationsResponse.json();
-                            setRegistrationCount(countData.count || 0);
-                        }
-                    } catch (countErr) {
-                        // console.error('Error fetching registration count:', countErr);
-                    }
                 } else {
                     throw new Error('Marathon not found');
                 }
@@ -65,6 +54,34 @@ const MarathonDetails = () => {
         };
 
         fetchMarathonDetails();
+    }, [id]);
+
+    useEffect(() => {
+        if (!id) return;
+
+        const fetchRegistrations = async () => {
+            try {
+                // Fetch all registrations
+                const timestamp = new Date().getTime();
+                const response = await fetch(`http://localhost:3000/registrations?t=${timestamp}`);
+
+                if (response.ok) {
+                    const allRegistrations = await response.json();
+                    // Count registrations for this marathon
+                    const count = allRegistrations.filter(reg =>
+                        reg.marathonId === id ||
+                        reg.marathonId?.$oid === id
+                    ).length;
+
+                    setRegistrationCount(count);
+                }
+            } catch (err) {
+            }
+        };
+
+        fetchRegistrations();
+        const intervalId = setInterval(fetchRegistrations, 2000);
+        return () => clearInterval(intervalId);
     }, [id]);
 
     // Countdown timer 
