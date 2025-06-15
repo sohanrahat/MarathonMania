@@ -4,9 +4,10 @@ import '../styles/colors.css';
 import { FaUser, FaEnvelope, FaLock, FaImage } from 'react-icons/fa';
 import { AuthContext } from '../Context/AuthProvider';
 import Swal from 'sweetalert2';
+import { getAuth } from 'firebase/auth';
 
 const Register = () => {
-    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const { createUser, updateUserProfile, auth } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -71,13 +72,16 @@ const Register = () => {
                     text: 'Welcome to MarathonMania!',
                     confirmButtonColor: 'var(--primary)'
                 }).then(() => {
-                    navigate('/');
+                    // Sign out the user after registration
+                    auth.signOut().then(() => {
+                        navigate('/');
+                    });
                 });
             })
             .catch(err => {
                 setLoading(false);
                 setError(err.message);
-                console.error(err);
+                // console.error(err);
             });
     };
 
