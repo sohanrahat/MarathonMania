@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 
 const MyApplications = () => {
     const [applications, setApplications] = useState([]);
+    const [filteredApplications, setFilteredApplications] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [applicationToUpdate, setApplicationToUpdate] = useState(null);
@@ -16,12 +18,11 @@ const MyApplications = () => {
             fetch('http://localhost:3000/registrations')
                 .then(res => res.json())
                 .then(data => {
-                    // console.log('All registrations:', data);
                     const userApplications = data.filter(application =>
                         application.email === user.email
                     );
-                    // console.log('User applications:', userApplications);
                     setApplications(userApplications);
+                    setFilteredApplications(userApplications);
                     setLoading(false);
                 })
                 .catch(error => {
@@ -30,6 +31,22 @@ const MyApplications = () => {
                 });
         }
     }, [user]);
+
+    // Handle search by title
+    const handleSearch = (e) => {
+        const term = e.target.value;
+        setSearchTerm(term);
+
+        if (term.trim() === '') {
+            setFilteredApplications(applications);
+        } else {
+            // Client-side filtering
+            const filtered = applications.filter(app =>
+                app.marathonTitle.toLowerCase().includes(term.toLowerCase())
+            );
+            setFilteredApplications(filtered);
+        }
+    };
 
     const formatDate = (date, isShort = false) => {
         if (!date) return '';
@@ -76,16 +93,16 @@ const MyApplications = () => {
             }
         });
     };
-    
+
     const handleUpdate = (application) => {
         setApplicationToUpdate(application);
         setShowModal(true);
     };
-    
+
     const handleUpdateSubmit = (e) => {
         e.preventDefault();
         const form = e.target;
-        
+
         const updatedApplication = {
             firstName: form.firstName.value,
             lastName: form.lastName.value,
@@ -94,7 +111,7 @@ const MyApplications = () => {
             address: form.address.value,
             emergencyContact: form.emergencyContact.value
         };
-        
+
         fetch(`http://localhost:3000/registrations/${applicationToUpdate._id}`, {
             method: 'PUT',
             headers: {
@@ -102,34 +119,45 @@ const MyApplications = () => {
             },
             body: JSON.stringify(updatedApplication)
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.modifiedCount > 0 || data.acknowledged === true) {
-                // Update the application in the state
-                const updatedApplications = applications.map(a => 
-                    a._id === applicationToUpdate._id ? {...a, ...updatedApplication} : a
-                );
-                setApplications(updatedApplications);
-                setShowModal(false);
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount > 0 || data.acknowledged === true) {
+                    const updatedApplications = applications.map(a =>
+                        a._id === applicationToUpdate._id ? { ...a, ...updatedApplication } : a
+                    );
+                    setApplications(updatedApplications);
+                    setShowModal(false);
+                    Swal.fire(
+                        'Updated!',
+                        'Your application has been updated.',
+                        'success'
+                    );
+                }
+            })
+            .catch(error => {
                 Swal.fire(
-                    'Updated!',
-                    'Your application has been updated.',
-                    'success'
+                    'Error!',
+                    'There was a problem updating the application.',
+                    'error'
                 );
-            }
-        })
-        .catch(error => {
-            Swal.fire(
-                'Error!',
-                'There was a problem updating the application.',
-                'error'
-            );
-        });
+            });
     };
 
     return (
         <div className="container mx-auto p-4" style={{ overflowX: 'hidden' }}>
             <h2 className="text-2xl font-semibold mb-4">My Applications</h2>
+
+            {/* Search input */}
+            <div className="mb-4">
+                <input
+                    type="text"
+                    placeholder="Search by marathon title..."
+                    className="w-full md:w-1/2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                    style={{ borderColor: 'var(--secondary)', focusRing: 'var(--secondary)' }}
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
+            </div>
 
             {loading ? (
                 <div className="flex justify-center items-center py-16">
@@ -137,6 +165,8 @@ const MyApplications = () => {
                 </div>
             ) : applications.length === 0 ? (
                 <p className="text-center py-8">No applications found. Register for a marathon!</p>
+            ) : filteredApplications.length === 0 ? (
+                <p className="text-center py-8">No applications match your search. Try a different term.</p>
             ) : (
                 <>
                     {/* large screens only */}
@@ -155,7 +185,7 @@ const MyApplications = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {applications.map((application, index) => (
+                                    {filteredApplications.map((application, index) => (
                                         <tr key={application._id || index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate">
                                                 {application.marathonTitle}
@@ -202,7 +232,7 @@ const MyApplications = () => {
                     {/* Cards for small and medium screens */}
                     <div className="lg:hidden">
                         <div className="grid grid-cols-1 gap-4">
-                            {applications.map((application, index) => (
+                            {filteredApplications.map((application, index) => (
                                 <div key={application._id || index} className="bg-white p-4 rounded-lg shadow">
                                     <h3 className="text-lg font-semibold text-gray-900 mb-2">{application.marathonTitle}</h3>
 
@@ -258,28 +288,28 @@ const MyApplications = () => {
                     </div>
                 </>
             )}
-            
+
             {/* Update Modal */}
             {showModal && applicationToUpdate && (
                 <div className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
                         <div className="flex justify-between items-center p-4 border-b">
                             <h3 className="text-lg font-semibold">Update Application</h3>
-                            <button 
+                            <button
                                 onClick={() => setShowModal(false)}
                                 className="text-gray-500 hover:text-gray-700"
                             >
                                 <FaTimes />
                             </button>
                         </div>
-                        
+
                         <form onSubmit={handleUpdateSubmit} className="p-4">
                             <div className="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                                    <input 
-                                        type="text" 
-                                        name="firstName" 
+                                    <input
+                                        type="text"
+                                        name="firstName"
                                         defaultValue={applicationToUpdate.firstName}
                                         className="w-full px-3 py-2 border rounded-md"
                                         required
@@ -287,61 +317,61 @@ const MyApplications = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                                    <input 
-                                        type="text" 
-                                        name="lastName" 
+                                    <input
+                                        type="text"
+                                        name="lastName"
                                         defaultValue={applicationToUpdate.lastName}
                                         className="w-full px-3 py-2 border rounded-md"
                                         required
                                     />
                                 </div>
                             </div>
-                            
+
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
-                                <input 
-                                    type="text" 
-                                    name="contactNumber" 
+                                <input
+                                    type="text"
+                                    name="contactNumber"
                                     defaultValue={applicationToUpdate.contactNumber}
                                     className="w-full px-3 py-2 border rounded-md"
                                     required
                                 />
                             </div>
-                            
+
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                <input 
-                                    type="email" 
-                                    name="email" 
+                                <input
+                                    type="email"
+                                    name="email"
                                     defaultValue={applicationToUpdate.email}
                                     className="w-full px-3 py-2 border rounded-md"
                                     required
                                     readOnly
                                 />
                             </div>
-                            
+
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                                <input 
-                                    type="text" 
-                                    name="address" 
+                                <input
+                                    type="text"
+                                    name="address"
                                     defaultValue={applicationToUpdate.address}
                                     className="w-full px-3 py-2 border rounded-md"
                                     required
                                 />
                             </div>
-                            
+
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Emergency Contact</label>
-                                <input 
-                                    type="text" 
-                                    name="emergencyContact" 
+                                <input
+                                    type="text"
+                                    name="emergencyContact"
                                     defaultValue={applicationToUpdate.emergencyContact}
                                     className="w-full px-3 py-2 border rounded-md"
                                     required
                                 />
                             </div>
-                            
+
                             <div className="flex justify-end gap-2 mt-6">
                                 <button
                                     type="button"
