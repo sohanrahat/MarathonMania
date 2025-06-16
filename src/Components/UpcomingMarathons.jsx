@@ -124,10 +124,7 @@ const UpcomingMarathons = () => {
                                     </p>
                                 </div>
 
-                                <button className="mt-4 w-full py-2 rounded font-medium transition-colors duration-300"
-                                    style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}>
-                                    Register Now
-                                </button>
+
                             </div>
                         </div>
                     ))}
