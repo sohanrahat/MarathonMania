@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import '../styles/colors.css';
 import { AuthContext } from '../Context/AuthProvider';
 import { FaSpinner } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const MyMarathons = () => {
     const [marathons, setMarathons] = useState([]);
@@ -13,16 +14,16 @@ const MyMarathons = () => {
             fetch('http://localhost:3000/marathons')
                 .then(res => res.json())
                 .then(data => {
-                    console.log('All marathons:', data);
-                    const userMarathons = data.filter(marathon => 
+                    // console.log('All marathons:', data);
+                    const userMarathons = data.filter(marathon =>
                         marathon.creatorEmail === user.email
                     );
-                    console.log('User marathons:', userMarathons);
+                    // console.log('User marathons:', userMarathons);
                     setMarathons(userMarathons);
                     setLoading(false);
                 })
                 .catch(error => {
-                    console.error('Error fetching marathons:', error);
+                    // console.error('Error fetching marathons:', error);
                     setLoading(false);
                 });
         }
@@ -34,6 +35,52 @@ const MyMarathons = () => {
             ? { month: 'short', day: 'numeric' }
             : { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(date).toLocaleDateString('en-US', options);
+    };
+
+    const handleDelete = (id) => {
+        // console.log('Deleting marathon with ID:', id);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--primary)',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/marathons/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(res => {
+                        // console.log('Delete response status:', res.status);
+                        return res.json();
+                    })
+                    .then(data => {
+                        // console.log('Delete response data:', data);
+                        if (data.deletedCount > 0 || data.acknowledged === true) {
+
+                            setMarathons(marathons.filter(marathon => marathon._id !== id));
+                            Swal.fire(
+                                'Deleted!',
+                                'Your marathon has been deleted.',
+                                'success'
+                            );
+                        } else {
+                            throw new Error('Delete operation not acknowledged');
+                        }
+                    })
+                    .catch(error => {
+                        // console.error('Error deleting marathon:', error);
+                        Swal.fire(
+                            'Error!',
+                            'There was a problem deleting the marathon.',
+                            'error'
+                        );
+                    });
+            }
+        });
     };
 
     return (
@@ -84,6 +131,7 @@ const MyMarathons = () => {
                                                 <button
                                                     className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
                                                     style={{ backgroundColor: 'var(--primary)' }}
+                                                    onClick={() => handleDelete(marathon._id)}
                                                 >
                                                     Delete
                                                 </button>
@@ -133,8 +181,9 @@ const MyMarathons = () => {
                                             Update
                                         </button>
                                         <button
-                                            className="py-2 text-white text-xs rounded hover:opacity-90"
+                                            className=" cursor-pointer py-2 text-white text-xs rounded hover:opacity-90"
                                             style={{ backgroundColor: 'var(--primary)' }}
+                                            onClick={() => handleDelete(marathon._id)}
                                         >
                                             Delete
                                         </button>
