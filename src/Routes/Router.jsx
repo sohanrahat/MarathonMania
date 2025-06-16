@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router";
+import PrivateRoute from "../Context/PrivateRoute";
 import Root from "../Layouts/Root";
 import ErrorPage from "../Pages/ErrorPage";
 import Home from "../Pages/Home";
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "dashboard",
-                element: <DashboardLayout />,
+                element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
                 children: [
                     {
                         path: "all-marathons",
