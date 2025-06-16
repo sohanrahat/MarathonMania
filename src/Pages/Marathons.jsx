@@ -7,19 +7,34 @@ const Marathons = ({ limit, showTitle = true }) => {
     const navigate = useNavigate();
     const [marathons, setMarathons] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [sortOrder, setSortOrder] = useState('desc');
 
     useEffect(() => {
-        fetch('http://localhost:3000/marathons')
+        fetchMarathons();
+    }, [sortOrder]);
+
+    const fetchMarathons = () => {
+        setLoading(true);
+        fetch(`http://localhost:3000/marathons?sort=${sortOrder}`)
             .then(res => res.json())
             .then(data => {
-                setMarathons(data);
+                // Fallback client-side sorting if server sorting doesn't work
+                const sortedData = [...data].sort((a, b) => {
+                    // Try different date fields that might exist
+                    const dateA = new Date(a.createdAt || a.marathonStartDate || a.startRegistrationDate || 0);
+                    const dateB = new Date(b.createdAt || b.marathonStartDate || b.startRegistrationDate || 0);
+
+                    return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+                });
+
+                setMarathons(sortedData);
                 setLoading(false);
             })
             .catch(error => {
-                console.error('Error fetching marathons:', error);
+                // console.error('Error fetching marathons:', error);
                 setLoading(false);
             });
-    }, []);
+    };
 
     const formatDate = (date) => {
         if (!date) return '';
@@ -44,6 +59,18 @@ const Marathons = ({ limit, showTitle = true }) => {
                         <div className="h-1 w-24 mx-auto mb-8" style={{ backgroundColor: 'var(--primary)' }}></div>
                     </>
                 )}
+
+                <div className="flex justify-end mb-6">
+                    <select
+                        className="px-4 py-2 border rounded-md bg-white"
+                        value={sortOrder}
+                        onChange={(e) => setSortOrder(e.target.value)}
+                        style={{ borderColor: 'var(--primary)' }}
+                    >
+                        <option value="desc">Newest First</option>
+                        <option value="asc">Oldest First</option>
+                    </select>
+                </div>
 
                 {loading ? (
                     <div className="flex justify-center items-center py-16">
