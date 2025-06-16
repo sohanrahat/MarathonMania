@@ -22,6 +22,7 @@ const AddMarathon = () => {
         newMarathon.endRegistrationDate = endRegistrationDate;
         newMarathon.marathonStartDate = marathonStartDate;
         newMarathon.creatorEmail = user.email;
+        newMarathon.createdAt = new Date();
 
         // Send data to API
         fetch('http://localhost:3000/marathons',

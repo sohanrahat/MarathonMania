@@ -18,20 +18,11 @@ const Marathons = ({ limit, showTitle = true }) => {
         fetch(`http://localhost:3000/marathons?sort=${sortOrder}`)
             .then(res => res.json())
             .then(data => {
-                // Fallback client-side sorting if server sorting doesn't work
-                const sortedData = [...data].sort((a, b) => {
-                    // Try different date fields that might exist
-                    const dateA = new Date(a.createdAt || a.marathonStartDate || a.startRegistrationDate || 0);
-                    const dateB = new Date(b.createdAt || b.marathonStartDate || b.startRegistrationDate || 0);
-
-                    return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
-                });
-
-                setMarathons(sortedData);
+                setMarathons(data);
                 setLoading(false);
             })
             .catch(error => {
-                // console.error('Error fetching marathons:', error);
+                console.error('Error fetching marathons:', error);
                 setLoading(false);
             });
     };
