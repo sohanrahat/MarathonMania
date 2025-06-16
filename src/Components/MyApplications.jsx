@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import '../styles/colors.css';
 import { AuthContext } from '../Context/AuthProvider';
 import { FaSpinner } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const MyApplications = () => {
     const [applications, setApplications] = useState([]);
@@ -13,16 +14,16 @@ const MyApplications = () => {
             fetch('http://localhost:3000/registrations')
                 .then(res => res.json())
                 .then(data => {
-                    console.log('All registrations:', data);
+                    // console.log('All registrations:', data);
                     const userApplications = data.filter(application =>
                         application.email === user.email
                     );
-                    console.log('User applications:', userApplications);
+                    // console.log('User applications:', userApplications);
                     setApplications(userApplications);
                     setLoading(false);
                 })
                 .catch(error => {
-                    console.error('Error fetching registrations:', error);
+                    // console.error('Error fetching registrations:', error);
                     setLoading(false);
                 });
         }
@@ -34,6 +35,44 @@ const MyApplications = () => {
             ? { month: 'short', day: 'numeric' }
             : { year: 'numeric', month: 'short', day: 'numeric' };
         return new Date(date).toLocaleDateString('en-US', options);
+    };
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: 'var(--primary)',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/registrations/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount > 0 || data.acknowledged === true) {
+                            setApplications(applications.filter(application => application._id !== id));
+                            Swal.fire(
+                                'Deleted!',
+                                'Your application has been deleted.',
+                                'success'
+                            );
+                        } else {
+                            throw new Error('Delete operation not acknowledged');
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Error!',
+                            'There was a problem deleting the application.',
+                            'error'
+                        );
+                    });
+            }
+        });
     };
 
     return (
@@ -94,6 +133,7 @@ const MyApplications = () => {
                                                     <button
                                                         className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
                                                         style={{ backgroundColor: 'var(--primary)' }}
+                                                        onClick={() => handleDelete(application._id)}
                                                     >
                                                         Delete
                                                     </button>
@@ -146,6 +186,7 @@ const MyApplications = () => {
                                             <button
                                                 className="py-2 px-3 text-white text-xs rounded hover:opacity-90"
                                                 style={{ backgroundColor: 'var(--primary)' }}
+                                                onClick={() => handleDelete(application._id)}
                                             >
                                                 Delete
                                             </button>
