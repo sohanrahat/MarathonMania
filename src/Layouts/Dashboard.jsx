@@ -1,8 +1,9 @@
-import React from 'react';
-import { Outlet } from 'react-router';
+import React, { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import DashNav from '../Components/DashNav';
 
 const Dashboard = () => {
+
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-6" style={{ color: 'var(--secondary-dark)' }}>Dashboard</h1>

@@ -61,9 +61,14 @@ const router = createBrowserRouter([
                         element: <AllMarathons />
                     },
                     {
-                        path: "marathons",
+                        path: "my-marathons",
                         element: <MyMarathons />
                     },
+                    {
+                        index: true,
+                        element: <MyMarathons />
+                    },
+
                     {
                         path: "applications",
                         element: <MyApplications />

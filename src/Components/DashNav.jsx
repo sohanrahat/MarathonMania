@@ -24,7 +24,7 @@ const DashNav = () => {
                 </li>
                 <li>
                     <NavLink
-                        to="marathons"
+                        to="my-marathons"
                         className={({ isActive }) =>
                             isActive
                                 ? "px-4 py-2 rounded-md font-medium"
