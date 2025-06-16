@@ -9,27 +9,24 @@ const MyMarathons = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [marathonToUpdate, setMarathonToUpdate] = useState(null);
-    const { user } = useContext(AuthContext);
+    const { user, axiosSecure } = useContext(AuthContext);
 
     useEffect(() => {
         if (user) {
-            fetch('http://localhost:3000/marathons')
-                .then(res => res.json())
-                .then(data => {
-                    // console.log('All marathons:', data);
-                    const userMarathons = data.filter(marathon =>
-                        marathon.creatorEmail === user.email
-                    );
-                    // console.log('User marathons:', userMarathons);
-                    setMarathons(userMarathons);
+            setLoading(true);
+            // Use the protected endpoint that returns only user's marathons
+            axiosSecure.get('/my-marathons')
+                .then(response => {
+                    console.log('Marathons response:', response.data);
+                    setMarathons(response.data);
                     setLoading(false);
                 })
                 .catch(error => {
-                    // console.error('Error fetching marathons:', error);
+                    console.error('Error fetching marathons:', error);
                     setLoading(false);
                 });
         }
-    }, [user]);
+    }, [user, axiosSecure]);
 
     const formatDate = (date, isShort = false) => {
         if (!date) return '';
@@ -50,13 +47,9 @@ const MyMarathons = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/marathons/${id}`, {
-                    method: 'DELETE'
-                })
-                    .then(res => {
-                        return res.json();
-                    })
-                    .then(data => {
+                axiosSecure.delete(`/marathons/${id}`)
+                    .then(response => {
+                        const data = response.data;
                         if (data.deletedCount > 0 || data.acknowledged === true) {
                             setMarathons(marathons.filter(marathon => marathon._id !== id));
                             Swal.fire(
@@ -94,18 +87,13 @@ const MyMarathons = () => {
             runningDistance: form.distance.value,
             startRegistrationDate: form.startRegistration.value,
             endRegistrationDate: form.endRegistration.value,
-            marathonStartDate: form.marathonDate.value
+            marathonStartDate: form.marathonDate.value,
+            organizerEmail: user.email
         };
 
-        fetch(`http://localhost:3000/marathons/${marathonToUpdate._id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedMarathon)
-        })
-            .then(res => res.json())
-            .then(data => {
+        axiosSecure.put(`/marathons/${marathonToUpdate._id}`, updatedMarathon)
+            .then(response => {
+                const data = response.data;
                 if (data.modifiedCount > 0 || data.acknowledged === true) {
                     // Update the marathon in the state
                     const updatedMarathons = marathons.map(m =>
@@ -157,7 +145,7 @@ const MyMarathons = () => {
                                 </thead>
                                 <tbody>
                                     {marathons.map((marathon, index) => (
-                                        <tr key={marathon.id || index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                                        <tr key={marathon._id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate">
                                                 {marathon.title}
                                             </th>
@@ -194,42 +182,24 @@ const MyMarathons = () => {
                     <div className="lg:hidden">
                         <div className="grid grid-cols-1 gap-4">
                             {marathons.map((marathon, index) => (
-                                <div key={marathon.id || index} className="bg-white p-4 rounded-lg shadow">
+                                <div key={marathon._id} className="bg-white p-4 rounded-lg shadow">
                                     <h3 className="text-lg font-semibold text-gray-900 mb-2">{marathon.title}</h3>
-
-                                    <div className="grid grid-cols-2 gap-2 mb-3">
-                                        <div>
-                                            <p className="text-xs text-gray-500">Location</p>
-                                            <p className="text-sm">{marathon.location}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-xs text-gray-500">Distance</p>
-                                            <p className="text-sm">{marathon.runningDistance}</p>
-                                        </div>
+                                    <div className="space-y-2 mb-4">
+                                        <p><span className="font-medium">Location:</span> {marathon.location}</p>
+                                        <p><span className="font-medium">Distance:</span> {marathon.runningDistance}</p>
+                                        <p><span className="font-medium">Registration:</span> {formatDate(marathon.startRegistrationDate)} - {formatDate(marathon.endRegistrationDate)}</p>
+                                        <p><span className="font-medium">Marathon Date:</span> {formatDate(marathon.marathonStartDate)}</p>
                                     </div>
-
-                                    <div className="mb-3">
-                                        <p className="text-xs text-gray-500">Registration Period</p>
-                                        <p className="text-sm">
-                                            {formatDate(marathon.startRegistrationDate, true)} - {formatDate(marathon.endRegistrationDate, true)}
-                                        </p>
-                                    </div>
-
-                                    <div className="mb-4">
-                                        <p className="text-xs text-gray-500">Marathon Date</p>
-                                        <p className="text-sm">{formatDate(marathon.marathonStartDate)}</p>
-                                    </div>
-
-                                    <div className="flex flex-col sm:flex-row gap-2">
+                                    <div className="flex space-x-2">
                                         <button
-                                            className="py-2 text-white text-xs rounded hover:opacity-90"
+                                            className="flex-1 px-3 py-2 text-white text-sm rounded hover:opacity-90"
                                             style={{ backgroundColor: 'var(--secondary)' }}
                                             onClick={() => handleUpdate(marathon)}
                                         >
                                             Update
                                         </button>
                                         <button
-                                            className=" cursor-pointer py-2 text-white text-xs rounded hover:opacity-90"
+                                            className="flex-1 px-3 py-2 text-white text-sm rounded hover:opacity-90"
                                             style={{ backgroundColor: 'var(--primary)' }}
                                             onClick={() => handleDelete(marathon._id)}
                                         >
@@ -243,12 +213,12 @@ const MyMarathons = () => {
                 </>
             )}
 
-            {/* Update Modal */}
-            {showModal && marathonToUpdate && (
-                <div className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-                        <div className="flex justify-between items-center p-4 border-b">
-                            <h3 className="text-lg font-semibold">Update Marathon</h3>
+            {/* Update Marathon Modal */}
+            {showModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-semibold" style={{ color: 'var(--primary)' }}>Update Marathon</h3>
                             <button
                                 onClick={() => setShowModal(false)}
                                 className="text-gray-500 hover:text-gray-700"
@@ -257,14 +227,14 @@ const MyMarathons = () => {
                             </button>
                         </div>
 
-                        <form onSubmit={handleUpdateSubmit} className="p-4">
+                        <form onSubmit={handleUpdateSubmit}>
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                                 <input
                                     type="text"
                                     name="title"
-                                    defaultValue={marathonToUpdate.title}
-                                    className="w-full px-3 py-2 border rounded-md"
+                                    defaultValue={marathonToUpdate?.title}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
                                     required
                                 />
                             </div>
@@ -274,8 +244,8 @@ const MyMarathons = () => {
                                 <input
                                     type="text"
                                     name="location"
-                                    defaultValue={marathonToUpdate.location}
-                                    className="w-full px-3 py-2 border rounded-md"
+                                    defaultValue={marathonToUpdate?.location}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
                                     required
                                 />
                             </div>
@@ -285,8 +255,8 @@ const MyMarathons = () => {
                                 <input
                                     type="text"
                                     name="distance"
-                                    defaultValue={marathonToUpdate.runningDistance}
-                                    className="w-full px-3 py-2 border rounded-md"
+                                    defaultValue={marathonToUpdate?.runningDistance}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
                                     required
                                 />
                             </div>
@@ -296,8 +266,8 @@ const MyMarathons = () => {
                                 <input
                                     type="date"
                                     name="startRegistration"
-                                    defaultValue={marathonToUpdate.startRegistrationDate?.split('T')[0]}
-                                    className="w-full px-3 py-2 border rounded-md"
+                                    defaultValue={marathonToUpdate?.startRegistrationDate?.split('T')[0]}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
                                     required
                                 />
                             </div>
@@ -307,37 +277,37 @@ const MyMarathons = () => {
                                 <input
                                     type="date"
                                     name="endRegistration"
-                                    defaultValue={marathonToUpdate.endRegistrationDate?.split('T')[0]}
-                                    className="w-full px-3 py-2 border rounded-md"
+                                    defaultValue={marathonToUpdate?.endRegistrationDate?.split('T')[0]}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
                                     required
                                 />
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-6">
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Marathon Date</label>
                                 <input
                                     type="date"
                                     name="marathonDate"
-                                    defaultValue={marathonToUpdate.marathonStartDate?.split('T')[0]}
-                                    className="w-full px-3 py-2 border rounded-md"
+                                    defaultValue={marathonToUpdate?.marathonStartDate?.split('T')[0]}
+                                    className="w-full p-2 border border-gray-300 rounded-md"
                                     required
                                 />
                             </div>
 
-                            <div className="flex justify-end gap-2 mt-6">
+                            <div className="flex justify-end">
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                                    className="px-4 py-2 mr-2 border border-gray-300 rounded-md text-gray-700"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 text-sm font-medium text-white rounded-md"
+                                    className="px-4 py-2 rounded-md text-white"
                                     style={{ backgroundColor: 'var(--secondary)' }}
                                 >
-                                    Update Marathon
+                                    Update
                                 </button>
                             </div>
                         </form>

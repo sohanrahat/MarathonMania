@@ -11,26 +11,29 @@ const MyApplications = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [applicationToUpdate, setApplicationToUpdate] = useState(null);
-    const { user } = useContext(AuthContext);
+    const { user, axiosSecure } = useContext(AuthContext);
 
     useEffect(() => {
         if (user) {
-            fetch('http://localhost:3000/registrations')
-                .then(res => res.json())
-                .then(data => {
-                    const userApplications = data.filter(application =>
-                        application.email === user.email
-                    );
-                    setApplications(userApplications);
-                    setFilteredApplications(userApplications);
+            setLoading(true);
+            const token = localStorage.getItem('access-token');
+            // Use the protected endpoint that returns only user's applications
+            axiosSecure.get('/my-applications', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    setApplications(response.data);
+                    setFilteredApplications(response.data);
                     setLoading(false);
                 })
                 .catch(error => {
-                    // console.error('Error fetching registrations:', error);
+                    console.error('Error fetching applications:', error);
                     setLoading(false);
                 });
         }
-    }, [user]);
+    }, [user, axiosSecure]);
 
     // Handle search by title
     const handleSearch = (e) => {
@@ -67,13 +70,13 @@ const MyApplications = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/registrations/${id}`, {
-                    method: 'DELETE'
-                })
-                    .then(res => res.json())
-                    .then(data => {
+                axiosSecure.delete(`/registrations/${id}`)
+                    .then(response => {
+                        const data = response.data;
                         if (data.deletedCount > 0 || data.acknowledged === true) {
-                            setApplications(applications.filter(application => application._id !== id));
+                            const updatedApplications = applications.filter(application => application._id !== id);
+                            setApplications(updatedApplications);
+                            setFilteredApplications(updatedApplications);
                             Swal.fire(
                                 'Deleted!',
                                 'Your application has been deleted.',
@@ -84,6 +87,7 @@ const MyApplications = () => {
                         }
                     })
                     .catch(error => {
+                        console.error('Delete error:', error);
                         Swal.fire(
                             'Error!',
                             'There was a problem deleting the application.',
@@ -112,20 +116,15 @@ const MyApplications = () => {
             emergencyContact: form.emergencyContact.value
         };
 
-        fetch(`http://localhost:3000/registrations/${applicationToUpdate._id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedApplication)
-        })
-            .then(res => res.json())
-            .then(data => {
+        axiosSecure.put(`/registrations/${applicationToUpdate._id}`, updatedApplication)
+            .then(response => {
+                const data = response.data;
                 if (data.modifiedCount > 0 || data.acknowledged === true) {
                     const updatedApplications = applications.map(a =>
                         a._id === applicationToUpdate._id ? { ...a, ...updatedApplication } : a
                     );
                     setApplications(updatedApplications);
+                    setFilteredApplications(updatedApplications);
                     setShowModal(false);
                     Swal.fire(
                         'Updated!',
@@ -135,6 +134,7 @@ const MyApplications = () => {
                 }
             })
             .catch(error => {
+                console.error('Update error:', error);
                 Swal.fire(
                     'Error!',
                     'There was a problem updating the application.',

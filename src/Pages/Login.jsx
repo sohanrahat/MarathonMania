@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router';
+import { Link, useNavigate, useLocation } from 'react-router'; // Fixed import
 import '../styles/colors.css';
 import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
 import { AuthContext } from '../Context/AuthProvider';
@@ -10,7 +10,7 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = location.state?.from?.pathname || '/';
+    const from = location.state?.from || '/';
 
     const [formData, setFormData] = useState({
         email: '',

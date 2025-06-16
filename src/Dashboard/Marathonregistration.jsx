@@ -1,55 +1,40 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { FaSpinner } from 'react-icons/fa';
-import { AuthContext } from '../Context/AuthProvider';
 import Swal from 'sweetalert2';
-import '../styles/colors.css';
+import { AuthContext } from '../Context/AuthProvider';
 
 const MarathonRegistration = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
-    const [marathon, setMarathon] = useState(null);
+    const { user, axiosSecure } = useContext(AuthContext);
+
+    const [marathon, setMarathon] = useState({});
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchMarathonDetails = async () => {
+            if (!user) {
+                setError('Please log in to register for a marathon');
+                setLoading(false);
+                return;
+            }
+
             try {
-                const response = await fetch(`http://localhost:3000/marathons/${id}`);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setMarathon(data);
-                    setLoading(false);
-                    return;
-                }
-
-                const allMarathonsResponse = await fetch('http://localhost:3000/marathons');
-                if (!allMarathonsResponse.ok) {
-                    throw new Error('Failed to fetch marathon details');
-                }
-
-                const allMarathons = await allMarathonsResponse.json();
-                const foundMarathon = allMarathons.find(m =>
-                    (m._id === id) || (m._id?.$oid === id)
-                );
-
-                if (foundMarathon) {
-                    setMarathon(foundMarathon);
-                } else {
-                    throw new Error('Marathon not found');
-                }
+                const response = await axiosSecure.get(`/marathons/${id}`);
+                setMarathon(response.data);
                 setLoading(false);
             } catch (err) {
-                setError(err.message);
+                console.error(err);
+                setError(err.response?.data?.message || 'Failed to fetch marathon details');
                 setLoading(false);
             }
         };
 
         fetchMarathonDetails();
-    }, [id]);
+    }, [id, user, axiosSecure]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,16 +50,11 @@ const MarathonRegistration = () => {
             registrationData.marathonTitle = marathon.title;
             registrationData.marathonDate = marathon.marathonStartDate;
             registrationData.registrationDate = new Date().toISOString();
+            registrationData.userEmail = user.email;
 
-            const response = await fetch('http://localhost:3000/registrations', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(registrationData),
-            });
+            const response = await axiosSecure.post('/registrations', registrationData);
 
-            if (!response.ok) {
+            if (!response.data) {
                 throw new Error('Failed to submit registration');
             }
 

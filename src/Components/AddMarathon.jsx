@@ -8,7 +8,7 @@ const AddMarathon = () => {
     const [startRegistrationDate, setStartRegistrationDate] = useState(null);
     const [endRegistrationDate, setEndRegistrationDate] = useState(null);
     const [marathonStartDate, setMarathonStartDate] = useState(null);
-    const { user } = useContext(AuthContext);
+    const { user, axiosSecure } = useContext(AuthContext);
 
     const handleAddMarathon = (e) => {
         e.preventDefault();
@@ -22,20 +22,13 @@ const AddMarathon = () => {
         newMarathon.endRegistrationDate = endRegistrationDate;
         newMarathon.marathonStartDate = marathonStartDate;
         newMarathon.creatorEmail = user.email;
+        newMarathon.organizerEmail = user.email; // Adding organizerEmail to match backend query
         newMarathon.createdAt = new Date();
 
-        // Send data to API
-        fetch('http://localhost:3000/marathons',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newMarathon),
-            }
-        )
-            .then(res => res.json())
-            .then(data => {
+        // Send data to API 
+        axiosSecure.post('/marathons', newMarathon)
+            .then(response => {
+                const data = response.data;
                 Swal.fire({
                     title: 'Success!',
                     text: 'Marathon added successfully',
