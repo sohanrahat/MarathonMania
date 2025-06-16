@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import '../styles/colors.css';
 import { AuthContext } from '../Context/AuthProvider';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner, FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
 const MyApplications = () => {
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const [applicationToUpdate, setApplicationToUpdate] = useState(null);
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -74,6 +76,56 @@ const MyApplications = () => {
             }
         });
     };
+    
+    const handleUpdate = (application) => {
+        setApplicationToUpdate(application);
+        setShowModal(true);
+    };
+    
+    const handleUpdateSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        
+        const updatedApplication = {
+            firstName: form.firstName.value,
+            lastName: form.lastName.value,
+            contactNumber: form.contactNumber.value,
+            email: form.email.value,
+            address: form.address.value,
+            emergencyContact: form.emergencyContact.value
+        };
+        
+        fetch(`http://localhost:3000/registrations/${applicationToUpdate._id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedApplication)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.modifiedCount > 0 || data.acknowledged === true) {
+                // Update the application in the state
+                const updatedApplications = applications.map(a => 
+                    a._id === applicationToUpdate._id ? {...a, ...updatedApplication} : a
+                );
+                setApplications(updatedApplications);
+                setShowModal(false);
+                Swal.fire(
+                    'Updated!',
+                    'Your application has been updated.',
+                    'success'
+                );
+            }
+        })
+        .catch(error => {
+            Swal.fire(
+                'Error!',
+                'There was a problem updating the application.',
+                'error'
+            );
+        });
+    };
 
     return (
         <div className="container mx-auto p-4" style={{ overflowX: 'hidden' }}>
@@ -127,6 +179,7 @@ const MyApplications = () => {
                                                     <button
                                                         className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
                                                         style={{ backgroundColor: 'var(--secondary)' }}
+                                                        onClick={() => handleUpdate(application)}
                                                     >
                                                         Update
                                                     </button>
@@ -180,6 +233,7 @@ const MyApplications = () => {
                                             <button
                                                 className="py-2 px-3 text-white text-xs rounded hover:opacity-90"
                                                 style={{ backgroundColor: 'var(--secondary)' }}
+                                                onClick={() => handleUpdate(application)}
                                             >
                                                 Update
                                             </button>
@@ -203,6 +257,110 @@ const MyApplications = () => {
                         </div>
                     </div>
                 </>
+            )}
+            
+            {/* Update Modal */}
+            {showModal && applicationToUpdate && (
+                <div className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+                        <div className="flex justify-between items-center p-4 border-b">
+                            <h3 className="text-lg font-semibold">Update Application</h3>
+                            <button 
+                                onClick={() => setShowModal(false)}
+                                className="text-gray-500 hover:text-gray-700"
+                            >
+                                <FaTimes />
+                            </button>
+                        </div>
+                        
+                        <form onSubmit={handleUpdateSubmit} className="p-4">
+                            <div className="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                    <input 
+                                        type="text" 
+                                        name="firstName" 
+                                        defaultValue={applicationToUpdate.firstName}
+                                        className="w-full px-3 py-2 border rounded-md"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                    <input 
+                                        type="text" 
+                                        name="lastName" 
+                                        defaultValue={applicationToUpdate.lastName}
+                                        className="w-full px-3 py-2 border rounded-md"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                                <input 
+                                    type="text" 
+                                    name="contactNumber" 
+                                    defaultValue={applicationToUpdate.contactNumber}
+                                    className="w-full px-3 py-2 border rounded-md"
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input 
+                                    type="email" 
+                                    name="email" 
+                                    defaultValue={applicationToUpdate.email}
+                                    className="w-full px-3 py-2 border rounded-md"
+                                    required
+                                    readOnly
+                                />
+                            </div>
+                            
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                <input 
+                                    type="text" 
+                                    name="address" 
+                                    defaultValue={applicationToUpdate.address}
+                                    className="w-full px-3 py-2 border rounded-md"
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Emergency Contact</label>
+                                <input 
+                                    type="text" 
+                                    name="emergencyContact" 
+                                    defaultValue={applicationToUpdate.emergencyContact}
+                                    className="w-full px-3 py-2 border rounded-md"
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="flex justify-end gap-2 mt-6">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 text-sm font-medium text-white rounded-md"
+                                    style={{ backgroundColor: 'var(--secondary)' }}
+                                >
+                                    Update Application
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             )}
         </div>
     );
