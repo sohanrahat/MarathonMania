@@ -8,8 +8,8 @@ const AllMarathons = () => {
     const [marathons, setMarathons] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [sortOrder, setSortOrder] = useState('desc'); // Default to newest first
-    const { user } = useContext(AuthContext); // Get authenticated user
+    const [sortOrder, setSortOrder] = useState('desc');
+    const { user } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,10 +38,9 @@ const AllMarathons = () => {
 
     const handleViewDetails = (id) => {
         if (!user) {
-            // Redirect to login page with return URL
             navigate('/login', { state: { from: `/dashboard/marathon-details/${id}` } });
         } else {
-            // Client-side nav to details
+
             navigate(`/dashboard/marathon-details/${id}`);
         }
     };

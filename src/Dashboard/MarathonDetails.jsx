@@ -19,7 +19,7 @@ const MarathonDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // 1️⃣ Fetch marathon detail (protected)
+
     useEffect(() => {
         if (!user) {
             setError('Please log in to view marathon details');
@@ -27,7 +27,6 @@ const MarathonDetails = () => {
             return;
         }
 
-        // Ensure token is available before making the request
         const token = localStorage.getItem('access-token');
         if (!token) {
             setError('Authentication token not found. Please log in again.');
@@ -42,7 +41,7 @@ const MarathonDetails = () => {
                 setLoading(false);
             })
             .catch(err => {
-                console.error(err);
+                // console.error(err);
                 if (err.response?.status === 401) {
                     setError('Session expired. Please log in again.');
                 } else {
@@ -52,25 +51,22 @@ const MarathonDetails = () => {
             });
     }, [id, user, axiosSecure]);
 
-    // 2️⃣ Fetch all registrations and derive count & user-registered flag
     useEffect(() => {
         if (!marathon || !user) return;
 
         axiosSecure
             .get(`/registrations`)
             .then(res => {
-                // Filter registrations for this marathon on the client side
                 const regs = res.data.filter(reg => reg.marathonId === id);
                 setRegistrationCount(regs.length);
 
-                // check if current user already registered
                 const registered = regs.some(r => r.email === user.email);
                 setAlreadyRegistered(registered);
             })
-            .catch(err => console.error('Error fetching registrations:', err));
+        // .catch(err => console.error('Error fetching registrations:', err));
     }, [marathon, user, id, axiosSecure]);
 
-    // 3️⃣ Countdown timer for endRegistrationDate
+    // 3️⃣ Countdown timer 
     useEffect(() => {
         if (!marathon) return;
 

@@ -27,7 +27,7 @@ const MarathonRegistration = () => {
                 setMarathon(response.data);
                 setLoading(false);
             } catch (err) {
-                console.error(err);
+                // console.error(err);
                 setError(err.response?.data?.message || 'Failed to fetch marathon details');
                 setLoading(false);
             }
@@ -45,7 +45,7 @@ const MarathonRegistration = () => {
             const formData = new FormData(form);
             const registrationData = Object.fromEntries(formData.entries());
 
-            // Add additional data
+
             registrationData.marathonId = id;
             registrationData.marathonTitle = marathon.title;
             registrationData.marathonDate = marathon.marathonStartDate;

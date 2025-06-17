@@ -22,7 +22,7 @@ const Marathons = ({ limit, showTitle = true }) => {
                 setLoading(false);
             })
             .catch(error => {
-                console.error('Error fetching marathons:', error);
+                // console.error('Error fetching marathons:', error);
                 setLoading(false);
             });
     };

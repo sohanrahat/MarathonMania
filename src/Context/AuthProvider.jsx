@@ -11,8 +11,8 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    
-    // Create axios instance with authorization header
+
+    // Create axios 
     const axiosSecure = axios.create({
         baseURL: 'http://localhost:3000'
     });
@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
             .then(result => {
                 const loggedUser = result.user;
-                // Get JWT token after successful login
+                // token after login
                 getJWTToken(loggedUser.email);
                 return result;
             });
@@ -54,8 +54,8 @@ const AuthProvider = ({ children }) => {
                 return result;
             });
     };
-    
-    // Get JWT token
+
+    // Get token
     const getJWTToken = async (email) => {
         try {
             const response = await axios.post('http://localhost:3000/jwt', { email });
@@ -63,20 +63,20 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem('access-token', token);
             return token;
         } catch (error) {
-            console.error('Error getting JWT token:', error);
+            // console.error('Error getting JWT token:', error);
             return null;
         }
     };
-    
+
     // Logout
     const logOut = () => {
         localStorage.removeItem('access-token');
         return signOut(auth);
     };
 
-    // Set authorization header for all requests and handle 401 errors
+    // Set authorization header 
     useEffect(() => {
-        // Request interceptor - Add token to requests
+        //Add token to requests
         axiosSecure.interceptors.request.use(
             (config) => {
                 const token = localStorage.getItem('access-token');
@@ -87,8 +87,7 @@ const AuthProvider = ({ children }) => {
             },
             (error) => Promise.reject(error)
         );
-        
-        // Response interceptor - Handle 401 errors
+
         axiosSecure.interceptors.response.use(
             (response) => response,
             async (error) => {
@@ -108,15 +107,15 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            
-            // If user is logged in, check if we need a new token
+
+            // Check if we need a new token
             if (currentUser) {
                 const token = localStorage.getItem('access-token');
                 if (!token) {
                     getJWTToken(currentUser.email);
                 }
             }
-            
+
             setLoading(false);
         });
 
