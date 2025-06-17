@@ -52,9 +52,14 @@ const Navbar = () => {
                             {loading ? (
                                 <div className="btn btn-ghost btn-circle loading" style={{ color: 'var(--primary)' }}></div>
                             ) : (
-                                <div className="btn btn-ghost btn-circle avatar">
-                                    <div className="w-10 rounded-full">
-                                        <img alt="User Avatar" src={user.photoURL || 'https://i.ibb.co/MBtjqXQ/no-avatar.gif'} />
+                                <div className="flex items-center gap-2">
+                                    <span className="hidden md:block font-medium" style={{ color: 'var(--secondary)' }}>
+                                        {user.displayName || 'User'}
+                                    </span>
+                                    <div className="btn btn-ghost btn-circle avatar">
+                                        <div className="w-10 rounded-full">
+                                            <img alt="User Avatar" src={user.photoURL || 'https://i.ibb.co/MBtjqXQ/no-avatar.gif'} />
+                                        </div>
                                     </div>
                                 </div>
                             )}
