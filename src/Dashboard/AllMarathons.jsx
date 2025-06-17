@@ -19,7 +19,7 @@ const AllMarathons = () => {
     const fetchMarathons = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3000/marathons?sort=${sortOrder}`);
+            const response = await fetch(`https://marathon-mania-server.vercel.app/marathons?sort=${sortOrder}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch marathons');
             }

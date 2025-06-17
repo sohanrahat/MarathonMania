@@ -15,7 +15,7 @@ const Marathons = ({ limit, showTitle = true }) => {
 
     const fetchMarathons = () => {
         setLoading(true);
-        fetch(`http://localhost:3000/marathons?sort=${sortOrder}`)
+        fetch(`https://marathon-mania-server.vercel.app/marathons?sort=${sortOrder}`)
             .then(res => res.json())
             .then(data => {
                 setMarathons(data);

@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
 
     // Create axios 
     const axiosSecure = axios.create({
-        baseURL: 'http://localhost:3000'
+        baseURL: 'https://marathon-mania-server.vercel.app'
     });
 
     // Create user 
@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
     // Get token
     const getJWTToken = async (email) => {
         try {
-            const response = await axios.post('http://localhost:3000/jwt', { email });
+            const response = await axios.post('https://marathon-mania-server.vercel.app/jwt', { email });
             const token = response.data.token;
             localStorage.setItem('access-token', token);
             return token;
