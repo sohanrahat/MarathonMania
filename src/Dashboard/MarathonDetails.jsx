@@ -211,8 +211,6 @@ const MarathonDetails = () => {
                                         strokeWidth={12}
                                         colors={['#F7B801', '#A30000']}
                                         colorsTime={[7, 0]}
-                                        colors={['#F7B801', '#A30000']}
-                                        colorsTime={[7, 0]}
                                     >
                                         {({ remainingTime }) => {
                                             const d = Math.floor(remainingTime / 86400);
