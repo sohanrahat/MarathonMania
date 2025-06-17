@@ -14,15 +14,15 @@ const MyMarathons = () => {
     useEffect(() => {
         if (user) {
             setLoading(true);
-            // Use the protected endpoint that returns only user's marathons
+            // user's marathons
             axiosSecure.get('/my-marathons')
                 .then(response => {
-                    console.log('Marathons response:', response.data);
+                    // console.log('Marathons response:', response.data);
                     setMarathons(response.data);
                     setLoading(false);
                 })
                 .catch(error => {
-                    console.error('Error fetching marathons:', error);
+                    // console.error('Error fetching marathons:', error);
                     setLoading(false);
                 });
         }
@@ -95,7 +95,7 @@ const MyMarathons = () => {
             .then(response => {
                 const data = response.data;
                 if (data.modifiedCount > 0 || data.acknowledged === true) {
-                    // Update the marathon in the state
+
                     const updatedMarathons = marathons.map(m =>
                         m._id === marathonToUpdate._id ? { ...m, ...updatedMarathon } : m
                     );

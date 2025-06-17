@@ -74,8 +74,9 @@ const AuthProvider = ({ children }) => {
         return signOut(auth);
     };
 
-    // Set authorization header for all requests
+    // Set authorization header for all requests and handle 401 errors
     useEffect(() => {
+        // Request interceptor - Add token to requests
         axiosSecure.interceptors.request.use(
             (config) => {
                 const token = localStorage.getItem('access-token');
@@ -86,15 +87,34 @@ const AuthProvider = ({ children }) => {
             },
             (error) => Promise.reject(error)
         );
-    }, [axiosSecure]);
+        
+        // Response interceptor - Handle 401 errors
+        axiosSecure.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                if (error.response && error.response.status === 401 && user) {
+                    // Token expired, get a new one
+                    await getJWTToken(user.email);
+                    // Retry the original request
+                    const originalRequest = error.config;
+                    originalRequest.headers.Authorization = `Bearer ${localStorage.getItem('access-token')}`;
+                    return axiosSecure(originalRequest);
+                }
+                return Promise.reject(error);
+            }
+        );
+    }, [axiosSecure, user]);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             
-            // If user is logged in, get JWT token
+            // If user is logged in, check if we need a new token
             if (currentUser) {
-                getJWTToken(currentUser.email);
+                const token = localStorage.getItem('access-token');
+                if (!token) {
+                    getJWTToken(currentUser.email);
+                }
             }
             
             setLoading(false);

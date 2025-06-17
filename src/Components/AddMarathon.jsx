@@ -17,12 +17,12 @@ const AddMarathon = () => {
         const formData = new FormData(form);
         const newMarathon = Object.fromEntries(formData.entries());
 
-        // Add date values that aren't captured by FormData
+        // date values 
         newMarathon.startRegistrationDate = startRegistrationDate;
         newMarathon.endRegistrationDate = endRegistrationDate;
         newMarathon.marathonStartDate = marathonStartDate;
         newMarathon.creatorEmail = user.email;
-        newMarathon.organizerEmail = user.email; // Adding organizerEmail to match backend query
+        newMarathon.organizerEmail = user.email;
         newMarathon.createdAt = new Date();
 
         // Send data to API 

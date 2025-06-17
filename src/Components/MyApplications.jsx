@@ -17,7 +17,7 @@ const MyApplications = () => {
         if (user) {
             setLoading(true);
             const token = localStorage.getItem('access-token');
-            // Use the protected endpoint that returns only user's applications
+            // only user's applications
             axiosSecure.get('/my-applications', {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -29,7 +29,7 @@ const MyApplications = () => {
                     setLoading(false);
                 })
                 .catch(error => {
-                    console.error('Error fetching applications:', error);
+                    // console.error('Error fetching applications:', error);
                     setLoading(false);
                 });
         }
@@ -42,8 +42,8 @@ const MyApplications = () => {
 
         if (term.trim() === '') {
             setFilteredApplications(applications);
-        } else {
-            // Client-side filtering
+        }
+        else {
             const filtered = applications.filter(app =>
                 app.marathonTitle.toLowerCase().includes(term.toLowerCase())
             );
@@ -87,7 +87,7 @@ const MyApplications = () => {
                         }
                     })
                     .catch(error => {
-                        console.error('Delete error:', error);
+                        // console.error('Delete error:', error);
                         Swal.fire(
                             'Error!',
                             'There was a problem deleting the application.',
@@ -134,7 +134,7 @@ const MyApplications = () => {
                 }
             })
             .catch(error => {
-                console.error('Update error:', error);
+                // console.error('Update error:', error);
                 Swal.fire(
                     'Error!',
                     'There was a problem updating the application.',
