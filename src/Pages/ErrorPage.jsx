@@ -1,26 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router';
-import { FaRunning, FaMapMarkerAlt, FaHome } from 'react-icons/fa';
+import { Link, useRouteError } from 'react-router';
+import { FaHome, FaExclamationTriangle } from 'react-icons/fa';
+import Lottie from 'lottie-react';
+import animationData from '../assets/Animation - 1751391406981.json';
 import '../styles/colors.css';
 
 const ErrorPage = () => {
+    const error = useRouteError();
+
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 text-center">
-            <div className="mb-6">
-                <FaRunning className="text-8xl mx-auto" style={{ color: 'var(--primary)' }} />
+        <div className="min-h-screen flex flex-col items-center justify-center text-center">
+            <div className="h-96 w-96 mb-8">
+                <Lottie 
+                    animationData={animationData} 
+                    loop={true}
+                    style={{
+                        filter: 'hue-rotate(20deg) saturate(1.2)'
+                    }}
+                />
             </div>
-            <h1 className="text-9xl font-bold" style={{ color: 'var(--primary)' }}>404</h1>
-            <div className="flex items-center justify-center mt-4 mb-2">
-                <FaMapMarkerAlt className="text-xl mr-2" style={{ color: 'var(--accent)' }} />
-                <h2 className="text-2xl font-semibold">Marathon Not Found</h2>
-            </div>
-            <p className="text-gray-600 mb-8">The Marathon you are looking for doesn't exist or has been moved.</p>
+
+            <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--primary)' }}>
+                You've Taken a Wrong Turn!
+            </h2>
+            <p className="text-gray-600 mb-8 text-lg">
+                It seems you've ventured off the race course. The page you're looking for can't be found.
+            </p>
+
             <Link
                 to="/"
-                className="px-6 py-3 text-white rounded-md transition-all hover:opacity-90 flex items-center"
-                style={{ backgroundColor: 'var(--secondary)' }}
+                className="inline-flex items-center px-8 py-3 text-white rounded-full transition-transform transform hover:scale-105"
+                style={{ backgroundColor: 'var(--primary)' }}
             >
-                <FaHome className="mr-2" /> Back to Home
+                <FaHome className="mr-2" />
+                Back to the Starting Line
             </Link>
         </div>
     );
