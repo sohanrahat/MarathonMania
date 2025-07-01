@@ -62,7 +62,7 @@ const Hero = () => {
             </Swiper>
 
             <div className="absolute top-0 left-0 w-full h-full z-10 flex items-center">
-                <div className="container mx-auto px-4">
+                <div className="w-11/12 mx-auto px-4">
                     <div className="max-w-xl">
                         <h1 className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'var(--neutral-light)' }}>
                             MarathonMania

@@ -16,8 +16,8 @@ const Navbar = () => {
             });
     };
     return (
-        <div>
-            <div className="navbar shadow-sm" style={{ backgroundColor: 'var(--neutral-light)' }}>
+        <div className="py-4">
+            <div className="navbar shadow-sm w-11/12 mx-auto rounded-lg" style={{ backgroundColor: 'var(--neutral-light)' }}>
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden" style={{ color: 'var(--neutral-dark)' }}>
@@ -27,25 +27,30 @@ const Navbar = () => {
                             tabIndex={0}
                             className="menu menu-sm dropdown-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
                             style={{ backgroundColor: 'var(--neutral-light)' }}>
-                            <li><NavLink to="/" style={{ color: 'var(--secondary)' }}>Home</NavLink></li>
-                            <li><NavLink to="/marathons" style={{ color: 'var(--secondary)' }}>Marathons</NavLink></li>
-                            {!loading && user && <li><NavLink to="/dashboard" style={{ color: 'var(--secondary)' }}>Dashboard</NavLink></li>}
+                            <li><NavLink to="/" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Home</NavLink></li>
+                            <li><NavLink to="/marathons" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Marathons</NavLink></li>
+                            <li><NavLink to="/about" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>About Us</NavLink></li>
+                            <li><NavLink to="/contact" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Contact</NavLink></li>
+                            <li><NavLink to="/plans" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Plans</NavLink></li>
+                            {!loading && user && <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Dashboard</NavLink></li>}
                         </ul>
                     </div>
-                    <NavLink to="/" className="btn btn-ghost text-xl" style={{ color: 'var(--primary)' }}>MarathonMania</NavLink>
+                    <NavLink to="/" className=" text-xl" style={{ color: 'var(--primary)' }}>MarathonMania</NavLink>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 gap-3">
-                        <li><NavLink to="/" style={{ color: 'var(--secondary)' }}>Home</NavLink></li>
-                        <li><NavLink to="/marathons" style={{ color: 'var(--secondary)' }}>Marathons</NavLink></li>
-                        {!loading && user && <li><NavLink to="/dashboard" style={{ color: 'var(--secondary)' }}>Dashboard</NavLink></li>}
+                        <li><NavLink to="/" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Home</NavLink></li>
+                        <li><NavLink to="/marathons" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Marathons</NavLink></li>
+                        <li><NavLink to="/about" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>About Us</NavLink></li>
+                        <li><NavLink to="/contact" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Contact</NavLink></li>
+                        <li><NavLink to="/plans" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Plans</NavLink></li>
+                        {!loading && user && <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Dashboard</NavLink></li>}
                     </ul>
                 </div>
                 <div className="navbar-end gap-3">
                     {!loading && !user ? (
                         <>
                             <NavLink to="/login" className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)', border: 'none' }}>Login</NavLink>
-                            <NavLink to="/register" className="btn btn-sm md:btn-md" style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', border: 'none' }}>Register</NavLink>
                         </>
                     ) : (
                         <>

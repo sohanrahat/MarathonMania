@@ -4,6 +4,8 @@ import Root from "../Layouts/Root";
 import ErrorPage from "../Pages/ErrorPage";
 import Home from "../Pages/Home";
 import Marathons from "../Pages/Marathons";
+import About from "../Pages/About";
+import Contact from "../Pages/Contact";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import MyMarathons from "../Components/MyMarathons";
@@ -13,6 +15,7 @@ import AddMarathon from "../Components/AddMarathon";
 import AllMarathons from "../Dashboard/AllMarathons";
 import MarathonDetails from "../Dashboard/MarathonDetails";
 import MarathonRegistration from "../Dashboard/MarathonRegistration";
+import Plans from "../Pages/Plans";
 
 
 const router = createBrowserRouter([
@@ -28,6 +31,18 @@ const router = createBrowserRouter([
             {
                 path: "/marathons",
                 element: <Marathons />
+            },
+            {
+                path: "/about",
+                element: <About />
+            },
+            {
+                path: "/plans",
+                element: <Plans />
+            },
+            {
+                path: "/contact",
+                element: <Contact />
             },
             {
                 path: "/login",
