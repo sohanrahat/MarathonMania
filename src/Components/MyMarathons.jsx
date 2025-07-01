@@ -119,21 +119,21 @@ const MyMarathons = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-2xl font-semibold mb-4">My Marathons</h2>
+            <h2 className="text-2xl font-semibold mb-4" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>My Marathons</h2>
 
             {loading ? (
                 <div className="flex justify-center items-center py-16">
                     <FaSpinner className="animate-spin text-4xl" style={{ color: 'var(--primary)' }} />
                 </div>
             ) : marathons.length === 0 ? (
-                <p className="text-center py-8">No marathons found. Create your first marathon!</p>
+                <p className="text-center py-8" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>No marathons found. Create your first marathon!</p>
             ) : (
                 <>
                     {/* large screens only */}
                     <div className="hidden lg:block">
                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-                                <thead className="text-xs text-white uppercase" style={{ backgroundColor: 'var(--secondary)' }}>
+                                <thead className="text-xs text-white uppercase" style={{ backgroundColor: 'var(--secondary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
                                     <tr>
                                         <th scope="col" className="px-6 py-3">Marathon Title</th>
                                         <th scope="col" className="px-6 py-3">Location</th>
@@ -146,7 +146,7 @@ const MyMarathons = () => {
                                 <tbody>
                                     {marathons.map((marathon, index) => (
                                         <tr key={marathon._id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate">
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
                                                 {marathon.title}
                                             </th>
                                             <td className="px-6 py-4">{marathon.location}</td>
@@ -158,14 +158,14 @@ const MyMarathons = () => {
                                             <td className="px-6 py-4 flex flex-wrap gap-1">
                                                 <button
                                                     className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
-                                                    style={{ backgroundColor: 'var(--secondary)' }}
+                                                    style={{ backgroundColor: 'var(--secondary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                                     onClick={() => handleUpdate(marathon)}
                                                 >
                                                     Update
                                                 </button>
                                                 <button
                                                     className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
-                                                    style={{ backgroundColor: 'var(--primary)' }}
+                                                    style={{ backgroundColor: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                                     onClick={() => handleDelete(marathon._id)}
                                                 >
                                                     Delete
@@ -183,7 +183,7 @@ const MyMarathons = () => {
                         <div className="grid grid-cols-1 gap-4">
                             {marathons.map((marathon, index) => (
                                 <div key={marathon._id} className="bg-white p-4 rounded-lg shadow">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{marathon.title}</h3>
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>{marathon.title}</h3>
                                     <div className="space-y-2 mb-4">
                                         <p><span className="font-medium">Location:</span> {marathon.location}</p>
                                         <p><span className="font-medium">Distance:</span> {marathon.runningDistance}</p>
@@ -193,14 +193,14 @@ const MyMarathons = () => {
                                     <div className="flex space-x-2">
                                         <button
                                             className="flex-1 px-3 py-2 text-white text-sm rounded hover:opacity-90"
-                                            style={{ backgroundColor: 'var(--secondary)' }}
+                                            style={{ backgroundColor: 'var(--secondary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                             onClick={() => handleUpdate(marathon)}
                                         >
                                             Update
                                         </button>
                                         <button
                                             className="flex-1 px-3 py-2 text-white text-sm rounded hover:opacity-90"
-                                            style={{ backgroundColor: 'var(--primary)' }}
+                                            style={{ backgroundColor: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                             onClick={() => handleDelete(marathon._id)}
                                         >
                                             Delete
@@ -218,7 +218,7 @@ const MyMarathons = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-semibold" style={{ color: 'var(--primary)' }}>Update Marathon</h3>
+                            <h3 className="text-xl font-semibold" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Update Marathon</h3>
                             <button
                                 onClick={() => setShowModal(false)}
                                 className="text-gray-500 hover:text-gray-700"
@@ -299,13 +299,14 @@ const MyMarathons = () => {
                                     type="button"
                                     onClick={() => setShowModal(false)}
                                     className="px-4 py-2 mr-2 border border-gray-300 rounded-md text-gray-700"
+                                    style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     className="px-4 py-2 rounded-md text-white"
-                                    style={{ backgroundColor: 'var(--secondary)' }}
+                                    style={{ backgroundColor: 'var(--secondary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                 >
                                     Update
                                 </button>

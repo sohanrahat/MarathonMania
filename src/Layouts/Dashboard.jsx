@@ -11,7 +11,7 @@ const Dashboard = () => {
                 <Navbar />
             </nav>
             <main className="pt-20">
-                <div className="container mx-auto px-4 py-8">
+                <div className="container mx-auto px-4">
                     <h1 className="text-3xl font-bold mb-6" style={{ color: 'var(--secondary-dark)' }}>Dashboard</h1>
                     <DashNav />
                     <div className="bg-white shadow-md rounded-lg p-6">

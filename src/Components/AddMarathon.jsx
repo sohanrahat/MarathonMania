@@ -55,41 +55,44 @@ const AddMarathon = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-center">Add New Marathon</h2>
+        <div className="max-w-4xl mx-auto p-6 rounded-lg shadow-lg" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+            <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: 'var(--text-primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Add New Marathon</h2>
 
             <form onSubmit={handleAddMarathon} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Title */}
                     <div className="col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Marathon Title</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Marathon Title</label>
                         <input
                             type="text"
                             name="title"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}
                             required
                         />
                     </div>
 
                     {/* Creator Email */}
                     <div className="col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Creator Email</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Creator Email</label>
                         <input
                             type="email"
                             name="creatorEmail"
                             value={user?.email || ''}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
+                            className="w-full px-3 py-2 border rounded-md"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-secondary)', borderColor: 'var(--border-color)', opacity: '0.7' }}
                             readOnly
                         />
                     </div>
 
                     {/* Start */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Start Registration Date</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Start Registration Date</label>
                         <DatePicker
                             selected={startRegistrationDate}
                             onChange={date => setStartRegistrationDate(date)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}
                             dateFormat="MMMM d, yyyy"
                             required
                         />
@@ -97,11 +100,12 @@ const AddMarathon = () => {
 
                     {/* End  */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">End Registration Date</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>End Registration Date</label>
                         <DatePicker
                             selected={endRegistrationDate}
                             onChange={date => setEndRegistrationDate(date)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}
                             dateFormat="MMMM d, yyyy"
                             minDate={startRegistrationDate}
                             required
@@ -110,11 +114,12 @@ const AddMarathon = () => {
 
                     {/* Starting Date */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Marathon Start Date</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Marathon Start Date</label>
                         <DatePicker
                             selected={marathonStartDate}
                             onChange={date => setMarathonStartDate(date)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}
                             dateFormat="MMMM d, yyyy"
                             minDate={endRegistrationDate}
                             required
@@ -123,22 +128,24 @@ const AddMarathon = () => {
 
                     {/* Location */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Location</label>
                         <input
                             type="text"
                             name="location"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}
                             required
                         />
                     </div>
 
                     {/* Distance */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Running Distance</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Running Distance</label>
                         <select
                             name="runningDistance"
                             defaultValue="10k"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}
                             required
                         >
                             <option value="3k">3k</option>
@@ -149,23 +156,25 @@ const AddMarathon = () => {
 
                     {/* Description */}
                     <div className="col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Description</label>
                         <textarea
                             name="description"
                             rows="4"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}
                             required
                         ></textarea>
                     </div>
 
                     {/* Image URL */}
                     <div className="col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Marathon Image URL</label>
+                        <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Marathon Image URL</label>
                         <input
                             type="url"
                             name="imageUrl"
                             placeholder="https://example.com/image.jpg"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2"
+                            style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', borderColor: 'var(--border-color)' }}
                             required
                         />
                     </div>
@@ -174,8 +183,8 @@ const AddMarathon = () => {
                 <div className="flex justify-center">
                     <button
                         type="submit"
-                        className="px-6 py-2 text-white font-medium rounded-md transition-colors duration-300"
-                        style={{ backgroundColor: 'var(--primary)' }}
+                        className="px-6 py-2 text-white font-medium rounded-md transition-colors duration-300 hover:opacity-90"
+                        style={{ backgroundColor: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                     >
                         Add Marathon
                     </button>

@@ -105,23 +105,23 @@ const MarathonDetails = () => {
     }
 
     if (error) {
-        return <div className="p-4 text-red-500">Error: {error}</div>;
+        return <div className="p-4 text-red-500" style={{ color: 'var(--text-primary)' }}>Error: {error}</div>;
     }
 
     if (!marathon) {
-        return <div className="p-4">Marathon not found</div>;
+        return <div className="p-4" style={{ color: 'var(--text-primary)' }}>Marathon not found</div>;
     }
 
     return (
         <div className="p-2 sm:p-4">
             <h2
                 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-center sm:text-left"
-                style={{ color: 'var(--neutral-dark)' }}
+                style={{ color: 'var(--text-primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
             >
                 {marathon.title}
             </h2>
 
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="rounded-lg shadow-md overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)' }}>
                 <img
                     src={marathon.imageUrl || 'https://placehold.co/1200x400?text=Marathon'}
                     alt={marathon.title}
@@ -156,14 +156,15 @@ const MarathonDetails = () => {
                         ].map((stat, i) => (
                             <div
                                 key={i}
-                                className="bg-white p-3 rounded-lg shadow-sm border border-gray-100 flex items-center"
+                                className="p-3 rounded-lg shadow-sm border flex items-center"
+                                style={{ backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-color)' }}
                             >
-                                <div className="p-2 rounded-full mr-3" style={{ backgroundColor: 'var(--neutral-light)' }}>
+                                <div className="p-2 rounded-full mr-3" style={{ backgroundColor: 'var(--bg-secondary)' }}>
                                     {stat.icon}
                                 </div>
                                 <div>
-                                    <h3 className="text-xs uppercase font-semibold text-gray-500">{stat.label}</h3>
-                                    <p className="font-medium">{stat.value}</p>
+                                    <h3 className="text-xs uppercase font-semibold" style={{ color: 'var(--text-secondary)' }}>{stat.label}</h3>
+                                    <p className="font-medium" style={{ color: 'var(--text-primary)' }}>{stat.value}</p>
                                 </div>
                             </div>
                         ))}
@@ -171,32 +172,32 @@ const MarathonDetails = () => {
 
                     {/* Registration Period */}
                     <div className="mb-6">
-                        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--secondary)' }}>Registration Period</h3>
-                        <p className="bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+                        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Registration Period</h3>
+                        <p className="p-3 rounded-lg shadow-sm border" style={{ backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}>
                             {formatDate(marathon.startRegistrationDate)} – {formatDate(marathon.endRegistrationDate)}
                         </p>
                     </div>
 
                     {/* Description */}
                     <div className="mb-6">
-                        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--secondary)' }}>Description</h3>
-                        <p className="bg-white p-3 rounded-lg shadow-sm border border-gray-100 text-gray-700">
+                        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Description</h3>
+                        <p className="p-3 rounded-lg shadow-sm border" style={{ backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-color)', color: 'var(--text-secondary)' }}>
                             {marathon.description}
                         </p>
                     </div>
 
                     {/* Countdown & Register Button */}
                     <div className="mb-6">
-                        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                            <div className="flex items-center mb-2">
-                                <FaClock className="mr-2" style={{ color: 'var(--primary)' }} />
-                                <h3 className="text-lg font-semibold" style={{ color: 'var(--primary)' }}>
+                        <div className="p-4 rounded-lg shadow-sm border" style={{ backgroundColor: 'var(--bg-primary)', borderColor: 'var(--border-color)' }}>
+                            <div className="flex items-center justify-center mb-4 p-3 rounded-lg" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+                                <FaClock className="mr-3 text-xl" style={{ color: 'var(--primary)' }} />
+                                <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
                                     Registration Closes In:
                                 </h3>
                             </div>
 
                             {timeLeft.isExpired ? (
-                                <div className="text-red-500 font-bold mb-4">Registration period has ended</div>
+                                <div className="text-red-500 font-bold mb-4" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Registration period has ended</div>
                             ) : (
                                 <div className="flex justify-center mb-4">
                                     <CountdownCircleTimer
@@ -225,7 +226,7 @@ const MarathonDetails = () => {
                                                     <div className="text-xl font-medium" style={{ color: 'var(--primary)' }}>
                                                         {m}m {s}s
                                                     </div>
-                                                    <div className="text-sm text-gray-500 mt-1">Remaining</div>
+                                                    <div className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Remaining</div>
                                                 </div>
                                             );
                                         }}
@@ -233,21 +234,27 @@ const MarathonDetails = () => {
                                 </div>
                             )}
 
-                            <button
-                                className="px-6 py-3 rounded-md hover:opacity-90 transition-colors text-white font-medium w-full sm:w-auto"
-                                style={{
-                                    backgroundColor:
-                                        timeLeft.isExpired || alreadyRegistered ? 'var(--neutral-dark)' : 'var(--primary)'
-                                }}
-                                onClick={() => navigate(`/dashboard/marathon-registration/${id}`)}
-                                disabled={timeLeft.isExpired || alreadyRegistered}
-                            >
-                                {timeLeft.isExpired
-                                    ? 'Registration Closed'
-                                    : alreadyRegistered
-                                        ? 'Already Registered'
-                                        : 'Register Now'}
-                            </button>
+                            <div className="flex justify-center">
+                                <button
+                                    className="px-8 py-4 rounded-lg hover:opacity-90 transition-all duration-300 text-white font-bold text-lg shadow-lg transform hover:scale-105"
+                                    style={{
+                                        backgroundColor:
+                                            timeLeft.isExpired || alreadyRegistered ? 'var(--neutral-medium)' : 'var(--primary)',
+                                        fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif',
+                                        fontStyle: 'italic',
+                                        cursor: timeLeft.isExpired || alreadyRegistered ? 'not-allowed' : 'pointer',
+                                        minWidth: '200px'
+                                    }}
+                                    onClick={() => navigate(`/dashboard/marathon-registration/${id}`)}
+                                    disabled={timeLeft.isExpired || alreadyRegistered}
+                                >
+                                    {timeLeft.isExpired
+                                        ? 'Registration Closed'
+                                        : alreadyRegistered
+                                            ? 'Already Registered'
+                                            : 'Register Now'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

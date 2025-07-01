@@ -5,6 +5,7 @@ import { FaUser, FaEnvelope, FaLock, FaImage } from 'react-icons/fa';
 import { AuthContext } from '../Context/AuthProvider';
 import Swal from 'sweetalert2';
 import { getAuth } from 'firebase/auth';
+import registerimage from '../assets/RegisterImage.jpg';
 
 const Register = () => {
     const { createUser, updateUserProfile, auth } = useContext(AuthContext);
@@ -88,23 +89,32 @@ const Register = () => {
     return (
         <div className="min-h-screen flex flex-col md:flex-row">
             {/* Left Side */}
-            <div className="w-full md:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: 'var(--primary)' }}>
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold mb-4" style={{ color: 'var(--neutral-light)' }}>
-                        MarathonMania
-                    </h1>
-                    <div className="h-1 w-24 mx-auto mb-6 bg-white"></div>
-                    <p className="text-xl" style={{ color: 'var(--neutral-light)' }}>
-                        Join the community of passionate runners and challenge yourself in exciting marathon events across Bangladesh.
-                    </p>
+            <div className="w-full md:w-1/2 relative overflow-hidden">
+                <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                        backgroundImage: `url(${registerimage})`
+                    }}
+                ></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+                <div className="relative z-10 h-full flex items-center justify-center p-8">
+                    <div className="text-center">
+                        <h1 className="text-4xl font-bold mb-4" style={{ color: '#ffffff', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
+                            MarathonMania
+                        </h1>
+                        <div className="h-1 w-24 mx-auto mb-6" style={{ backgroundColor: 'var(--primary)' }}></div>
+                        <p className="text-xl" style={{ color: '#ffffff' }}>
+                            Join the community of passionate runners and challenge yourself in exciting marathon events across Bangladesh.
+                        </p>
+                    </div>
                 </div>
             </div>
 
             {/* Right Side */}
-            <div className="w-full md:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: 'var(--neutral-light)' }}>
+            <div className="w-full md:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: 'var(--bg-secondary)' }}>
                 <div className="w-full max-w-md">
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold" style={{ color: 'var(--secondary-dark)' }}>Create Account</h2>
+                        <h2 className="text-3xl font-bold" style={{ color: 'var(--text-primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Create Account</h2>
                         <div className="h-1 w-16 mx-auto my-3" style={{ backgroundColor: 'var(--primary)' }}></div>
                     </div>
 
@@ -112,7 +122,7 @@ const Register = () => {
                         <div className="space-y-4">
                             {/* Name */}
                             <div>
-                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
+                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
                                     Full Name
                                 </label>
                                 <div className="relative">
@@ -126,8 +136,9 @@ const Register = () => {
                                         onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
-                                            borderColor: 'var(--neutral-medium)',
-                                            focusRing: 'var(--primary-light)'
+                                            backgroundColor: 'var(--bg-primary)',
+                                            color: 'var(--text-primary)',
+                                            borderColor: 'var(--border-color)'
                                         }}
                                         required
                                     />
@@ -136,7 +147,7 @@ const Register = () => {
 
                             {/* Photo  */}
                             <div>
-                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
+                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
                                     Photo URL
                                 </label>
                                 <div className="relative">
@@ -150,8 +161,9 @@ const Register = () => {
                                         onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
-                                            borderColor: 'var(--neutral-medium)',
-                                            focusRing: 'var(--primary-light)'
+                                            backgroundColor: 'var(--bg-primary)',
+                                            color: 'var(--text-primary)',
+                                            borderColor: 'var(--border-color)'
                                         }}
                                     />
                                 </div>
@@ -159,7 +171,7 @@ const Register = () => {
 
                             {/* Email */}
                             <div>
-                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
+                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
                                     Email Address
                                 </label>
                                 <div className="relative">
@@ -173,8 +185,9 @@ const Register = () => {
                                         onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
-                                            borderColor: 'var(--neutral-medium)',
-                                            focusRing: 'var(--primary-light)'
+                                            backgroundColor: 'var(--bg-primary)',
+                                            color: 'var(--text-primary)',
+                                            borderColor: 'var(--border-color)'
                                         }}
                                         required
                                     />
@@ -183,7 +196,7 @@ const Register = () => {
 
                             {/* Password */}
                             <div>
-                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
+                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
                                     Password
                                 </label>
                                 <div className="relative">
@@ -197,8 +210,9 @@ const Register = () => {
                                         onChange={(e) => validatePassword(e.target.value)}
                                         className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${passwordError ? 'border-red-500' : ''}`}
                                         style={{
-                                            borderColor: passwordError ? 'red' : 'var(--neutral-medium)',
-                                            focusRing: 'var(--primary-light)'
+                                            backgroundColor: 'var(--bg-primary)',
+                                            color: 'var(--text-primary)',
+                                            borderColor: passwordError ? 'red' : 'var(--border-color)'
                                         }}
                                         required
                                     />
@@ -208,7 +222,7 @@ const Register = () => {
                                         {passwordError}
                                     </p>
                                 ) : (
-                                    <p className="mt-1 text-xs text-gray-500">
+                                    <p className="mt-1 text-xs" style={{ color: 'var(--text-secondary)' }}>
                                         Password must be at least 6 characters with uppercase and lowercase letters.
                                     </p>
                                 )}
@@ -225,7 +239,9 @@ const Register = () => {
                                 className="w-full py-3 rounded-lg font-medium transition-colors duration-300 mt-6"
                                 style={{
                                     backgroundColor: loading ? 'var(--neutral-medium)' : 'var(--primary)',
-                                    color: 'var(--neutral-light)'
+                                    color: '#ffffff',
+                                    fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif',
+                                    fontStyle: 'italic'
                                 }}
                             >
                                 {loading ? 'Creating Account...' : 'Create Account'}
@@ -235,7 +251,7 @@ const Register = () => {
 
                     {/* Login Link */}
                     <div className="text-center mt-6">
-                        <p style={{ color: 'var(--neutral-dark)' }}>
+                        <p style={{ color: 'var(--text-primary)' }}>
                             Already have an account?{' '}
                             <Link to="/login" className="font-medium hover:underline" style={{ color: 'var(--primary)' }}>
                                 Log In

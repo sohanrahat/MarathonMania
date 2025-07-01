@@ -55,7 +55,7 @@ const Plans = () => {
     ];
 
     return (
-        <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--neutral-light)' }}>
+        <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--bg-secondary)' }}>
             {/* Header */}
             <div className="w-11/12 mx-auto">
                 <div className="text-center mb-8">
@@ -64,7 +64,7 @@ const Plans = () => {
                             <p className="font-medium mb-4 flex items-center justify-center gap-2" style={{ color: 'var(--primary)' }}>
                                 <span style={{ color: 'var(--primary)' }}>||</span> FLEXIBLE PLANS <span style={{ color: 'var(--primary)' }}>||</span>
                             </p>
-                            <h1 className="text-3xl md:text-4xl lg:text-7xl font-black italic tracking-tight" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', color: 'var(--secondary-dark)' }}>
+                            <h1 className="text-3xl md:text-4xl lg:text-7xl font-black italic tracking-tight" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', color: 'var(--text-primary)' }}>
                                 GET MORE FROM EVERY RUN<br />
                                 WITH <span style={{ color: 'var(--primary)' }}>OUR PLANS.</span>
                             </h1>
@@ -80,20 +80,20 @@ const Plans = () => {
                             key={index}
                             className={`relative rounded-3xl p-6 transition-all shadow-xl ${plan.featured ? 'transform scale-105' : ''}`}
                             style={{
-                                backgroundColor: plan.featured ? 'var(--primary)' : 'var(--neutral-light)',
-                                color: plan.featured ? 'var(--neutral-light)' : 'var(--secondary-dark)'
+                                backgroundColor: plan.featured ? 'var(--primary)' : 'var(--bg-primary)',
+                                color: plan.featured ? '#ffffff' : 'var(--text-primary)'
                             }}
                         >
                             {/* Plan Header */}
                             <div className="text-center mb-4">
                                 <h3 className="text-2xl font-black italic tracking-tight mb-3" style={{
                                     fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif',
-                                    color: plan.featured ? 'var(--neutral-light)' : 'var(--secondary-dark)'
+                                    color: plan.featured ? '#ffffff' : 'var(--text-primary)'
                                 }}>
                                     {plan.name}
                                 </h3>
                                 <p className="text-sm" style={{
-                                    color: plan.featured ? 'var(--neutral-light)' : 'var(--neutral-dark)'
+                                    color: plan.featured ? '#ffffff' : 'var(--text-secondary)'
                                 }}>
                                     {plan.description}
                                 </p>
@@ -101,16 +101,16 @@ const Plans = () => {
 
                             {/* Pricing */}
                             <div className="text-center mb-4 p-4 rounded-2xl" style={{
-                                backgroundColor: plan.featured ? 'var(--primary-dark)' : 'var(--neutral-light)'
+                                backgroundColor: plan.featured ? 'var(--bg-secondary)' : '#ffffff'
                             }}>
                                 <div className="text-4xl font-black mb-2" style={{
                                     fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif',
-                                    color: plan.featured ? 'var(--neutral-light)' : 'var(--primary)'
+                                    color: plan.featured ? '#ffffff' : 'var(--primary)'
                                 }}>
                                     ${plan.price}
                                 </div>
                                 <p className="text-sm" style={{
-                                    color: plan.featured ? 'var(--neutral-light)' : 'var(--neutral-dark)'
+                                    color: plan.featured ? '#ffffff' : 'var(--text-secondary)'
                                 }}>
                                     USD / month or ${plan.yearlyPrice} / year
                                 </p>
@@ -118,8 +118,8 @@ const Plans = () => {
 
                             {/* CTA Link */}
                             <Link to="/register" className="w-full py-3 px-6 rounded-lg font-bold transition-all mb-4 text-center block" style={{
-                                backgroundColor: plan.featured ? 'var(--neutral-light)' : 'var(--primary)',
-                                color: plan.featured ? 'var(--primary)' : 'var(--neutral-light)',
+                                backgroundColor: plan.featured ? '#ffffff' : 'var(--primary)',
+                                color: plan.featured ? 'var(--primary)' : '#ffffff',
                                 textDecoration: 'none'
                             }}>
                                 {plan.featured ? 'JOIN MEMBERSHIP' : 'GET STARTED'}
@@ -127,7 +127,7 @@ const Plans = () => {
 
                             {/* Security Badge */}
                             <div className="flex items-center justify-center gap-2 text-sm mb-4" style={{
-                                color: plan.featured ? 'var(--neutral-light)' : 'var(--neutral-dark)'
+                                color: plan.featured ? '#ffffff' : 'var(--text-secondary)'
                             }}>
                                 <Lock size={16} />
                                 <span>Secure Payments Guaranteed</span>
@@ -137,7 +137,7 @@ const Plans = () => {
                             <div>
                                 <h4 className="font-black text-lg mb-3 italic tracking-tight" style={{
                                     fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif',
-                                    color: plan.featured ? 'var(--neutral-light)' : 'var(--secondary-dark)'
+                                    color: plan.featured ? '#ffffff' : 'var(--text-primary)'
                                 }}>
                                     BENEFITS
                                 </h4>
@@ -145,10 +145,10 @@ const Plans = () => {
                                     {plan.benefits.map((benefit, idx) => (
                                         <li key={idx} className="flex items-start gap-3">
                                             <Check className="w-5 h-5 mt-0.5 flex-shrink-0" style={{
-                                                color: plan.featured ? 'var(--neutral-light)' : 'var(--primary)'
+                                                color: plan.featured ? '#ffffff' : 'var(--primary)'
                                             }} />
                                             <span className="text-sm" style={{
-                                                color: plan.featured ? 'var(--neutral-light)' : 'var(--neutral-dark)'
+                                                color: plan.featured ? '#ffffff' : 'var(--text-secondary)'
                                             }}>
                                                 {benefit}
                                             </span>

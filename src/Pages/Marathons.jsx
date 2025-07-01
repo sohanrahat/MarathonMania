@@ -42,21 +42,21 @@ const Marathons = ({ limit, showTitle = true }) => {
     };
 
     return (
-        <div className="py-12 bg-gray-50">
+        <div className="py-12">
             <div className="container mx-auto px-4">
                 {showTitle && (
                     <>
-                        <h2 className="text-4xl font-bold mb-2 text-center" style={{ color: 'var(--secondary-dark)' }}>Available Marathons</h2>
+                        <h2 className="text-4xl font-bold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>Available Marathons</h2>
                         <div className="h-1 w-24 mx-auto mb-8" style={{ backgroundColor: 'var(--primary)' }}></div>
                     </>
                 )}
 
                 <div className="flex justify-end mb-6">
                     <select
-                        className="px-4 py-2 border rounded-md bg-white"
+                        className="px-4 py-2 border rounded-md"
                         value={sortOrder}
                         onChange={(e) => setSortOrder(e.target.value)}
-                        style={{ borderColor: 'var(--primary)' }}
+                        style={{ borderColor: 'var(--primary)', backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}
                     >
                         <option value="desc">Newest First</option>
                         <option value="asc">Oldest First</option>
@@ -68,11 +68,11 @@ const Marathons = ({ limit, showTitle = true }) => {
                         <FaSpinner className="animate-spin text-4xl" style={{ color: 'var(--primary)' }} />
                     </div>
                 ) : marathons.length === 0 ? (
-                    <p className="text-center py-8">No marathons available at the moment.</p>
+                    <p className="text-center py-8" style={{ color: 'var(--text-primary)' }}>No marathons available at the moment.</p>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {(limit ? marathons.slice(0, limit) : marathons).map(marathon => (
-                            <div key={marathon._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+                            <div key={marathon._id} className="rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full" style={{ backgroundColor: 'var(--bg-primary)' }}>
                                 <div className="h-48 overflow-hidden relative">
                                     {marathon.imageUrl ? (
                                         <img
@@ -81,7 +81,7 @@ const Marathons = ({ limit, showTitle = true }) => {
                                             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                                         />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                        <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: 'var(--bg-secondary)' }}>
                                             <FaRunning className="text-5xl" style={{ color: 'var(--primary)' }} />
                                         </div>
                                     )}
@@ -98,17 +98,17 @@ const Marathons = ({ limit, showTitle = true }) => {
                                 <div className="p-4 flex flex-col flex-grow">
                                     <div className="flex justify-between items-center mb-3">
                                         <span className="px-3 py-1 rounded-full text-sm font-medium"
-                                            style={{ backgroundColor: 'var(--primary-light)', color: 'var(--primary-dark)' }}>
+                                            style={{ backgroundColor: 'var(--primary)', color: 'var(--bg-primary)' }}>
                                             {marathon.runningDistance}
                                         </span>
-                                        <div className="flex items-center text-sm" style={{ color: 'var(--neutral-dark)' }}>
+                                        <div className="flex items-center text-sm" style={{ color: 'var(--text-secondary)' }}>
                                             <FaCalendarAlt className="h-4 w-4 mr-1" style={{ color: 'var(--primary)' }} />
                                             <span>{formatDate(marathon.marathonStartDate)}</span>
                                         </div>
                                     </div>
 
-                                    <div className="border-t pt-3 mb-3">
-                                        <p className="text-sm" style={{ color: 'var(--neutral-dark)' }}>
+                                    <div className="border-t pt-3 mb-3" style={{ borderColor: 'var(--border-color)' }}>
+                                        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                                             <span className="font-medium">Registration Period:</span> {formatDate(marathon.startRegistrationDate)} - {formatDate(marathon.endRegistrationDate)}
                                         </p>
                                     </div>
@@ -116,7 +116,7 @@ const Marathons = ({ limit, showTitle = true }) => {
                                     <button
                                         onClick={() => handleSeeDetails(marathon._id)}
                                         className="mt-auto w-full py-2 rounded font-medium transition-colors duration-300 block text-center cursor-pointer"
-                                        style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)' }}
+                                        style={{ backgroundColor: 'var(--primary)', color: '#ffffff' }}
                                     >
                                         See Details
                                     </button>

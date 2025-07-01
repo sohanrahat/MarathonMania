@@ -35,44 +35,44 @@ const Testimonials = () => {
     ];
 
     return (
-        <div className="py-16" style={{ backgroundColor: 'var(--neutral-light)' }}>
+        <div className="py-16" style={{ backgroundColor: 'var(--bg-secondary)' }}>
             <div className="container mx-auto px-4">
                 <h1 className="text-3xl font-bold text-center" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>WHAT RUNNERS ARE SAYING</h1>
                 <div className="h-1 w-24 mx-auto mb-8" style={{ backgroundColor: 'var(--primary)' }}></div>
-                <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--neutral-dark)' }}>
+                <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
                     Hear from participants who have experienced our marathons and made unforgettable memories.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {testimonials.map((testimonial) => (
-                        <div key={testimonial.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow duration-300">
+                        <div key={testimonial.id} className="rounded-lg shadow-md p-6 hover:shadow-xl transition-shadow duration-300" style={{ backgroundColor: 'var(--bg-primary)' }}>
                             <div className="flex justify-center mb-6">
                                 <div className="relative">
                                     <img
                                         src={testimonial.image}
                                         alt={testimonial.name}
                                         className="w-24 h-24 rounded-full object-cover border-4"
-                                        style={{ borderColor: 'var(--primary-light)' }}
+                                        style={{ borderColor: 'var(--primary)' }}
                                     />
-                                    <div className="absolute -bottom-3 -right-3 bg-white rounded-full p-2 shadow-md">
+                                    <div className="absolute -bottom-3 -right-3 rounded-full p-2 shadow-md" style={{ backgroundColor: 'var(--bg-primary)' }}>
                                         <FaQuoteLeft style={{ color: 'var(--primary)' }} />
                                     </div>
                                 </div>
                             </div>
 
-                            <p className="text-center italic mb-6" style={{ color: 'var(--neutral-dark)' }}>
+                            <p className="text-center italic mb-6" style={{ color: 'var(--text-secondary)' }}>
                                 "{testimonial.quote}"
                             </p>
 
                             <div className="text-center">
-                                <h4 className="font-bold text-lg" style={{ color: 'var(--secondary-dark)' }}>{testimonial.name}</h4>
-                                <p className="text-sm mb-3" style={{ color: 'var(--neutral-dark)' }}>{testimonial.role}</p>
+                                <h4 className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>{testimonial.name}</h4>
+                                <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>{testimonial.role}</p>
                                 <div className="flex justify-center">
                                     {[...Array(5)].map((_, i) => (
                                         <FaStar
                                             key={i}
                                             className="mx-0.5"
-                                            style={{ color: i < testimonial.rating ? 'var(--primary)' : 'var(--neutral-medium)' }}
+                                            style={{ color: i < testimonial.rating ? 'var(--primary)' : 'var(--border-color)' }}
                                         />
                                     ))}
                                 </div>

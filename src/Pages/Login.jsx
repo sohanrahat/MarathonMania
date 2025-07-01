@@ -4,6 +4,7 @@ import '../styles/colors.css';
 import { FaEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
 import { AuthContext } from '../Context/AuthProvider';
 import Swal from 'sweetalert2';
+import registerimage from '../assets/RegisterImage.jpg';
 
 const Login = () => {
     const { signIn, signInWithGoogle } = useContext(AuthContext);
@@ -77,23 +78,32 @@ const Login = () => {
     return (
         <div className="min-h-screen flex flex-col md:flex-row">
             {/* Left Side */}
-            <div className="w-full md:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: 'var(--primary)' }}>
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold mb-4" style={{ color: 'var(--neutral-light)' }}>
-                        MarathonMania
-                    </h1>
-                    <div className="h-1 w-24 mx-auto mb-6 bg-white"></div>
-                    <p className="text-xl" style={{ color: 'var(--neutral-light)' }}>
-                        Welcome back! Log in to access your marathon events, track your progress, and connect with fellow runners.
-                    </p>
+            <div className="w-full md:w-1/2 relative overflow-hidden">
+                <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{
+                        backgroundImage: `url(${registerimage})`
+                    }}
+                ></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+                <div className="relative z-10 h-full flex items-center justify-center p-8">
+                    <div className="text-center">
+                        <h1 className="text-4xl font-bold mb-4" style={{ color: '#ffffff', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
+                            MarathonMania
+                        </h1>
+                        <div className="h-1 w-24 mx-auto mb-6" style={{ backgroundColor: 'var(--primary)' }}></div>
+                        <p className="text-xl" style={{ color: '#ffffff' }}>
+                            Welcome back! Log in to access your marathon events, track your progress, and connect with fellow runners.
+                        </p>
+                    </div>
                 </div>
             </div>
 
             {/* Right Side */}
-            <div className="w-full md:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: 'var(--neutral-light)' }}>
+            <div className="w-full md:w-1/2 flex items-center justify-center p-8" style={{ backgroundColor: 'var(--bg-secondary)' }}>
                 <div className="w-full max-w-md">
                     <div className="text-center mb-8">
-                        <h2 className="text-3xl font-bold" style={{ color: 'var(--secondary-dark)' }}>Welcome Back</h2>
+                        <h2 className="text-3xl font-bold" style={{ color: 'var(--text-primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Welcome Back</h2>
                         <div className="h-1 w-16 mx-auto my-3" style={{ backgroundColor: 'var(--primary)' }}></div>
                     </div>
 
@@ -101,7 +111,7 @@ const Login = () => {
                         <div className="space-y-4">
                             {/* Email */}
                             <div>
-                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
+                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
                                     Email Address
                                 </label>
                                 <div className="relative">
@@ -115,8 +125,9 @@ const Login = () => {
                                         onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
-                                            borderColor: 'var(--neutral-medium)',
-                                            focusRing: 'var(--primary-light)'
+                                            backgroundColor: 'var(--bg-primary)',
+                                            color: 'var(--text-primary)',
+                                            borderColor: 'var(--border-color)'
                                         }}
                                         required
                                     />
@@ -125,7 +136,7 @@ const Login = () => {
 
                             {/* Password */}
                             <div>
-                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--neutral-dark)' }}>
+                                <label className="block text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>
                                     Password
                                 </label>
                                 <div className="relative">
@@ -139,8 +150,9 @@ const Login = () => {
                                         onChange={handleChange}
                                         className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2"
                                         style={{
-                                            borderColor: 'var(--neutral-medium)',
-                                            focusRing: 'var(--primary-light)'
+                                            backgroundColor: 'var(--bg-primary)',
+                                            color: 'var(--text-primary)',
+                                            borderColor: 'var(--border-color)'
                                         }}
                                         required
                                     />
@@ -159,7 +171,9 @@ const Login = () => {
                                 className="w-full py-3 rounded-lg font-medium transition-colors duration-300 mt-6 cursor-pointer"
                                 style={{
                                     backgroundColor: loading ? 'var(--neutral-medium)' : 'var(--primary)',
-                                    color: 'var(--neutral-light)'
+                                    color: '#ffffff',
+                                    fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif',
+                                    fontStyle: 'italic'
                                 }}
                             >
                                 {loading ? 'Logging in...' : 'Log In'}
@@ -168,10 +182,10 @@ const Login = () => {
                             {/* Or divider */}
                             <div className="relative my-6">
                                 <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t" style={{ borderColor: 'var(--neutral-medium)' }}></div>
+                                    <div className="w-full border-t" style={{ borderColor: 'var(--border-color)' }}></div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-white" style={{ color: 'var(--neutral-dark)' }}>Or</span>
+                                    <span className="px-2" style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)' }}>Or</span>
                                 </div>
                             </div>
 
@@ -181,8 +195,9 @@ const Login = () => {
                                 onClick={handleGoogleSignIn}
                                 className="w-full py-3 rounded-lg font-medium flex items-center justify-center gap-2 border transition-colors duration-300 cursor-pointer"
                                 style={{
-                                    borderColor: 'var(--neutral-medium)',
-                                    color: 'var(--neutral-dark)'
+                                    backgroundColor: 'var(--bg-primary)',
+                                    borderColor: 'var(--border-color)',
+                                    color: 'var(--text-primary)'
                                 }}
                             >
                                 <FaGoogle style={{ color: '#DB4437' }} />
@@ -191,7 +206,7 @@ const Login = () => {
 
                             {/* Register Link */}
                             <div className="text-center mt-6">
-                                <p style={{ color: 'var(--neutral-dark)' }}>
+                                <p style={{ color: 'var(--text-primary)' }}>
                                     Don't have an account?{' '}
                                     <Link to="/register" className="font-medium hover:underline" style={{ color: 'var(--primary)' }}>
                                         Create Account

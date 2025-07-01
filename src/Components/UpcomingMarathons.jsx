@@ -75,18 +75,18 @@ const UpcomingMarathons = () => {
     ];
 
     return (
-        <div className="py-16 bg-gray-50">
+        <div className="py-16" style={{ backgroundColor: 'var(--bg-secondary)' }}>
             <div className="container mx-auto px-4">
                 <h1 className="text-3xl font-bold text-center" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>UPCOMING MARATHONS</h1>
                 <div className="h-1 w-24 mx-auto mb-8" style={{ backgroundColor: 'var(--primary)' }}></div>
-                <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--neutral-dark)' }}>
+                <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
                     Mark your calendar for these exciting upcoming marathon events across Bangladesh.
                     Register early to secure your spot!
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {upcomingEvents.map((event) => (
-                        <div key={event.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div key={event.id} className="rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300" style={{ backgroundColor: 'var(--bg-primary)' }}>
                             <div className="h-48 overflow-hidden">
                                 <img
                                     src={event.image}
@@ -96,9 +96,9 @@ const UpcomingMarathons = () => {
                             </div>
                             <div className="p-6">
                                 <div className="flex justify-between items-start mb-4">
-                                    <h3 className="text-xl font-bold" style={{ color: 'var(--secondary-dark)' }}>{event.title}</h3>
+                                    <h3 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{event.title}</h3>
                                     <span className="px-3 py-1 rounded-full text-sm font-medium"
-                                        style={{ backgroundColor: 'var(--primary-light)', color: 'var(--primary-dark)' }}>
+                                        style={{ backgroundColor: 'var(--primary)', color: 'var(--bg-primary)' }}>
                                         {event.distance}
                                     </span>
                                 </div>
@@ -106,20 +106,20 @@ const UpcomingMarathons = () => {
                                 <div className="space-y-2 mb-6">
                                     <div className="flex items-center">
                                         <FaCalendarAlt className="h-5 w-5 mr-2" style={{ color: 'var(--primary)' }} />
-                                        <span style={{ color: 'var(--neutral-dark)' }}>{event.date}</span>
+                                        <span style={{ color: 'var(--text-secondary)' }}>{event.date}</span>
                                     </div>
                                     <div className="flex items-center">
                                         <FaMapMarkerAlt className="h-5 w-5 mr-2" style={{ color: 'var(--primary)' }} />
-                                        <span style={{ color: 'var(--neutral-dark)' }}>{event.location}</span>
+                                        <span style={{ color: 'var(--text-secondary)' }}>{event.location}</span>
                                     </div>
                                     <div className="flex items-center">
                                         <FaUsers className="h-5 w-5 mr-2" style={{ color: 'var(--primary)' }} />
-                                        <span style={{ color: 'var(--neutral-dark)' }}>{event.participants} participants</span>
+                                        <span style={{ color: 'var(--text-secondary)' }}>{event.participants} participants</span>
                                     </div>
                                 </div>
 
-                                <div className="border-t pt-4">
-                                    <p className="text-sm" style={{ color: 'var(--neutral-dark)' }}>
+                                <div className="border-t pt-4" style={{ borderColor: 'var(--border-color)' }}>
+                                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                                         <span className="font-medium">Registration Deadline:</span> {event.registrationDeadline}
                                     </p>
                                 </div>

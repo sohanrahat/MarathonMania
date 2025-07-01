@@ -20,7 +20,7 @@ const Home = () => {
                     <button
                         onClick={() => setMarathonLimit(prev => prev === 6 ? 100 : 6)}
                         className="px-6 py-3 text-white rounded-md transition-all hover:opacity-90"
-                        style={{ backgroundColor: 'var(--secondary)' }}
+                        style={{ backgroundColor: 'var(--primary)' }}
                     >
                         {marathonLimit === 6 ? 'See All Marathons' : 'Show Less'}
                     </button>

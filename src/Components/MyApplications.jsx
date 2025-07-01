@@ -145,7 +145,7 @@ const MyApplications = () => {
 
     return (
         <div className="container mx-auto p-4" style={{ overflowX: 'hidden' }}>
-            <h2 className="text-2xl font-semibold mb-4">My Applications</h2>
+            <h2 className="text-2xl font-semibold mb-4" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>My Applications</h2>
 
             {/* Search input */}
             <div className="mb-4">
@@ -164,16 +164,16 @@ const MyApplications = () => {
                     <FaSpinner className="animate-spin text-4xl" style={{ color: 'var(--primary)' }} />
                 </div>
             ) : applications.length === 0 ? (
-                <p className="text-center py-8">No applications found. Register for a marathon!</p>
+                <p className="text-center py-8" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>No applications found. Register for a marathon!</p>
             ) : filteredApplications.length === 0 ? (
-                <p className="text-center py-8">No applications match your search. Try a different term.</p>
+                <p className="text-center py-8" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>No applications match your search. Try a different term.</p>
             ) : (
                 <>
                     {/* large screens only */}
                     <div className="hidden lg:block">
                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full" style={{ minWidth: '100%', maxWidth: '1400px' }}>
                             <table className="w-full text-sm text-left rtl:text-right text-gray-500" style={{ tableLayout: 'fixed' }}>
-                                <thead className="text-xs text-white uppercase" style={{ backgroundColor: 'var(--secondary)' }}>
+                                <thead className="text-xs text-white uppercase" style={{ backgroundColor: 'var(--secondary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
                                     <tr>
                                         <th scope="col" className="px-6 py-3" style={{ width: '18%' }}>Marathon Title</th>
                                         <th scope="col" className="px-6 py-3" style={{ width: '15%' }}>Name</th>
@@ -187,7 +187,7 @@ const MyApplications = () => {
                                 <tbody>
                                     {filteredApplications.map((application, index) => (
                                         <tr key={application._id || index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate">
+                                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
                                                 {application.marathonTitle}
                                             </th>
                                             <td className="px-6 py-4 truncate">{`${application.firstName} ${application.lastName}`}</td>
@@ -208,14 +208,14 @@ const MyApplications = () => {
                                                 <div className="flex flex-wrap gap-1">
                                                     <button
                                                         className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
-                                                        style={{ backgroundColor: 'var(--secondary)' }}
+                                                        style={{ backgroundColor: 'var(--secondary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                                         onClick={() => handleUpdate(application)}
                                                     >
                                                         Update
                                                     </button>
                                                     <button
                                                         className="w-20 px-1 py-1 text-white text-xs rounded hover:opacity-90"
-                                                        style={{ backgroundColor: 'var(--primary)' }}
+                                                        style={{ backgroundColor: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                                         onClick={() => handleDelete(application._id)}
                                                     >
                                                         Delete
@@ -234,7 +234,7 @@ const MyApplications = () => {
                         <div className="grid grid-cols-1 gap-4">
                             {filteredApplications.map((application, index) => (
                                 <div key={application._id || index} className="bg-white p-4 rounded-lg shadow">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{application.marathonTitle}</h3>
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>{application.marathonTitle}</h3>
 
                                     <div className="grid grid-cols-2 gap-2 mb-3">
                                         <div>
@@ -262,14 +262,14 @@ const MyApplications = () => {
                                         <div className="flex gap-2">
                                             <button
                                                 className="py-2 px-3 text-white text-xs rounded hover:opacity-90"
-                                                style={{ backgroundColor: 'var(--secondary)' }}
+                                                style={{ backgroundColor: 'var(--secondary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                                 onClick={() => handleUpdate(application)}
                                             >
                                                 Update
                                             </button>
                                             <button
                                                 className="py-2 px-3 text-white text-xs rounded hover:opacity-90"
-                                                style={{ backgroundColor: 'var(--primary)' }}
+                                                style={{ backgroundColor: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                                 onClick={() => handleDelete(application._id)}
                                             >
                                                 Delete
@@ -277,7 +277,7 @@ const MyApplications = () => {
                                         </div>
                                         <span
                                             className="px-3 py-1 rounded text-sm text-white"
-                                            style={{ backgroundColor: 'var(--accent)' }}
+                                            style={{ backgroundColor: 'var(--accent)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                         >
                                             Confirmed
                                         </span>
@@ -294,7 +294,7 @@ const MyApplications = () => {
                 <div className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
                         <div className="flex justify-between items-center p-4 border-b">
-                            <h3 className="text-lg font-semibold">Update Application</h3>
+                            <h3 className="text-lg font-semibold" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Update Application</h3>
                             <button
                                 onClick={() => setShowModal(false)}
                                 className="text-gray-500 hover:text-gray-700"
@@ -377,13 +377,14 @@ const MyApplications = () => {
                                     type="button"
                                     onClick={() => setShowModal(false)}
                                     className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                                    style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     className="px-4 py-2 text-sm font-medium text-white rounded-md"
-                                    style={{ backgroundColor: 'var(--secondary)' }}
+                                    style={{ backgroundColor: 'var(--secondary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                 >
                                     Update Application
                                 </button>

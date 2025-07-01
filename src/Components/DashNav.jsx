@@ -11,8 +11,8 @@ const DashNav = ({ collapsed = false }) => {
                         to="all-marathons"
                         className={`${collapsed ? 'px-1 py-2 text-xs text-center' : 'px-4 py-2'} rounded-md font-medium`}
                         style={({ isActive }) => ({
-                            backgroundColor: isActive ? 'var(--neutral-light)' : 'transparent',
-                            color: isActive ? 'var(--primary)' : 'var(--neutral-light)'
+                            backgroundColor: isActive ? 'var(--bg-secondary)' : 'transparent',
+                            color: isActive ? 'var(--primary)' : 'var(--text-primary)'
                         })}
                         title={collapsed ? 'All Marathons' : ''}
                     >
@@ -24,8 +24,8 @@ const DashNav = ({ collapsed = false }) => {
                         to="my-marathons"
                         className={`${collapsed ? 'px-1 py-2 text-xs text-center' : 'px-4 py-2'} rounded-md font-medium`}
                         style={({ isActive }) => ({
-                            backgroundColor: isActive ? 'var(--neutral-light)' : 'transparent',
-                            color: isActive ? 'var(--primary)' : 'var(--neutral-light)'
+                            backgroundColor: isActive ? 'var(--bg-secondary)' : 'transparent',
+                            color: isActive ? 'var(--primary)' : 'var(--text-primary)'
                         })}
                         title={collapsed ? 'My Marathons' : ''}
                     >
@@ -37,8 +37,8 @@ const DashNav = ({ collapsed = false }) => {
                         to="applications"
                         className={`${collapsed ? 'px-1 py-2 text-xs text-center' : 'px-4 py-2'} rounded-md font-medium`}
                         style={({ isActive }) => ({
-                            backgroundColor: isActive ? 'var(--neutral-light)' : 'transparent',
-                            color: isActive ? 'var(--primary)' : 'var(--neutral-light)'
+                            backgroundColor: isActive ? 'var(--bg-secondary)' : 'transparent',
+                            color: isActive ? 'var(--primary)' : 'var(--text-primary)'
                         })}
                         title={collapsed ? 'My Applications' : ''}
                     >
@@ -50,8 +50,8 @@ const DashNav = ({ collapsed = false }) => {
                         to="add-marathon"
                         className={`${collapsed ? 'px-1 py-2 text-xs text-center' : 'px-4 py-2'} rounded-md font-medium`}
                         style={({ isActive }) => ({
-                            backgroundColor: isActive ? 'var(--neutral-light)' : 'transparent',
-                            color: isActive ? 'var(--primary)' : 'var(--neutral-light)'
+                            backgroundColor: isActive ? 'var(--bg-secondary)' : 'transparent',
+                            color: isActive ? 'var(--primary)' : 'var(--text-primary)'
                         })}
                         title={collapsed ? 'Add Marathon' : ''}
                     >

@@ -64,11 +64,11 @@ const Hero = () => {
             <div className="absolute top-0 left-0 w-full h-full z-10 flex items-center">
                 <div className="w-11/12 mx-auto px-4">
                     <div className="max-w-xl">
-                        <h1 className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'var(--neutral-light)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
+                        <h1 className="text-5xl md:text-6xl font-bold mb-2" style={{ color: '#ffffff', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
                             MARATHON MANIA
                         </h1>
                         <div className="h-1 w-20 mb-6" style={{ backgroundColor: 'var(--primary)' }}></div>
-                        <p className="text-xl mb-8" style={{ color: 'var(--neutral-light)' }}>
+                        <p className="text-xl mb-8" style={{ color: '#ffffff' }}>
                             Discover the world's most exciting marathon events and join thousands of runners in the ultimate test of endurance.
                         </p>
 
@@ -76,7 +76,7 @@ const Hero = () => {
 
                         <div className="flex flex-wrap gap-4">
                             <a href="#marathons-section" className="px-8 py-3 rounded text-lg font-medium inline-block"
-                                style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', textDecoration: 'none' }}
+                                style={{ backgroundColor: 'var(--primary)', color: '#ffffff', textDecoration: 'none' }}
                                 onClick={(e) => {
                                     e.preventDefault();
                                     const section = document.querySelector('.container.mx-auto.px-4.mt-16');
@@ -95,8 +95,8 @@ const Hero = () => {
                     {events.map((event, index) => (
                         <div key={index} className="text-center">
                             <h3 className="font-bold" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>{event.title}</h3>
-                            <p style={{ color: 'var(--neutral-light)' }}>{event.date}</p>
-                            <p className="text-sm" style={{ color: 'var(--neutral-light)' }}>{event.description}</p>
+                            <p style={{ color: '#ffffff' }}>{event.date}</p>
+                            <p className="text-sm" style={{ color: '#ffffff' }}>{event.description}</p>
                         </div>
                     ))}
                 </div>

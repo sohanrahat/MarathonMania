@@ -63,17 +63,17 @@ const AllMarathons = () => {
     }
 
     if (error) {
-        return <div className="p-4 text-red-500">Error: {error}</div>;
+        return <div className="p-4 text-red-500" style={{ color: 'var(--text-primary)' }}>Error: {error}</div>;
     }
 
     return (
         <div className="p-4">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">All Marathons</h2>
+                <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>All Marathons</h2>
                 <button
                     onClick={toggleSort}
-                    className="flex items-center gap-2 px-3 py-1 rounded-md"
-                    style={{ backgroundColor: 'var(--primary)', color: 'white' }}
+                    className="flex items-center gap-2 px-3 py-1 rounded-md hover:opacity-90 transition-opacity duration-300"
+                    style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                 >
                     {sortOrder === 'asc' ? (
                         <>Oldest First <FaSortAmountUp /></>
@@ -85,7 +85,7 @@ const AllMarathons = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {marathons.length > 0 ? (
                     marathons.map(marathon => (
-                        <div key={marathon._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+                        <div key={marathon._id} className="rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full" style={{ backgroundColor: 'var(--bg-secondary)' }}>
                             <div className="h-48 overflow-hidden relative">
                                 {marathon.imageUrl ? (
                                     <img
@@ -94,13 +94,13 @@ const AllMarathons = () => {
                                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                                     />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                    <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
                                         <FaRunning className="text-5xl" style={{ color: 'var(--primary)' }} />
                                     </div>
                                 )}
                                 {/* Overlay with title and location */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
-                                    <h3 className="text-lg font-bold text-white mb-1">{marathon.title}</h3>
+                                    <h3 className="text-lg font-bold text-white mb-1" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>{marathon.title}</h3>
                                     <div className="flex items-center text-white text-sm">
                                         <FaMapMarkerAlt className="h-4 w-4 mr-1" />
                                         <span>{marathon.location}</span>
@@ -114,7 +114,7 @@ const AllMarathons = () => {
                                         style={{ backgroundColor: 'var(--primary-light)', color: 'var(--primary-dark)' }}>
                                         {marathon.runningDistance}
                                     </span>
-                                    <div className="flex items-center text-sm" style={{ color: 'var(--neutral-dark)' }}>
+                                    <div className="flex items-center text-sm" style={{ color: 'var(--text-secondary)' }}>
                                         <FaCalendarAlt className="h-4 w-4 mr-1" style={{ color: 'var(--primary)' }} />
                                         <span>{new Date(marathon.marathonStartDate).toLocaleDateString('en-US', {
                                             year: 'numeric',
@@ -124,8 +124,8 @@ const AllMarathons = () => {
                                     </div>
                                 </div>
 
-                                <div className="border-t pt-3 mb-3">
-                                    <p className="text-sm" style={{ color: 'var(--neutral-dark)' }}>
+                                <div className="border-t pt-3 mb-3" style={{ borderColor: 'var(--border-color)' }}>
+                                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                                         <span className="font-medium">Registration Period:</span> {new Date(marathon.startRegistrationDate).toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: 'short',
@@ -140,8 +140,8 @@ const AllMarathons = () => {
 
                                 <button
                                     onClick={() => handleViewDetails(marathon._id)}
-                                    className="mt-auto w-full py-2 rounded font-medium transition-colors duration-300 block text-center cursor-pointer"
-                                    style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)' }}
+                                    className="mt-auto w-full py-2 rounded font-medium transition-all duration-300 block text-center cursor-pointer hover:opacity-90"
+                                    style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}
                                 >
                                     See Details
                                 </button>
@@ -149,7 +149,7 @@ const AllMarathons = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No marathons available.</p>
+                    <p style={{ color: 'var(--text-primary)' }}>No marathons available.</p>
                 )}
             </div>
         </div>

@@ -55,11 +55,11 @@ const TrainingTips = () => {
     ];
 
     return (
-        <div className="py-16" style={{ backgroundColor: 'var(--secondary-light)' }}>
+        <div className="py-16" style={{ backgroundColor: 'var(--bg-secondary)' }}>
             <div className="container mx-auto px-4">
                 <h1 className="text-4xl font-bold mb-2 text-center" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Training Tips & Resources</h1>
                 <div className="h-1 w-24 mx-auto mb-8" style={{ backgroundColor: 'var(--primary)' }}></div>
-                <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--neutral-dark)' }}>
+                <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
                     Prepare for your next marathon with expert advice and valuable resources to help you train effectively.
                 </p>
 
@@ -69,14 +69,14 @@ const TrainingTips = () => {
                         <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Expert Tips</h3>
                         <div className="space-y-6">
                             {tips.map((tip) => (
-                                <div key={tip.id} className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
+                                <div key={tip.id} className="rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300" style={{ backgroundColor: 'var(--bg-primary)' }}>
                                     <div className="flex items-start">
                                         <div className="p-3 rounded-full mr-4" style={{ backgroundColor: `${tip.color}20` }}>
                                             <div style={{ color: tip.color }}>{tip.icon}</div>
                                         </div>
                                         <div>
-                                            <h4 className="text-xl font-semibold mb-2" style={{ color: 'var(--secondary-dark)' }}>{tip.title}</h4>
-                                            <p style={{ color: 'var(--neutral-dark)' }}>{tip.description}</p>
+                                            <h4 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>{tip.title}</h4>
+                                            <p style={{ color: 'var(--text-secondary)' }}>{tip.description}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -87,23 +87,23 @@ const TrainingTips = () => {
                     {/* Resources Section */}
                     <div>
                         <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Training Resources</h3>
-                        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div className="rounded-lg shadow-md overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)' }}>
                             {resources.map((resource, index) => (
-                                <div key={resource.id} className={`p-6 ${index !== resources.length - 1 ? 'border-b' : ''}`}>
+                                <div key={resource.id} className={`p-6 ${index !== resources.length - 1 ? 'border-b' : ''}`} style={index !== resources.length - 1 ? { borderColor: 'var(--border-color)' } : {}}>
                                     <div className="flex items-start">
                                         <div className="p-3 rounded-full mr-4" style={{ backgroundColor: `${resource.color}20` }}>
                                             <div style={{ color: resource.color }}>{resource.icon}</div>
                                         </div>
                                         <div>
                                             <div className="flex items-center mb-2">
-                                                <h4 className="text-xl font-semibold" style={{ color: 'var(--secondary-dark)' }}>{resource.title}</h4>
-                                                <span className="ml-3 px-2 py-1 text-xs rounded-full" style={{ backgroundColor: 'var(--highlight-light)', color: 'var(--highlight-dark)' }}>
+                                                <h4 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>{resource.title}</h4>
+                                                <span className="ml-3 px-2 py-1 text-xs rounded-full" style={{ backgroundColor: 'var(--highlight)', color: 'var(--bg-primary)' }}>
                                                     {resource.type}
                                                 </span>
                                             </div>
-                                            <p style={{ color: 'var(--neutral-dark)' }}>{resource.description}</p>
+                                            <p style={{ color: 'var(--text-secondary)' }}>{resource.description}</p>
                                             <button className="mt-4 px-4 py-2 rounded text-sm font-medium transition-colors duration-300"
-                                                style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}>
+                                                style={{ backgroundColor: 'var(--primary)', color: '#ffffff' }}>
                                                 Access Resource
                                             </button>
                                         </div>
@@ -112,13 +112,13 @@ const TrainingTips = () => {
                             ))}
                         </div>
 
-                        <div className="mt-8 bg-white rounded-lg p-6 shadow-md">
-                            <h4 className="text-xl font-semibold mb-4" style={{ color: 'var(--secondary-dark)' }}>Need Personalized Training?</h4>
-                            <p className="mb-4" style={{ color: 'var(--neutral-dark)' }}>
+                        <div className="mt-8 rounded-lg p-6 shadow-md" style={{ backgroundColor: 'var(--bg-primary)' }}>
+                            <h4 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Need Personalized Training?</h4>
+                            <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>
                                 Our certified coaches can create a custom training plan based on your goals and fitness level.
                             </p>
                             <Link to="/contact" className="w-full py-3 rounded font-medium transition-colors duration-300 block text-center"
-                                style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}>
+                                style={{ backgroundColor: 'var(--primary)', color: '#ffffff' }}>
                                 Connect with a Coach
                             </Link>
                         </div>
