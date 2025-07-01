@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router'; // ← fixed import
-import { FaSpinner } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
+import { FaSpinner, FaCalendarAlt, FaMapMarkerAlt, FaRunning } from 'react-icons/fa';
 import { FaSortAmountDown, FaSortAmountUp } from 'react-icons/fa';
 import { AuthContext } from '../Context/AuthProvider';
+import '../styles/colors.css';
 
 const AllMarathons = () => {
     const [marathons, setMarathons] = useState([]);
@@ -36,11 +37,19 @@ const AllMarathons = () => {
         setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'));
     };
 
+    const formatDate = (date) => {
+        if (!date) return '';
+        return new Date(date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    };
+
     const handleViewDetails = (id) => {
         if (!user) {
             navigate('/login', { state: { from: `/dashboard/marathon-details/${id}` } });
         } else {
-
             navigate(`/dashboard/marathon-details/${id}`);
         }
     };
@@ -73,27 +82,66 @@ const AllMarathons = () => {
                     )}
                 </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {marathons.length > 0 ? (
                     marathons.map(marathon => (
-                        <div key={marathon._id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img
-                                src={marathon.imageUrl || "https://placehold.co/600x400?text=Marathon"}
-                                alt={marathon.title}
-                                className="w-full h-48 object-cover"
-                                onError={(e) => { e.target.src = "https://placehold.co/600x400?text=Marathon"; }}
-                            />
-                            <div className="p-4">
-                                <h3 className="text-xl font-semibold mb-2 h-14 overflow-hidden">
-                                    {marathon.title}
-                                </h3>
-                                <p className="text-gray-600 mb-4 h-6 overflow-hidden text-ellipsis whitespace-nowrap">
-                                    {marathon.location}
-                                </p>
+                        <div key={marathon._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+                            <div className="h-48 overflow-hidden relative">
+                                {marathon.imageUrl ? (
+                                    <img
+                                        src={marathon.imageUrl}
+                                        alt={marathon.title}
+                                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                        <FaRunning className="text-5xl" style={{ color: 'var(--primary)' }} />
+                                    </div>
+                                )}
+                                {/* Overlay with title and location */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
+                                    <h3 className="text-lg font-bold text-white mb-1">{marathon.title}</h3>
+                                    <div className="flex items-center text-white text-sm">
+                                        <FaMapMarkerAlt className="h-4 w-4 mr-1" />
+                                        <span>{marathon.location}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-4 flex flex-col flex-grow">
+                                <div className="flex justify-between items-center mb-3">
+                                    <span className="px-3 py-1 rounded-full text-sm font-medium"
+                                        style={{ backgroundColor: 'var(--primary-light)', color: 'var(--primary-dark)' }}>
+                                        {marathon.runningDistance}
+                                    </span>
+                                    <div className="flex items-center text-sm" style={{ color: 'var(--neutral-dark)' }}>
+                                        <FaCalendarAlt className="h-4 w-4 mr-1" style={{ color: 'var(--primary)' }} />
+                                        <span>{new Date(marathon.marathonStartDate).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric'
+                                        })}</span>
+                                    </div>
+                                </div>
+
+                                <div className="border-t pt-3 mb-3">
+                                    <p className="text-sm" style={{ color: 'var(--neutral-dark)' }}>
+                                        <span className="font-medium">Registration Period:</span> {new Date(marathon.startRegistrationDate).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric'
+                                        })} - {new Date(marathon.endRegistrationDate).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric'
+                                        })}
+                                    </p>
+                                </div>
+
                                 <button
                                     onClick={() => handleViewDetails(marathon._id)}
-                                    className="w-full inline-block px-4 py-2 text-center text-white rounded-md hover:opacity-90 transition-colors"
-                                    style={{ backgroundColor: 'var(--secondary)' }}
+                                    className="mt-auto w-full py-2 rounded font-medium transition-colors duration-300 block text-center cursor-pointer"
+                                    style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)' }}
                                 >
                                     See Details
                                 </button>
