@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
+import Navbar from '../Components/Navbar';
 import DashNav from '../Components/DashNav';
 
 const DashboardLayout = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <div className="container mx-auto my-4 md:my-8">
+        <div>
+            <nav>
+                <Navbar />
+            </nav>
+            <main className="pt-20">
+                <div className="container mx-auto my-4 md:my-8">
             <div className="bg-white rounded-lg shadow-md">
                 <div className="md:hidden p-4">
                     <button
@@ -40,6 +46,8 @@ const DashboardLayout = () => {
                     <Outlet />
                 </main>
             </div>
+                </div>
+            </main>
         </div>
     );
 };

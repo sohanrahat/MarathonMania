@@ -70,10 +70,10 @@ const Marathons = ({ limit, showTitle = true }) => {
                 ) : marathons.length === 0 ? (
                     <p className="text-center py-8">No marathons available at the moment.</p>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {(limit ? marathons.slice(0, limit) : marathons).map(marathon => (
-                            <div key={marathon._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                                <div className="h-48 overflow-hidden">
+                            <div key={marathon._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+                                <div className="h-48 overflow-hidden relative">
                                     {marathon.imageUrl ? (
                                         <img
                                             src={marathon.imageUrl}
@@ -85,29 +85,29 @@ const Marathons = ({ limit, showTitle = true }) => {
                                             <FaRunning className="text-5xl" style={{ color: 'var(--primary)' }} />
                                         </div>
                                     )}
+                                    {/* Overlay with title and location */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4">
+                                        <h3 className="text-lg font-bold text-white mb-1">{marathon.title}</h3>
+                                        <div className="flex items-center text-white text-sm">
+                                            <FaMapMarkerAlt className="h-4 w-4 mr-1" />
+                                            <span>{marathon.location}</span>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className="p-6">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <h3 className="text-xl font-bold" style={{ color: 'var(--secondary-dark)' }}>{marathon.title}</h3>
+                                <div className="p-4 flex flex-col flex-grow">
+                                    <div className="flex justify-between items-center mb-3">
                                         <span className="px-3 py-1 rounded-full text-sm font-medium"
                                             style={{ backgroundColor: 'var(--primary-light)', color: 'var(--primary-dark)' }}>
                                             {marathon.runningDistance}
                                         </span>
-                                    </div>
-
-                                    <div className="space-y-2 mb-6">
-                                        <div className="flex items-center">
-                                            <FaMapMarkerAlt className="h-5 w-5 mr-2" style={{ color: 'var(--primary)' }} />
-                                            <span style={{ color: 'var(--neutral-dark)' }}>{marathon.location}</span>
-                                        </div>
-                                        <div className="flex items-center">
-                                            <FaCalendarAlt className="h-5 w-5 mr-2" style={{ color: 'var(--primary)' }} />
-                                            <span style={{ color: 'var(--neutral-dark)' }}>{formatDate(marathon.marathonStartDate)}</span>
+                                        <div className="flex items-center text-sm" style={{ color: 'var(--neutral-dark)' }}>
+                                            <FaCalendarAlt className="h-4 w-4 mr-1" style={{ color: 'var(--primary)' }} />
+                                            <span>{formatDate(marathon.marathonStartDate)}</span>
                                         </div>
                                     </div>
 
-                                    <div className="border-t pt-4">
+                                    <div className="border-t pt-3 mb-3">
                                         <p className="text-sm" style={{ color: 'var(--neutral-dark)' }}>
                                             <span className="font-medium">Registration Period:</span> {formatDate(marathon.startRegistrationDate)} - {formatDate(marathon.endRegistrationDate)}
                                         </p>
@@ -115,7 +115,7 @@ const Marathons = ({ limit, showTitle = true }) => {
 
                                     <button
                                         onClick={() => handleSeeDetails(marathon._id)}
-                                        className="mt-4 w-full py-2 rounded font-medium transition-colors duration-300 block text-center cursor-pointer"
+                                        className="mt-auto w-full py-2 rounded font-medium transition-colors duration-300 block text-center cursor-pointer"
                                         style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)' }}
                                     >
                                         See Details

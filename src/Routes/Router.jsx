@@ -16,6 +16,8 @@ import AllMarathons from "../Dashboard/AllMarathons";
 import MarathonDetails from "../Dashboard/MarathonDetails";
 import MarathonRegistration from "../Dashboard/MarathonRegistration";
 import Plans from "../Pages/Plans";
+import AuthLayout from "../Layouts/AuthLayout";
+
 
 
 const router = createBrowserRouter([
@@ -43,49 +45,60 @@ const router = createBrowserRouter([
             {
                 path: "/contact",
                 element: <Contact />
+            }
+        ]
+    },
+    {
+        path: "dashboard",
+        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        children: [
+            {
+                index: true,
+                element: <MyMarathons />
             },
             {
-                path: "/login",
+                path: "all-marathons",
+                element: <AllMarathons />
+            },
+            {
+                path: "my-marathons",
+                element: <MyMarathons />
+            },
+            {
+                path: "applications",
+                element: <MyApplications />
+            },
+            {
+                path: "add-marathon",
+                element: <AddMarathon />
+            },
+            {
+                path: "marathon-details/:id",
+                element: <MarathonDetails />
+            },
+            {
+                path: "marathon-registration/:id",
+                element: <MarathonRegistration />
+            }
+        ]
+    },
+    {
+        path: "/login",
+        element: <AuthLayout />,
+        children: [
+            {
+                index: true,
                 element: <Login />
-            },
+            }
+        ]
+    },
+    {
+        path: "/register",
+        element: <AuthLayout />,
+        children: [
             {
-                path: "/register",
+                index: true,
                 element: <Register />
-            },
-            {
-                path: "dashboard",
-                element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
-                children: [
-                    {
-                        path: "all-marathons",
-                        element: <AllMarathons />
-                    },
-                    {
-                        path: "my-marathons",
-                        element: <MyMarathons />
-                    },
-                    {
-                        index: true,
-                        element: <MyMarathons />
-                    },
-
-                    {
-                        path: "applications",
-                        element: <MyApplications />
-                    },
-                    {
-                        path: "add-marathon",
-                        element: <AddMarathon />
-                    },
-                    {
-                        path: "marathon-details/:id",
-                        element: <MarathonDetails />
-                    },
-                    {
-                        path: "marathon-registration/:id",
-                        element: <MarathonRegistration />
-                    }
-                ]
             }
         ]
     }
