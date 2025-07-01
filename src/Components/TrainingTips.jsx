@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/colors.css';
 import { FaRunning, FaHeartbeat, FaAppleAlt, FaBed, FaBookOpen, FaVideo } from 'react-icons/fa';
+import { Link } from 'react-router';
 
 const TrainingTips = () => {
     const tips = [
@@ -56,7 +57,7 @@ const TrainingTips = () => {
     return (
         <div className="py-16" style={{ backgroundColor: 'var(--secondary-light)' }}>
             <div className="container mx-auto px-4">
-                <h2 className="text-4xl font-bold mb-2 text-center" style={{ color: 'var(--secondary-dark)' }}>Training Tips & Resources</h2>
+                <h1 className="text-4xl font-bold mb-2 text-center" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Training Tips & Resources</h1>
                 <div className="h-1 w-24 mx-auto mb-8" style={{ backgroundColor: 'var(--primary)' }}></div>
                 <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--neutral-dark)' }}>
                     Prepare for your next marathon with expert advice and valuable resources to help you train effectively.
@@ -65,7 +66,7 @@ const TrainingTips = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                     {/* Training Tips Section */}
                     <div>
-                        <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--secondary-dark)' }}>Expert Tips</h3>
+                        <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Expert Tips</h3>
                         <div className="space-y-6">
                             {tips.map((tip) => (
                                 <div key={tip.id} className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
@@ -85,7 +86,7 @@ const TrainingTips = () => {
 
                     {/* Resources Section */}
                     <div>
-                        <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--secondary-dark)' }}>Training Resources</h3>
+                        <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>Training Resources</h3>
                         <div className="bg-white rounded-lg shadow-md overflow-hidden">
                             {resources.map((resource, index) => (
                                 <div key={resource.id} className={`p-6 ${index !== resources.length - 1 ? 'border-b' : ''}`}>
@@ -116,10 +117,10 @@ const TrainingTips = () => {
                             <p className="mb-4" style={{ color: 'var(--neutral-dark)' }}>
                                 Our certified coaches can create a custom training plan based on your goals and fitness level.
                             </p>
-                            <button className="w-full py-3 rounded font-medium transition-colors duration-300"
-                                style={{ backgroundColor: 'var(--secondary)', color: 'var(--neutral-light)' }}>
+                            <Link to="/contact" className="w-full py-3 rounded font-medium transition-colors duration-300 block text-center"
+                                style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}>
                                 Connect with a Coach
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

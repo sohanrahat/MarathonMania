@@ -37,7 +37,7 @@ const Testimonials = () => {
     return (
         <div className="py-16" style={{ backgroundColor: 'var(--neutral-light)' }}>
             <div className="container mx-auto px-4">
-                <h2 className="text-4xl font-bold mb-2 text-center" style={{ color: 'var(--secondary-dark)' }}>What Runners are Saying</h2>
+                <h1 className="text-3xl font-bold text-center" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>WHAT RUNNERS ARE SAYING</h1>
                 <div className="h-1 w-24 mx-auto mb-8" style={{ backgroundColor: 'var(--primary)' }}></div>
                 <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--neutral-dark)' }}>
                     Hear from participants who have experienced our marathons and made unforgettable memories.
@@ -72,7 +72,7 @@ const Testimonials = () => {
                                         <FaStar
                                             key={i}
                                             className="mx-0.5"
-                                            style={{ color: i < testimonial.rating ? 'var(--highlight)' : 'var(--neutral-medium)' }}
+                                            style={{ color: i < testimonial.rating ? 'var(--primary)' : 'var(--neutral-medium)' }}
                                         />
                                     ))}
                                 </div>

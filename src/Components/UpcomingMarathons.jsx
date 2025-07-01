@@ -77,7 +77,7 @@ const UpcomingMarathons = () => {
     return (
         <div className="py-16 bg-gray-50">
             <div className="container mx-auto px-4">
-                <h2 className="text-4xl font-bold mb-2 text-center" style={{ color: 'var(--secondary-dark)' }}>Upcoming Marathons</h2>
+                <h1 className="text-3xl font-bold text-center" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>UPCOMING MARATHONS</h1>
                 <div className="h-1 w-24 mx-auto mb-8" style={{ backgroundColor: 'var(--primary)' }}></div>
                 <p className="text-center mb-12 max-w-2xl mx-auto" style={{ color: 'var(--neutral-dark)' }}>
                     Mark your calendar for these exciting upcoming marathon events across Bangladesh.

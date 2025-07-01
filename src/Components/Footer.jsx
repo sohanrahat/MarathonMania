@@ -61,7 +61,7 @@ const Footer = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-6 gap-8">
                     {/* Company Section */}
                     <div>
-                        <h3 className="text-lg font-semibold mb-6 tracking-wider" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>COMPANY</h3>
+                        <h3 className="text-lg font-semibold mb-6 tracking-wider" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>IMPORTANT LINKS</h3>
                         <ul className="space-y-3">
                             <li><Link to="/about" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">About</Link></li>
                             <li><Link to="/contact" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Contact</Link></li>
@@ -73,9 +73,8 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-6 tracking-wider" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>GET INVOLVED</h3>
                         <ul className="space-y-3">
-                            <li><Link to="/register" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Membership</Link></li>
-                            <li><Link to="/marathons" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Training</Link></li>
-                            <li><Link to="/dashboard" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Dashboard</Link></li>
+                            <li><Link to="/plans" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Membership</Link></li>
+
                         </ul>
                     </div>
 
@@ -83,9 +82,8 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-6 tracking-wider" style={{ fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>EVENTS</h3>
                         <ul className="space-y-3">
-                            <li><Link to="/marathons" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Marathons</Link></li>
-                            <li><Link to="/marathons" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Challenges</Link></li>
-                            <li><Link to="/about" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Community</Link></li>
+                            <li><Link to="/marathons" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Available Marathons</Link></li>
+
                         </ul>
                     </div>
 
@@ -95,7 +93,7 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li><Link to="/contact" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Contact</Link></li>
                             <li><Link to="/help" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Help</Link></li>
-                            <li><Link to="/privacy" style={{ color: 'var(--neutral-light)' }} className="hover:text-[var(--primary)] transition-colors">Privacy</Link></li>
+
                         </ul>
                     </div>
 
