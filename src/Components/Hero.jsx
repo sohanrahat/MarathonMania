@@ -6,8 +6,9 @@ import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../styles/colors.css';
-import dhaka from '../assets/Dhaka.avif';
-import chittagong from '../assets/chittagong.avif';
+import marathon1 from '../assets/Marathon1.webp';
+import marathon2 from '../assets/Marathon2.jpg';
+
 import sylhet from '../assets/sylhet.jpg';
 
 
@@ -19,13 +20,13 @@ const Hero = () => {
             title: "Dhaka Marathon 2025",
             date: "July 15, 2025",
             description: "Run through the vibrant streets of Bangladesh's capital",
-            image: dhaka
+            image: marathon1
         },
         {
             title: "Chittagong Marathon",
             date: "November 3, 2025",
             description: "Scenic coastal run in the port city",
-            image: chittagong
+            image: marathon2
         },
         {
             title: "Sylhet Marathon",
@@ -74,21 +75,26 @@ const Hero = () => {
 
 
                         <div className="flex flex-wrap gap-4">
-                            <button className="px-8 py-3 rounded text-lg font-medium"
-                                style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)' }}>
-                                Explore Events
-                            </button>
+                            <a href="#marathons-section" className="px-8 py-3 rounded text-lg font-medium inline-block"
+                                style={{ backgroundColor: 'var(--primary)', color: 'var(--neutral-light)', textDecoration: 'none' }}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const section = document.querySelector('.container.mx-auto.px-4.mt-16');
+                                    section?.scrollIntoView({ behavior: 'smooth' });
+                                }}>
+                                Explore Marathons
+                            </a>
 
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="absolute bottom-0 right-0 z-10 bg-black bg-opacity-70 p-6 hidden md:block">
+            <div className="absolute bottom-0 right-0 z-10 p-6 hidden md:block" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
                 <div className="flex gap-8">
                     {events.map((event, index) => (
                         <div key={index} className="text-center">
-                            <h3 className="font-bold" style={{ color: 'var(--highlight)' }}>{event.title}</h3>
+                            <h3 className="font-bold" style={{ color: 'var(--primary)' }}>{event.title}</h3>
                             <p style={{ color: 'var(--neutral-light)' }}>{event.date}</p>
                             <p className="text-sm" style={{ color: 'var(--neutral-light)' }}>{event.description}</p>
                         </div>
