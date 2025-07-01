@@ -64,8 +64,8 @@ const Hero = () => {
             <div className="absolute top-0 left-0 w-full h-full z-10 flex items-center">
                 <div className="w-11/12 mx-auto px-4">
                     <div className="max-w-xl">
-                        <h1 className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'var(--neutral-light)' }}>
-                            MarathonMania
+                        <h1 className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'var(--neutral-light)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
+                            MARATHON MANIA
                         </h1>
                         <div className="h-1 w-20 mb-6" style={{ backgroundColor: 'var(--primary)' }}></div>
                         <p className="text-xl mb-8" style={{ color: 'var(--neutral-light)' }}>
@@ -94,7 +94,7 @@ const Hero = () => {
                 <div className="flex gap-8">
                     {events.map((event, index) => (
                         <div key={index} className="text-center">
-                            <h3 className="font-bold" style={{ color: 'var(--primary)' }}>{event.title}</h3>
+                            <h3 className="font-bold" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>{event.title}</h3>
                             <p style={{ color: 'var(--neutral-light)' }}>{event.date}</p>
                             <p className="text-sm" style={{ color: 'var(--neutral-light)' }}>{event.description}</p>
                         </div>

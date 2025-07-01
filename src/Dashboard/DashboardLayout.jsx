@@ -25,11 +25,12 @@ const DashboardLayout = () => {
 
                 {/* Sidebar Drawer */}
                 <div className={`
-                    fixed lg:static inset-y-0 left-0 z-50 
+                    fixed lg:static left-0 z-50 
                     transform transition-all duration-300 ease-in-out
                     ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
                     ${sidebarCollapsed ? 'lg:w-20' : 'lg:w-64'} w-64
-                    pt-20 lg:pt-0
+                    pt-20 lg:pt-0 h-screen lg:h-auto lg:min-h-screen
+                    fixed lg:relative top-0 lg:top-auto
                 `} style={{ backgroundColor: 'var(--primary)' }}>
                     <div className={`h-full overflow-y-auto ${sidebarCollapsed ? 'p-2' : 'p-4'}`}>
                         {/* Desktop toggle button */}
@@ -54,7 +55,9 @@ const DashboardLayout = () => {
                             </button>
                         </div>
                         
-                        <DashNav collapsed={sidebarCollapsed} />
+                        <div className="h-64">
+                            <DashNav collapsed={sidebarCollapsed} />
+                        </div>
                     </div>
                 </div>
 

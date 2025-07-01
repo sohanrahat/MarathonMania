@@ -16,7 +16,7 @@ const Navbar = () => {
             });
     };
     return (
-        <div className="fixed top-0 left-0 right-0 z-50 shadow-sm py-4" style={{ backgroundColor: 'var(--neutral-light)' }}>
+        <div className="fixed top-0 left-0 right-0 z-50 shadow-sm py-2" style={{ backgroundColor: 'var(--neutral-light)' }}>
             <div className="w-11/12 mx-auto flex justify-between items-center">
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -34,7 +34,10 @@ const Navbar = () => {
                             {!loading && user && <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? 'font-bold' : ''} style={({ isActive }) => ({ color: isActive ? 'var(--primary)' : 'var(--secondary)' })}>Dashboard</NavLink></li>}
                         </ul>
                     </div>
-                    <NavLink to="/" className="text-2xl font-bold" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif' }}>MarathonMania</NavLink>
+                    <NavLink to="/" className="text-2xl font-bold flex items-center gap-2" style={{ color: 'var(--primary)', fontFamily: 'Bebas Neue, Arial Black, Helvetica, sans-serif', fontStyle: 'italic' }}>
+                        <img src="/MarathonIcon.png" alt="Marathon Icon" className="h-8 w-8" />
+                        MarathonMania
+                    </NavLink>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 gap-3">
